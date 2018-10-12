@@ -1,0 +1,28 @@
+int LiftRamping(){
+    while(1){
+        if(LiftPct==0){
+            if(LiftRequestedPct>LiftPct)        LiftPct=10+LiftRampingChangePct;
+            else if(LiftRequestedPct<LiftPct)    LiftPct=-10-LiftRampingChangePct;
+        }
+        else{
+            if(LiftRequestedPct>LiftPct)        LiftPct=LiftPct+LiftRampingChangePct;
+            else if(LiftRequestedPct<LiftPct)   LiftPct=LiftPct-LiftRampingChangePct;
+        }
+
+        if(LiftPct>100)                 LiftPct=100;
+        else if(LiftPct<-100)           LiftPct=-100;
+        if(abs(LiftPct)<10)             LiftPct=0;
+
+        if(LiftRampingEnabled && LiftPct==0)    LiftMotor.stop(vex::brakeType::hold);
+        else if(LiftRampingEnabled)             LiftMotor.spin(vex::directionType::fwd,LiftPct,vex::velocityUnits::pct);
+        vex::task::sleep(LiftRampingChangeMsec);
+    }
+}
+int Lift(){
+    while(1){
+        if(LiftMotor.rotation(vex::rotationUnits::deg)<LiftBottom)      LiftRequestedPct=100;
+        else if(LiftMotor.rotation(vex::rotationUnits::deg)>LiftTop)    LiftRequestedPct=-100;
+        else                                                            LiftRequestedPct=0;
+        vex::task::sleep(20);
+    }
+}
