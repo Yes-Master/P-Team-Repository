@@ -8,7 +8,7 @@ void LiftControl(){
 void IntakePuncBools(bool PB,bool CR,bool RFB){
     PuncBall=PB;
     ComRum=CR;
-    RefeedBall=RFB;
+    ReFeedBall=RFB;
 }
 void IntakeAutoUpDate(){//UpDate Sensors Code
     //Puncher UpDate
@@ -28,13 +28,45 @@ void IntakeAutoUpDate(){//UpDate Sensors Code
     if(FeedSen1.value(vex::analogUnits::pct)<Feed1BallTal || FeedSen2.value(vex::analogUnits::pct)<Feed2BallTal)    FeedBall=true;
     else                                                                                                            FeedBall=false;
 }
+int ReFeed(){
+    ReFeedBallWas=true;//used for toggle control
+    ReFeedBall=false;
+    int EndTimeSliceWait=10;//msec delay at end of time slice
+    int PuncLoopOut=500/EndTimeSliceWait;//if the feed ball doesnt return in this number of code loops move on; mesured in msec
+    int PuncLoopCount=0;//resets the loop counter
+    int FeedLoopOut=500/EndTimeSliceWait;//if the feed ball doesnt return in this number of code loops move on; mesured in msec
+    int FeedLoopCount=0;//resets the loop counter
+    IntakeAutoEnabled=false;//stop intake logic control loop
+    IntakeAutoEnabledWas=false;//ignore the clean up; stops form jurking
+    Controller1.Screen.newLine();
+    Controller1.Screen.print("Punc loop started");
+    while(PuncSen.value(vex::analogUnits::pct)>PuncBallTal && PuncLoopCount<PuncLoopOut){//no puncher ball feed in till ball returns to puncher
+        IntakeSetting=Intake(IN);
+        FeedLoopCount++;
+        vex::task::sleep(10);
+    }
+    Controller1.Screen.newLine();
+    Controller1.Screen.print("Punc loop ended");
+    Controller1.Screen.newLine();
+    Controller1.Screen.print("Feed loop started");
+    while(FeedSen1.value(vex::analogUnits::pct)>Feed1BallTal || FeedSen2.value(vex::analogUnits::pct)>Feed2BallTal){// && FeedLoopCount<FeedLoopOut//pucnher ball returned; return ball to feed holidng position by feeding out
+        IntakeSetting=Intake(OUT);
+        FeedLoopCount++;
+        vex::task::sleep(10);
+    }
+    Controller1.Screen.newLine();
+    Controller1.Screen.print("Feed loop ended");
+    IntakeSetting=Intake(STOP);//both balls back
+    IntakeAutoEnabled=true;//start back up intake logic control loop
+    return 1;
+}
 void IntakeAuto(){//Autonomous Logic Control
     if(IntakeAutoEnabled){
         IntakeAutoEnabledWas=true;
         if(!PuncBall)       IntakeSetting=Intake(IN);
         else{
             if(!FeedBall)   IntakeSetting=Intake(IN);
-            else if(ReFeedBall) ReFeed();
+            else if(ReFeedBall && !ReFeedBallWas) vex::task ReFeedBallTask(ReFeed); 
             else            IntakeSetting=Intake(STOP);
         }
     }
@@ -42,13 +74,13 @@ void IntakeAuto(){//Autonomous Logic Control
         IntakeSetting=Intake(STOP);
         IntakeAutoEnabledWas=false;
     }
+    if(!ReFeedBall) ReFeedBallWas=false;//toggle refeedball
 }
-void ReFeed(){
-    IntakeAutoEnabled
-}
+
 int IntakeStateUpDate(){//Task to UpDate IntakeAutoUpDate every second in the background
     while(1){
         IntakeAutoUpDate();
+        IntakeAuto();
         vex::task::sleep(5);
     }
 }
@@ -58,8 +90,6 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
         IntakeAutoEnabled=!IntakeAutoEnabled;
     }
     else if(!Controller1.ButtonA.pressing() && APressed)    APressed=false;
-
-    IntakeAuto();
 }
 void IntakeManualControl(){//Controller Manual OverRide
     if(Controller1.ButtonR2.pressing()){

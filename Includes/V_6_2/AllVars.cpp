@@ -23,7 +23,9 @@ int ComRumTime=150;
 bool ComRumerEnabled=false;
 bool ComRum=false;
 int ReFeedBallTime=100;
+bool ReFeedBall=false;
 bool FeedTimeBall=false;
+bool ReFeedBallWas=false;
 //
 bool DriveMotorInverted=false;
 bool DriveInvertConBtnPressed=false;
