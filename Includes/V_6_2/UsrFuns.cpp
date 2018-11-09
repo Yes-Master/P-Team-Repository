@@ -5,18 +5,22 @@ void LiftControl(){
 }
 //
 //rstet timer if ball in puncher or
+void IntakePuncBools(bool PB,bool CR,bool RFB){
+    PuncBall=PB;
+    ComRum=CR;
+    RefeedBall=RFB;
+}
 void IntakeAutoUpDate(){//UpDate Sensors Code
     //Puncher UpDate
     if(PuncSen.value(vex::analogUnits::pct)<PuncBallTal){
         GlobTime=0;//reset timer
-        PuncBall=true;
-        ComRum=false;
+        IntakePuncBools(true,false,false);
     }  
     else{
-        if(PuncherControlEnabled)           PuncBall=false;
+        if(PuncherControlEnabled)               IntakePuncBools(false,false,false);
         else{
-            if(GlobTime>PuncBallTimeWait)   PuncBall=false;
-            else if(GlobTime>ComRumTime)    ComRum=true;
+            if(GlobTime>PuncBallTimeWait)       IntakePuncBools(false,false,false);
+            else if(GlobTime>ReFeedBallTime)    IntakePuncBools(true,true,true);
             GlobTime=GlobTime+1;//add one to timer
         } 
     }
@@ -30,6 +34,7 @@ void IntakeAuto(){//Autonomous Logic Control
         if(!PuncBall)       IntakeSetting=Intake(IN);
         else{
             if(!FeedBall)   IntakeSetting=Intake(IN);
+            else if(ReFeedBall) ReFeed();
             else            IntakeSetting=Intake(STOP);
         }
     }
@@ -37,6 +42,9 @@ void IntakeAuto(){//Autonomous Logic Control
         IntakeSetting=Intake(STOP);
         IntakeAutoEnabledWas=false;
     }
+}
+void ReFeed(){
+    IntakeAutoEnabled
 }
 int IntakeStateUpDate(){//Task to UpDate IntakeAutoUpDate every second in the background
     while(1){

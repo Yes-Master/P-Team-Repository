@@ -22,6 +22,8 @@ int PuncBallTimeWait=1000;
 int ComRumTime=150;
 bool ComRumerEnabled=false;
 bool ComRum=false;
+int ReFeedBallTime=100;
+bool FeedTimeBall=false;
 //
 bool DriveMotorInverted=false;
 bool DriveInvertConBtnPressed=false;
