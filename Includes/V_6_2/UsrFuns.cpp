@@ -49,7 +49,7 @@ int ReFeed(){
     Controller1.Screen.print("Punc loop ended");
     Controller1.Screen.newLine();
     Controller1.Screen.print("Feed loop started");
-    while(FeedSen1.value(vex::analogUnits::pct)>Feed1BallTal || FeedSen2.value(vex::analogUnits::pct)>Feed2BallTal){// && FeedLoopCount<FeedLoopOut//pucnher ball returned; return ball to feed holidng position by feeding out
+    while((FeedSen1.value(vex::analogUnits::pct)>Feed1BallTal || FeedSen2.value(vex::analogUnits::pct)>Feed2BallTal)){// && FeedLoopCount<FeedLoopOut//pucnher ball returned; return ball to feed holidng position by feeding out
         IntakeSetting=Intake(OUT);
         FeedLoopCount++;
         vex::task::sleep(10);

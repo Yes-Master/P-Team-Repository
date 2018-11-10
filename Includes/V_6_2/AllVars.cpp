@@ -28,6 +28,7 @@ bool FeedTimeBall=false;
 bool ReFeedBallWas=false;
 //
 bool DriveMotorInverted=false;
+bool DriveMotorInvertedWas=false;
 bool DriveInvertConBtnPressed=false;
 //
 bool FliperManualControlEnabled=false;

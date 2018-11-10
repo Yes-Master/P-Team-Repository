@@ -31,7 +31,7 @@ void UserStart(){
     BLDriveMotor.setStopping(vex::brakeType::coast);
     BRDriveMotor.setStopping(vex::brakeType::coast);
 
-  //  vex::task ControllerScreenTask(ControllerScreen);
+    vex::task ControllerScreenTask(ControllerScreen);
     vex::task BrainScreenTask(BrainScreen);
     //vex::task PuncherMotorIsSpinningUpDaterTask(PuncherMotorIsSpinningUpDater);
     vex::task BallUpDateTask(IntakeStateUpDate);

@@ -1,8 +1,12 @@
 int ControllerScreen() {
     while(1){
-        Controller1.Screen.newLine();
-        Controller1.Screen.print(PuncherControlEnabled);
-        vex::task::sleep(20);
+        if(DriveMotorInverted!=DriveMotorInvertedWas){
+           // Controller1.Screen.newLine();
+            if(DriveMotorInverted) Controller1.Screen.print("Fliper");
+            else                   Controller1.Screen.print("Baller");
+        }
+        DriveMotorInvertedWas=DriveMotorInverted;
+        vex::task::sleep(50);
     }
 }
 void BallFeedVars(){
