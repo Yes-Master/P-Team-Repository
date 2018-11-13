@@ -2,8 +2,8 @@ int ControllerScreen() {
     while(1){
         if(DriveMotorInverted!=DriveMotorInvertedWas){
            // Controller1.Screen.newLine();
-            if(DriveMotorInverted) Controller1.Screen.print("Fliper");
-            else                   Controller1.Screen.print("Baller");
+            if(DriveMode==DriveModeState::Fliper) Controller1.Screen.print("Fliper");
+            else                                  Controller1.Screen.print("Baller");
         }
         DriveMotorInvertedWas=DriveMotorInverted;
         vex::task::sleep(50);
@@ -18,18 +18,8 @@ void BallFeedVars(){
     Brain.Screen.print(FeedSen2.value(vex::analogUnits::pct));
 }
 int BrainScreen(){
-    if(AutSel.value(vex::analogUnits::pct)>50){//if red selected
-        Brain.Screen.clearScreen(vex::color::blue);
-    }
-    else{//if blue selected
-        Brain.Screen.clearScreen(vex::color::red);
-    }
-    Brain.Screen.render();
     while(1){
-       Brain.Screen.print(AutSel.value(vex::analogUnits::pct));
-           Brain.Screen.newLine();
-
-       // BallFeedVars();
+        BallFeedVars();
         Brain.Screen.render();
         vex::task::sleep(500);
     }
@@ -121,5 +111,18 @@ void RightDriveSMS(int pct){
 void DriveSMS(int left, int right){
     LeftDriveSMS(left);
     RightDriveSMS(right);
+}
+void DriveToggler(DriveModeState DMS=DriveModeState::Toggle){
+    if(DMS==DriveModeState::Toggle){
+        if(DriveMode==DriveModeState::Baller)   DriveMode=DriveModeState::Fliper;
+        if(DriveMode==DriveModeState::Fliper)   DriveMode=DriveModeState::Baller;
+        vex::task ComRumLongTask(ComRumLong);
+    }
+    else{
+        if(DriveMode!=DMS){
+        DriveMode=DMS;
+        vex::task ComRumLongTask(ComRumLong);
+        }
+    }
 }
 //

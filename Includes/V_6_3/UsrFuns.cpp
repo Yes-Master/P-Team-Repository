@@ -126,10 +126,7 @@ void FliperManualControl(){
 }
 void FliperFlip(){
     if(FliperRequested==Fliper(UP)){
-        if(DriveMotorInverted==bool(DriveDir::Baller)){
-          DriveMotorInverted=bool(DriveDir::Fliper);//sets drive for fliper
-          vex::task ComRumLongTask(ComRumLong);//rumble controller if drive dir changed
-        }
+        DriveToggler();
         FliperRequested=Fliper(DOWN);
     }
     else if(FliperRequested==Fliper(MID))   FliperRequested=Fliper(DOWN);
@@ -180,11 +177,9 @@ void DriveHoldControl(){
 void DriveToggleControl(){
     if(Controller1.ButtonUp.pressing() && !DriveInvertConBtnPressed){
         DriveInvertConBtnPressed=true;
-        DriveMotorInverted=!DriveMotorInverted;
-        if(DriveMotorInvertedWas!=DriveMotorInverted)   vex::task ComRumLongTask(ComRumLong);//if changed rumble controller
-        DriveMotorInvertedWas=DriveMotorInverted;
+        DriveToggler();
     }
-    else if(!Controller1.ButtonUp.pressing() && DriveInvertConBtnPressed){
+    else if(!Controller1.ButtonUp.pressing()){
         DriveInvertConBtnPressed=false;
     }
 }
@@ -194,7 +189,8 @@ void DriveManualControl(){
 
     if(LJoy!=0 || RJoy!=0){
         DriveManualControlEnabled=true;
-        DriveUsrRequest(DriveMotorInverted ? -RJoy : LJoy,DriveMotorInverted ? -LJoy : RJoy);
+        if(DriveMode==DriveModeState::Baller)   DriveUsrRequest(LJoy,RJoy);
+        if(DriveMode==DriveModeState::Fliper)    DriveUsrRequest(-RJoy,-LJoy);
     }
     else{
         if(DriveManualControlEnabled)  DriveUsrRequest(0,0);//Last loop before disableing; used to release drivemanualcontrol

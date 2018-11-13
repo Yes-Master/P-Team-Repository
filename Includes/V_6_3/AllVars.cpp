@@ -22,9 +22,10 @@ int ComRumTime=150;
 bool ComRumerEnabled=false;
 bool ComRum=false;
 //
-enum class DriveDir{Baller=false,Fliper=true};
+enum class DriveModeState{Baller,Fliper,Toggle};
+DriveModeState DriveMode;
 bool DriveMotorInverted=false;
-bool DriveMotorInvertedWas=false;
+bool DriveMotorInvertedWas=DriveMotorInverted;
 bool DriveInvertConBtnPressed=false;
 //
 bool FliperManualControlEnabled=false;
