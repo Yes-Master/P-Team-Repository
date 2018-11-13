@@ -32,6 +32,14 @@ int ComRumer(){
     }
     return 1;
 }
+int ComRumShort(){
+    Controller1.rumble(".");
+    return 1;
+}
+int ComRumLong(){
+    Controller1.rumble("-");
+    return 1;  
+}
 void LiftStop(){
     LiftMotor.stop();
 }

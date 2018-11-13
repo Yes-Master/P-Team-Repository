@@ -125,7 +125,10 @@ void FliperManualControl(){
     }
 }
 void FliperFlip(){
-    if(FliperRequested==Fliper(UP)) FliperRequested=Fliper(DOWN);
+    if(FliperRequested==Fliper(UP)){
+        if(DriveMotorInverted==bool(DriveDir::Baller))  DriveMotorInverted=bool(DriveDir::Fliper);//sets drive for fliper
+        FliperRequested=Fliper(DOWN);
+    }
     else if(FliperRequested==Fliper(MID))   FliperRequested=Fliper(DOWN);
     else if(FliperRequested==Fliper(DOWN))  FliperRequested=Fliper(UP);
 }
@@ -147,6 +150,10 @@ void FliperControl(){
     FliperPosControl();
 }
 //
+void DriveUsrRequest(int L,int R){
+    LD=L;  
+    RD=R;
+}
 void DriveHoldControl(){
     if(Controller1.ButtonL2.pressing() && !L2Pressed){
         L2Pressed=true;
@@ -167,20 +174,18 @@ void DriveHoldControl(){
         BRDriveMotor.setStopping(vex::brakeType::coast); 
     }
 }
-int LD=0;
-int RD=0;
-void DriveUsrRequest(int L,int R){
-    LD=L;
-    RD=R;
-}
-void DriveManualControl(){
+void DriveToggleControl(){
     if(Controller1.ButtonUp.pressing() && !DriveInvertConBtnPressed){
         DriveInvertConBtnPressed=true;
         DriveMotorInverted=!DriveMotorInverted;
+        if(DriveMotorInvertedWas!=DriveMotorInverted)   vex::task ComRumLongTask(ComRumLong);//if changed rumble controller
+        DriveMotorInvertedWas=DriveMotorInverted;
     }
     else if(!Controller1.ButtonUp.pressing() && DriveInvertConBtnPressed){
         DriveInvertConBtnPressed=false;
     }
+}
+void DriveManualControl(){
     LJoy=Controller1.Axis3.value();
     RJoy=Controller1.Axis2.value();
 
@@ -193,23 +198,9 @@ void DriveManualControl(){
         DriveManualControlEnabled=false;
     }
 }
-bool Drive2ManualControlEnabled=false;
-void SecDriver(){
-    LJoy=Controller2.Axis3.value();
-    RJoy=Controller2.Axis2.value();
-
-    if(LJoy!=0 || RJoy!=0){
-        Drive2ManualControlEnabled=true;
-        DriveUsrRequest(-RJoy,-LJoy);
-    }
-    else{
-        if(Drive2ManualControlEnabled)  DriveUsrRequest(0,0);//Last loop before disableing; used to release drivemanualcontrol
-        Drive2ManualControlEnabled=false;
-    }
-}
 void DriveControl(){
     DriveManualControl();
+    DriveToggleControl();
     DriveHoldControl();
-    if(!DriveManualControlEnabled)  SecDriver();
     DriveSMS(LD,RD);
 }

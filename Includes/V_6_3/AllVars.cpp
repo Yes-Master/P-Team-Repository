@@ -22,6 +22,7 @@ int ComRumTime=150;
 bool ComRumerEnabled=false;
 bool ComRum=false;
 //
+enum class DriveDir{Baller=false,Fliper=true};
 bool DriveMotorInverted=false;
 bool DriveMotorInvertedWas=false;
 bool DriveInvertConBtnPressed=false;
@@ -46,6 +47,8 @@ bool L2Pressed=false;//brake toggle pressed;
 bool DriveBrake=false;
 int LJoy=0;
 int RJoy=0;
+int LD=0;
+int RD=0;
 //auto
 int DriveEndWait=100;
 int TurnEndWait=250;
