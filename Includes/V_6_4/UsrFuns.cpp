@@ -1,6 +1,6 @@
 void LiftControl(){
-    if(Controller1.ButtonRight.pressing())      LiftSMS(100);
-    else if(Controller1.ButtonLeft.pressing())  LiftSMS(-100);
+    if(Controller1.ButtonUp.pressing())      LiftSMS(100);
+    else if(Controller1.ButtonDown.pressing())  LiftSMS(-100);
     else                                        LiftSMS(0);
 }
 //
@@ -45,20 +45,20 @@ int IntakeStateUpDate(){//Task to UpDate IntakeAutoUpDate every second in the ba
     }
 }
 void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
-    if(Controller1.ButtonA.pressing() && !APressed){
-        APressed=true;
+    if(Controller1.ButtonR1.pressing() && !R1Pressed){
+        R1Pressed=true;
         IntakeAutoEnabled=!IntakeAutoEnabled;
     }
-    else if(!Controller1.ButtonA.pressing() && APressed)    APressed=false;
+    else if(!Controller1.ButtonR1.pressing() && R1Pressed)    R1Pressed=false;
 
     IntakeAuto();
 }
 void IntakeManualControl(){//Controller Manual OverRide
-    if(Controller1.ButtonR2.pressing()){
+    if(Controller1.ButtonB.pressing()){
         IntakeManualControlEnabled=true;
         IntakeSetting=Intake(OUT);
     }
-    else if(Controller1.ButtonR1.pressing()){
+    else if(Controller1.ButtonA.pressing()){
         IntakeManualControlEnabled=true;   
         IntakeSetting=Intake(IN);
     }
@@ -100,7 +100,7 @@ void PuncherControl(){
     }
 }
 //
-
+/*
 int FliperCal(){
     FlipMotor.setTimeout(1,vex::timeUnits::msec);
     FlipMotor.spin(vex::directionType::fwd,100,vex::velocityUnits::pct);
@@ -109,6 +109,7 @@ int FliperCal(){
     FlipMotor.resetRotation();
     return 1;
 }
+*/
 void FliperManualControl(){
     if(Controller1.ButtonRight.pressing()){
         FliperManualControlEnabled=true;
@@ -166,15 +167,17 @@ void DriveHoldControl(){
         BRDriveMotor.setStopping(vex::brakeType::coast); 
     }
 }
-void DriveManualControl(){
-    if(Controller1.ButtonUp.pressing() && !DriveInvertConBtnPressed){
-        DriveInvertConBtnPressed=true;
+void DriveDirToggle(){
+    if(Controller1.ButtonR2.pressing() && !R2Pressed){
+        R2Pressed=true;
         DriveMotorInverted=!DriveMotorInverted;
         vex::task ComRumLongTask(ComRumLong);
     }
-    else if(!Controller1.ButtonUp.pressing() && DriveInvertConBtnPressed){
-        DriveInvertConBtnPressed=false;
+    else if(!Controller1.ButtonR2.pressing() && R2Pressed){
+        R2Pressed=false;
     }
+}
+void DriveManualControl(){
     LJoy=Controller1.Axis3.value();
     RJoy=Controller1.Axis2.value();
 
@@ -191,6 +194,7 @@ void DriveManualControl(){
     }
 }
 void DriveControl(){
+    DriveDirToggle();
     DriveManualControl();
     DriveHoldControl();
 }
