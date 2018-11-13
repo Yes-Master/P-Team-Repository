@@ -26,6 +26,8 @@ void UserStart(){
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
 
+
+
     FLDriveMotor.setStopping(vex::brakeType::coast);
     FRDriveMotor.setStopping(vex::brakeType::coast);
     BLDriveMotor.setStopping(vex::brakeType::coast);
@@ -46,12 +48,17 @@ void AutoStart(){
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
 
+    if(AutSel.value(vex::analogUnits::pct)>50)//if red selected
+        Brain.Screen.clearScreen(vex::color::red);
+    else//if blue selected
+        Brain.Screen.clearScreen(vex::color::blue);
+    Brain.Screen.render();
+
     FLDriveMotor.setStopping(vex::brakeType::hold);
     FRDriveMotor.setStopping(vex::brakeType::hold);
     BLDriveMotor.setStopping(vex::brakeType::hold);
     BRDriveMotor.setStopping(vex::brakeType::hold);
     //vex::task BrainScreenTask(BrainScreen);
-    //    IntakeAutoEnabled=true;
     vex::task DriveRampingTask(DriveRamping);
     //vex::task PuncherMotorIsSpinningUpDaterTask(PuncherMotorIsSpinningUpDater);
     vex::task IntakeAutonTask(IntakeAuton);

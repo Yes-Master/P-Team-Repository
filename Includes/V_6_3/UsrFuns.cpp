@@ -126,7 +126,10 @@ void FliperManualControl(){
 }
 void FliperFlip(){
     if(FliperRequested==Fliper(UP)){
-        if(DriveMotorInverted==bool(DriveDir::Baller))  DriveMotorInverted=bool(DriveDir::Fliper);//sets drive for fliper
+        if(DriveMotorInverted==bool(DriveDir::Baller)){
+          DriveMotorInverted=bool(DriveDir::Fliper);//sets drive for fliper
+          vex::task ComRumLongTask(ComRumLong);//rumble controller if drive dir changed
+        }
         FliperRequested=Fliper(DOWN);
     }
     else if(FliperRequested==Fliper(MID))   FliperRequested=Fliper(DOWN);

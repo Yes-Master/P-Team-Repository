@@ -18,10 +18,20 @@ void BallFeedVars(){
     Brain.Screen.print(FeedSen2.value(vex::analogUnits::pct));
 }
 int BrainScreen(){
+    if(AutSel.value(vex::analogUnits::pct)>50){//if red selected
+        Brain.Screen.clearScreen(vex::color::blue);
+    }
+    else{//if blue selected
+        Brain.Screen.clearScreen(vex::color::red);
+    }
+    Brain.Screen.render();
     while(1){
-        BallFeedVars();
+       Brain.Screen.print(AutSel.value(vex::analogUnits::pct));
+           Brain.Screen.newLine();
+
+       // BallFeedVars();
         Brain.Screen.render();
-        vex::task::sleep(20);
+        vex::task::sleep(500);
     }
 }
 int ComRumer(){
