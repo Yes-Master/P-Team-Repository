@@ -1,19 +1,26 @@
-void EndTimeSlice(){
-    vex::task::sleep(1);
+//basic
+void EndTimeSlice(int EndWait=5){
+    vex::task::sleep(EndWait);
 }
-int ControllerScreen() {
+//screen
+int ControllerScreen(){
     while(1){
+                Controller1.Screen.clearLine();
+        Controller1.Screen.print(Gyro.value(vex::rotationUnits::deg));
+//        Controller1.Screen.print(" - ");
+//        Controller1.Screen.print(Gyro.isCalibrating());
+        /*
         if(DriveMotorInverted!=DriveMotorInvertedWas){
-           // Controller1.Screen.newLine();
+            Controller1.Screen.clearLine();
             if(DriveMotorInverted) Controller1.Screen.print("Fliper");
             else                   Controller1.Screen.print("Baller");
         }
         DriveMotorInvertedWas=DriveMotorInverted;
+        */
         vex::task::sleep(50);
     }
 }
 void BallFeedVars(){
-    Brain.Screen.newLine();
     Brain.Screen.print(PuncSen.value(vex::analogUnits::pct));
     Brain.Screen.print(" , ");
     Brain.Screen.print(FeedSen1.value(vex::analogUnits::pct));
@@ -22,23 +29,16 @@ void BallFeedVars(){
 }
 int BrainScreen(){
     while(1){
-        BallFeedVars();
+        Brain.Screen.clearLine();
+
+        //BallFeedVars();
+        Brain.Screen.print(Gyro.value(vex::rotationUnits::deg));
+
         Brain.Screen.render();
         vex::task::sleep(20);
     }
 }
-int ComRumer(){
-    ComRumerEnabled=true;
-    while(ComRumerEnabled){
-        if(ComRum && IntakeAutoEnabled && IntakeSetting==Intake(STOP))  Controller1.rumble(".");
-        vex::task::sleep(20);
-    }
-    return 1;
-}
-int ComRumLong(){
-    Controller1.rumble(".");
-    return 1;
-}
+
 int BrainScreenColorSet(){
         while(AutSel.value(vex::analogUnits::pct)==0){}
     if(AutSel.value(vex::analogUnits::pct)>50)//if red selected
@@ -57,7 +57,16 @@ int BrainScreenFlash(){
     vex::task BrainScreenColorSetTask(BrainScreenColorSet);
     return 1;    
 }
-//
+//control
+int ComRumer(){
+    ComRumerEnabled=true;
+    while(ComRumerEnabled){
+        if(ComRum && IntakeAutoEnabled && IntakeSetting==IntakePctStop)  Controller1.rumble(".");
+        vex::task::sleep(20);
+    }
+    return 1;
+}
+//basic motor functions
 void LiftStop(){
     LiftMotor.stop();
 }
@@ -67,7 +76,7 @@ void LiftSMS(int Pct){
         LiftMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
-//
+
 void PuncherStop(){
     PuncherMotor.stop();
 }
@@ -77,6 +86,7 @@ void PuncherSMS(int Pct){
         PuncherMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
+
 void IntakeStop(){
     IntakeMotor.stop();
 }
@@ -86,24 +96,19 @@ void IntakeSMS(int Pct){
         IntakeMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
+
 void FliperStop(){
     FlipMotor.stop();
 }
 void FliperSMS(int Pct){
-    if(FlipMotor.rotation(vex::rotationUnits::deg)>Fliper(UP) && Pct>0)     Pct=0;//upper limit
-    if(FlipMotor.rotation(vex::rotationUnits::deg)<Fliper(DOWN) && Pct<0)   Pct=0;//lower limit
+    if(FlipMotor.rotation(vex::rotationUnits::deg)>FliperPosUp && Pct>0)     Pct=0;//upper limit
+    if(FlipMotor.rotation(vex::rotationUnits::deg)<FliperPosDown && Pct<0)   Pct=0;//lower limit
     if(Pct==0)  FliperStop();
     else{
         FlipMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
-//
-void DriveTimeOutSet(int TimeOut){
-    FLDriveMotor.setTimeout(TimeOut,vex::timeUnits::msec);
-    FRDriveMotor.setTimeout(TimeOut,vex::timeUnits::msec);
-    BRDriveMotor.setTimeout(TimeOut,vex::timeUnits::msec);
-    BLDriveMotor.setTimeout(TimeOut,vex::timeUnits::msec);
-}
+
 void LeftDriveStop(){
     FLDriveMotor.stop();
     BLDriveMotor.stop();
@@ -130,4 +135,62 @@ void DriveSMS(int left, int right){
     LeftDriveSMS(left);
     RightDriveSMS(right);
 }
-//
+//Calibration
+int FliperCalibration(){
+    int Rpm=-200;       //Velocity to hit the end stop
+    int TimeOut=1000;   //Max time to hit end stop
+    int UpdateMsec=20;  //the time delay in the loop
+    int CalTimer=0;     //resets a local timer
+    FlipMotor.spin(vex::directionType::fwd, Rpm, vex::velocityUnits::rpm);     //starts the spin to hit the end stop 
+    double MinChange=Rpm/240000*UpdateMsec;                                 ///(1/4)*(Rpm/60/1000); MinChange = 1/4 of requested rpm changed into msec
+    int LastRotation=FlipMotor.rotation(vex::rotationUnits::rev)+4*MinChange;  //makes sure that the while loop starts
+    vex::task::sleep(100);                                                  //wait for the motor get some speed
+    while(std::abs(FlipMotor.rotation(vex::rotationUnits::rev)-LastRotation)>MinChange && CalTimer<TimeOut){//while the motors displacement is more then the MinChange and while the the timer is less then the timeout time
+        LastRotation=FlipMotor.rotation(vex::rotationUnits::rev);//update LastRotation
+        CalTimer=CalTimer+UpdateMsec;   //add time to the timer
+        vex::task::sleep(UpdateMsec);   //wait for the motor to spin
+    }                                   //motor stoped spinning or time ran out
+    if(CalTimer>=TimeOut) return 0;     //if timed out return error code 0 or false
+    else{                               //hit the end stop
+    FlipMotor.resetRotation();             //reset the rotation
+    FlipMotor.stop();                      //dont burn out the motor
+    return 1;                           //return 1 or true
+    }
+    FliperCalTime=Brain.timer(vex::timeUnits::msec);
+}
+
+int PuncherCalibration(){
+    int Rpm=-200;       //Velocity to hit the end stop
+    int TimeOut=1000;   //Max time to hit end stop
+    int UpdateMsec=20;  //the time delay in the loop
+    int CalTimer=0;     //resets a local timer
+    PuncherMotor.spin(vex::directionType::fwd, Rpm, vex::velocityUnits::rpm);    //starts the spin to hit the end stop 
+    double MinChange=Rpm/240000*UpdateMsec;                                 ///(1/4)*(Rpm/60/1000); MinChange = 1/4 of requested rpm changed into msec instead of min
+    int LastRotation=PuncherMotor.rotation(vex::rotationUnits::rev)+4*MinChange; //makes sure that the while loop starts
+    vex::task::sleep(100);                                                  //wait for the motor get some speed
+    while(std::abs(PuncherMotor.rotation(vex::rotationUnits::rev)-LastRotation)>MinChange && CalTimer<TimeOut){//while the motors displacement is more then the MinChange and while the the timer is less then the timeout time
+        LastRotation=PuncherMotor.rotation(vex::rotationUnits::rev);//update LastRotation
+        CalTimer=CalTimer+UpdateMsec;   //add time to the timer
+        vex::task::sleep(UpdateMsec);   //wait for the motor to spin
+    }                                   //motor stoped spinning or time ran out
+    if(CalTimer>=TimeOut) return 0;     //if timed out return error code 0 or false
+    else{                               //hit the end stop
+    PuncherMotor.resetRotation();            //reset the rotation
+    PuncherMotor.stop();                     //dont burn out the motor
+    return 1;                           //return 1 or true
+    }
+    PuncherCalTime=Brain.timer(vex::timeUnits::msec);
+}
+
+void GyroCalibration(bool Wait=true){
+    Gyro.startCalibration();
+    if(Wait){
+        while(!Gyro.isCalibrating()){//wait for var to update
+            EndTimeSlice();
+        }
+        while(Gyro.isCalibrating()){//wait for calibration
+            EndTimeSlice();
+        }
+    }
+    GyroCalTime=Brain.timer(vex::timeUnits::msec);
+}

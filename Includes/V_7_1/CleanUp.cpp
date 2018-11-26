@@ -1,6 +1,7 @@
 void AutoClean(){
     //stop all motors
     DriveSMS(0,0);
+    DI(0,0);//set drive ramping to 0
     FlipMotor.stop();
     IntakeSMS(0);
     PuncherSMS(0);
@@ -11,8 +12,10 @@ void AutoClean(){
     //PuncherMotorIsSpinningUpDaterEnabled=false;
 }
 void UserClean(){
+    Controller1.Screen.clearScreen();
     //stop all motors
     DriveSMS(0,0);
+    DI(0,0);//set drive ramping to 0
     FlipMotor.stop();
     IntakeSMS(0);
     PuncherSMS(0);
@@ -21,6 +24,7 @@ void UserClean(){
     //PuncherMotorIsSpinningUpDaterEnabled=false;
     IntakeStateUpDateEnabled=false;
     ComRumerEnabled=false;
+    ControllerScreenEnabled=false;
 }
 void UserStart(){
     //    vex::task FliperCalTask(FliperCal);
@@ -38,11 +42,10 @@ void UserStart(){
     vex::task ConRumTask(ComRumer);
     IntakeAutoEnabled=true;
     DriveBrake=false;
-    FliperRequested=Fliper(UP);//auton uses this var
+    FliperRequested=FliperPosUp;//auton uses this var
 
 }
 void AutoStart(){
-    // vex::task ControllerScreenTask(ControllerScreen);
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
 
@@ -50,7 +53,8 @@ void AutoStart(){
     FRDriveMotor.setStopping(vex::brakeType::hold);
     BLDriveMotor.setStopping(vex::brakeType::hold);
     BRDriveMotor.setStopping(vex::brakeType::hold);
-    //vex::task BrainScreenTask(BrainScreen);
+    vex::task BrainScreenTask(BrainScreen);
+    vex::task ControllerScreenTask(ControllerScreen);
     //    IntakeAutoEnabled=true;
     vex::task DriveRampingTask(DriveRamping);
     //vex::task PuncherMotorIsSpinningUpDaterTask(PuncherMotorIsSpinningUpDater);

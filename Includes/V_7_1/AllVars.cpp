@@ -11,8 +11,11 @@ bool APressed=false;//auto intake toggle
 bool IntakeManualControlEnabled=false;
 bool IntakeToggleControlEnabled=false;
 bool IntakeTimeEnabled=false;
-enum Intake{OUT=-100,STOP=0,IN=100};
-int IntakeSetting=Intake(STOP);
+int IntakePctOut=-100;
+int IntakePctStop=0;
+int IntakePctIn=100;
+//enum Intake{OUT=-100,STOP=0,IN=100};
+int IntakeSetting=IntakePctStop;
 bool IntakeBallsEnabled=false;
 bool IntakeStateUpDateEnabled=true;
 int PuncBallTimeWait=1000;
@@ -23,8 +26,12 @@ bool ComRum=false;
 bool FliperManualControlEnabled=false;
 bool FliperPosControlEnabled=true;
 bool L1Pressed=false;
-enum Fliper{UP=-10,DOWN=-450,MID=-60,TAL=5};
-int FliperRequested=Fliper(UP);
+int FliperPosUp=-10;
+int FliperPosDown=-450;
+int FliperPosMid=-60;
+int FliperPosTal=5;
+//enum Fliper{UP=-10,DOWN=-450,MID=-60,TAL=5};
+int FliperRequested=FliperPosUp;
 //
 bool FeedBall=false;
 bool PuncBall=false;
@@ -44,11 +51,21 @@ bool DriveBrake=false;
 int LJoy=0;
 int RJoy=0;
 //auto
+enum class AutoMoveStop{//control of auto functions ending
+    StopWait,//Stop move and wait for move to finish
+    Stop,//stop move don't wait for move to finish
+    Junction//don't stop move or wait for move to finish
+    };//there is still an EndWait after this block
 int DriveEndWait=100;
 int TurnEndWait=250;
 int PuncherEndWait=250;
 int FliperEndWait=250;
-int PuncherTorqueTal=1;//???????????????????????????????????
 bool DriveRampingEnabled=true;//task
 bool IntakeAutonEnabled=true;//task
+bool ControllerScreenEnabled=true;//task
 //end auto
+//calibration
+int FliperCalTime=0;
+int PuncherCalTime=0;
+int GyroCalTime=0;
+//end calibration

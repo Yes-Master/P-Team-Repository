@@ -51,7 +51,7 @@ void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
     FlipMotor.startRotateTo(Val,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
     if(Wait){
         int WaitTime=0;
-        while(ABS(Val-FlipMotor.rotation(vex::rotationUnits::deg))>Fliper(TAL) && WaitTime<500){
+        while(ABS(Val-FlipMotor.rotation(vex::rotationUnits::deg))>FliperPosTal && WaitTime<500){
             WaitTime++;
             vex::task::sleep(1);
         }
@@ -60,16 +60,16 @@ void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
     }
 }
 void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
-    if(FliperRequested==Fliper(UP)) Flip(Fliper(MID),true,0);//send fliper to mid no end wait
+    if(FliperRequested==FliperPosUp) Flip(FliperPosMid,true,0);//send fliper to mid no end wait
     PuncherControlEnabled=true;
-    IntakeSetting=Intake(STOP);
+    IntakeSetting=IntakePctStop;
     PuncherMotor.startRotateFor(370,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
     if(Wait){
         while(PuncherMotor.isSpinning()){
             vex::task::sleep(20);
         }
     }
-    if(FliperRequested==Fliper(MID))    Flip(Fliper(UP),true,0);//resets fliper back to up if it had to be ajusted down
+    if(FliperRequested==FliperPosMid)    Flip(FliperPosUp,true,0);//resets fliper back to up if it had to be ajusted down
     vex::task::sleep(EndWait);
     IntakeTimeEnabled=true;
     PuncherControlEnabled=false;
@@ -92,7 +92,8 @@ void Turn(double Dis,int LPct=50,int RPct=50,int EndWait=TurnEndWait){//-left,+r
     vex::task::sleep(EndWait);
 }
 */
-void Turn(double Deg,bool GyroCal=true,int LPct=100,int RPct=100,int EndWait=TurnEndWait){
+/*
+void Turn(double Deg,bool GyroCal=true,int LPct=50,int RPct=50,int EndWait=TurnEndWait){
     if(GyroCal){
         Gyro.startCalibration();
         while(Gyro.isCalibrating()){vex::task::sleep(1);}//wait for calibration
@@ -106,9 +107,8 @@ void Turn(double Deg,bool GyroCal=true,int LPct=100,int RPct=100,int EndWait=Tur
     LPct*=Dir;
     RPct*=Dir;
     while(Turn){
-        while(std::abs(Gyro.value(vex::rotationUnits::deg)-Deg)>TurnTal){
-            if(Gyro.value(vex::rotationUnits::deg)>Deg) Dir=-1;//TurnLeft
-            else                                        Dir=1;//TurnRight
+        while(std::abs(Deg-Gyro.value(vex::rotationUnits::deg))>TurnTal){
+            Dir=SGN(Deg-Gyro.value(vex::rotationUnits::deg));//calculates Direction
             LPct=std::abs(LPct)*Dir;//update Left  Pct
             RPct=std::abs(RPct)*Dir;//update Right Pct
             DR(LPct,-RPct);
@@ -122,7 +122,28 @@ void Turn(double Deg,bool GyroCal=true,int LPct=100,int RPct=100,int EndWait=Tur
             RPct/=2;//slow down turns to be more accurate
         }
     }
+    vex::task::sleep(TurnEndWait-VarifyWait);
     //finished turn
+}
+*/
+
+void Turn(double Deg,int EndWait=TurnEndWait,AutoMoveStop StopType=AutoMoveStop::StopWait,bool GyroCal=true,int LPct=50,int RPct=50){
+    if(GyroCal) GyroCalibration();
+    vex::task::sleep(500);//extra wait for calibration
+
+    int TurnTal=2;
+    while(std::abs(Deg-Gyro.value(vex::rotationUnits::deg))>TurnTal){
+            DI(LPct,-RPct);
+            EndTimeSlice(1);
+        }
+    //if(StopType==AutoMoveStop::Stop){
+        //DI(0,0);
+    //}
+    //else if(StopType==AutoMoveStop::StopWait){
+        DI(0,0);
+        EndTimeSlice(EndWait);
+    //}
+    //else if(StopType==AutoMoveStop::Continuous) {}
 }
 void Drive(double Dis,int Pct=50,int EndWait=DriveEndWait,int Correction=1){
     double WheelCir=4*3.14159265;
@@ -155,14 +176,14 @@ void Drive(double Dis,int Pct=50,int EndWait=DriveEndWait,int Correction=1){
     Controller1.Screen.newLine();
     Controller1.Screen.print("Drove ");
     Controller1.Screen.print(Dis);
-    if(EndWait==-1){
+    if(EndWait==-1){//                                                          Junction
         //only use if another drive command fallows
     }
-    else if(EndWait>0){//default; set stop, wait for stop, wait for endwait;
+    else if(EndWait>0){//default; set stop, wait for stop, wait for endwait;    StopWait
         QDRS();//quick drive ramp stop
         vex::task::sleep(EndWait);
     }
-    else{//>=0,!=-1; set stop dont wait
+    else{//>=0,!=-1; set stop dont wait;                                        Stop
         DR(0,0);
     }
 }
@@ -170,7 +191,6 @@ void DriveRecon(int Pct,int Wait,int EndWait=250){
     DR(Pct,Pct);
     vex::task::sleep(Wait);
     DI(0,0);
-    DriveTimeOutSet(std::abs(EndWait));
     Controller1.Screen.newLine();
     Controller1.Screen.print("RECONED");
 }

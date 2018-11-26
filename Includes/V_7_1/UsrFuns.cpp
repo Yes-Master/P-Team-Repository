@@ -27,14 +27,14 @@ void IntakeAutoUpDate(){//UpDate Sensors Code
 void IntakeAuto(){//Autonomous Logic Control
     if(IntakeAutoEnabled){
         IntakeAutoEnabledWas=true;
-        if(!PuncBall)       IntakeSetting=Intake(IN);
+        if(!PuncBall)       IntakeSetting=IntakePctIn;
         else{
-            if(!FeedBall)   IntakeSetting=Intake(IN);
-            else            IntakeSetting=Intake(STOP);
+            if(!FeedBall)   IntakeSetting=IntakePctIn;
+            else            IntakeSetting=IntakePctStop;
         }
     }
     else if(IntakeAutoEnabledWas){//first loop disabled
-        IntakeSetting=Intake(STOP);
+        IntakeSetting=IntakePctStop;
         IntakeAutoEnabledWas=false;
     }
 }
@@ -50,7 +50,7 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
         IntakeAutoEnabled=!IntakeAutoEnabled;//toggle intake auto enable
         if(DriveMotorInverted==true){//if in fliper
             DriveMotorInverted=false;//set drive dir for baller
-            FliperRequested=Fliper(UP);//put fliper up
+            FliperRequested=FliperPosUp;//put fliper up
         }
     }
     else if(!Controller1.ButtonA.pressing() && APressed)    APressed=false;
@@ -60,16 +60,16 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
 void IntakeManualControl(){//Controller Manual OverRide
     if(Controller1.ButtonR2.pressing()){
         IntakeManualControlEnabled=true;
-        IntakeSetting=Intake(OUT);
+        IntakeSetting=IntakePctOut;
     }
     else if(Controller1.ButtonR1.pressing()){
         IntakeManualControlEnabled=true;   
-        IntakeSetting=Intake(IN);
+        IntakeSetting=IntakePctIn;
     }
     else if(IntakeManualControlEnabled){//first loop disabled
         IntakeAutoEnabled=false;
         IntakeManualControlEnabled=false;
-        IntakeSetting=Intake(STOP);
+        IntakeSetting=IntakePctStop;
     }
 }
 void IntakeControl(){//OverRide Control Code
@@ -81,13 +81,13 @@ void IntakeControl(){//OverRide Control Code
 void PuncherControl(){
     if(Controller1.ButtonX.pressing()){
         PuncherControlEnabled=true;
-        IntakeSetting=Intake(STOP);
-        if(FliperRequested==Fliper(UP)) FliperRequested=Fliper(MID);
+        IntakeSetting=IntakePctStop;
+        if(FliperRequested==FliperPosUp) FliperRequested=FliperPosMid;
         PuncherSMS(100);
     }
     else if(PuncherControlEnabled){//first loop not enabled
         PuncherSMS(0);
-        if(FliperRequested==Fliper(MID))    FliperRequested=Fliper(UP);
+        if(FliperRequested==FliperPosMid)    FliperRequested=FliperPosUp;
         IntakeTimeEnabled=true;
         PuncherControlEnabled=false;
     }
@@ -108,15 +108,15 @@ void FliperManualControl(){
     }
 }
 void FliperFlip(){
-    if(FliperRequested==Fliper(UP)){
-        FliperRequested=Fliper(DOWN);
+    if(FliperRequested==FliperPosUp){
+        FliperRequested=FliperPosDown;
         if(DriveMotorInverted==false){//if in baller mode; acts as toggle
             DriveMotorInverted=true;//set drive dir to flipper
             IntakeAutoEnabled=false;//disable auto intake
         }
     }
-    else if(FliperRequested==Fliper(MID))   FliperRequested=Fliper(DOWN);
-    else if(FliperRequested==Fliper(DOWN))  FliperRequested=Fliper(UP);
+    else if(FliperRequested==FliperPosMid)   FliperRequested=FliperPosDown;
+    else if(FliperRequested==FliperPosDown)  FliperRequested=FliperPosUp;
 }
 void FliperPosControl(){
     if(Controller1.ButtonL1.pressing() && !L1Pressed){
