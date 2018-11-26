@@ -1,3 +1,6 @@
+void EndTimeSlice(){
+    vex::task::sleep(1);
+}
 int ControllerScreen() {
     while(1){
         if(DriveMotorInverted!=DriveMotorInvertedWas){

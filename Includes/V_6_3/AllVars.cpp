@@ -7,9 +7,7 @@ int LiftTal=5;
 //
 bool PuncherControlEnabled=false;
 //
-bool YPressed=false;//in
-bool BPressed=false;//stop
-bool APressed=false;//out
+bool R1Pressed=false;//out
 bool IntakeManualControlEnabled=false;
 bool IntakeToggleControlEnabled=false;
 bool IntakeTimeEnabled=false;
@@ -21,10 +19,6 @@ int PuncBallTimeWait=1000;
 int ComRumTime=150;
 bool ComRumerEnabled=false;
 bool ComRum=false;
-//
-bool DriveMotorInverted=false;
-bool DriveMotorInvertedWas=false;
-bool DriveInvertConBtnPressed=false;
 //
 bool FliperManualControlEnabled=false;
 bool FliperPosControlEnabled=true;
@@ -41,8 +35,11 @@ int PuncBallTal=60;
 bool IntakeAutoEnabledWas=false;
 bool IntakeAutoEnabled=false;
 //
+bool DriveMotorInverted=false;
+bool DriveMotorInvertedWas=false;
+bool R2Pressed=false;//Drive Dir toggle pressed
 bool DriveManualControlEnabled=false;
-bool L2Pressed=false;//brake toggle pressed;
+bool L2Pressed=false;//brake toggle pressed
 bool DriveBrake=false;
 int LJoy=0;
 int RJoy=0;
