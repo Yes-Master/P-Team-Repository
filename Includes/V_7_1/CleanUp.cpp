@@ -48,14 +48,14 @@ void UserStart(){
 void AutoStart(){
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
+    Controller1.Screen.print("auto started");
 
     FLDriveMotor.setStopping(vex::brakeType::hold);
     FRDriveMotor.setStopping(vex::brakeType::hold);
     BLDriveMotor.setStopping(vex::brakeType::hold);
     BRDriveMotor.setStopping(vex::brakeType::hold);
     vex::task BrainScreenTask(BrainScreen);
-    vex::task ControllerScreenTask(ControllerScreen);
-    //    IntakeAutoEnabled=true;
+    //vex::task ControllerScreenTask(ControllerScreen);
     vex::task DriveRampingTask(DriveRamping);
     //vex::task PuncherMotorIsSpinningUpDaterTask(PuncherMotorIsSpinningUpDater);
     vex::task IntakeAutonTask(IntakeAuton);

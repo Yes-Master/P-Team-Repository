@@ -58,6 +58,9 @@ void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
         FliperSMS(0);
         vex::task::sleep(EndWait);
     }
+        Controller1.Screen.clearLine();
+    Controller1.Screen.print("Fliped");
+
 }
 void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
     if(FliperRequested==FliperPosUp) Flip(FliperPosMid,true,0);//send fliper to mid no end wait
@@ -73,25 +76,42 @@ void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
     vex::task::sleep(EndWait);
     IntakeTimeEnabled=true;
     PuncherControlEnabled=false;
+        Controller1.Screen.clearLine();
+    Controller1.Screen.print("Punched");
+
 }
-/*
-void Turn(double Dis,int LPct=50,int RPct=50,int EndWait=TurnEndWait){//-left,+right
-    int Dir=SGN(Dis);
-    Dis=ABS(Dis)/12.56;
-    LPct=LPct*Dir;
-    RPct=RPct*Dir;
-    FLDriveMotor.resetRotation();
-    while(ABS(FLDriveMotor.rotation(vex::rotationUnits::rev))<Dis){
+
+void Turn(double Deg,bool Rel=true,int EndWait=TurnEndWait,int LPct=25,int RPct=25){//-left,+right
+//    GyroCalibration(true);
+    if(Rel) Deg+=Gyro.value(vex::rotationUnits::deg);
+    /*
+    if(std::abs(Deg)>360){
+        while(std::abs(Deg)>360){
+            Deg-=SGN(Deg)*360;//take care of the jump between -360,0,360
+        }
+        Dir=SGN(Deg);
+        LPct=LPct*Dir;
+        RPct=RPct*Dir;
+        while(std::abs(Gyro.value(vex::rotationUnits::deg))<360){
+            DI(LPct,-RPct);
+            EndTimeSlice(1);
+        }
+    }
+    */
+    int Dir=SGN(Deg);
+    LPct=std::abs(LPct)*Dir;
+    RPct=std::abs(RPct)*Dir;
+    while(std::abs(Gyro.value(vex::rotationUnits::deg))<std::abs(Deg)){
         DI(LPct,-RPct);
-        vex::task::sleep(1);
+        EndTimeSlice(1);
     }
     DI(0,0);
-   //     while(LDR.Pct==0|| RDR.Pct==0){
-   //     vex::task::sleep(1);
-   // }
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("Turned");
     vex::task::sleep(EndWait);
+
 }
-*/
+
 /*
 void Turn(double Deg,bool GyroCal=true,int LPct=50,int RPct=50,int EndWait=TurnEndWait){
     if(GyroCal){
@@ -126,16 +146,39 @@ void Turn(double Deg,bool GyroCal=true,int LPct=50,int RPct=50,int EndWait=TurnE
     //finished turn
 }
 */
-
+/*
 void Turn(double Deg,int EndWait=TurnEndWait,AutoMoveStop StopType=AutoMoveStop::StopWait,bool GyroCal=true,int LPct=50,int RPct=50){
-    if(GyroCal) GyroCalibration();
-    vex::task::sleep(500);//extra wait for calibration
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("Turn started");
+    if(GyroCal) GyroCalibration(true);
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("gyro caled");
 
+    bool TurnLoopEnabled=true;
     int TurnTal=2;
-    while(std::abs(Deg-Gyro.value(vex::rotationUnits::deg))>TurnTal){
+    int TurnEndTal=1;
+    int VarifyWait=50;
+    int Dir=SGN(Deg-Gyro.value(vex::rotationUnits::deg));//calculates Direction
+    LPct*=Dir;
+    RPct*=Dir;
+    while(TurnLoopEnabled){
+        while(std::abs(Deg-Gyro.value(vex::rotationUnits::deg))>TurnTal){
+            Dir=SGN(Deg-Gyro.value(vex::rotationUnits::deg));//calculates Direction
+            LPct=std::abs(LPct)*Dir;//update Left  Pct
+            RPct=std::abs(RPct)*Dir;//update Right Pct
             DI(LPct,-RPct);
             EndTimeSlice(1);
         }
+        DI(0,0);
+        while(LDR.Pct!=0 || RDR.Pct!=0){EndTimeSlice(LDR.ChangeMsec);}
+        //QDRS();//quick drive ramp stop waits for drive to stop
+        vex::task::sleep(VarifyWait);//wait for turn to over shoot
+        if(std::abs(Gyro.value(vex::rotationUnits::deg)-Deg)>TurnEndTal) TurnLoopEnabled=false;//exit main loop if still on target
+        else{//was within 2 deg; now not in target zone
+            LPct/=2;//slow down turns to be more accurate
+            RPct/=2;//slow down turns to be more accurate
+        }
+    }
     //if(StopType==AutoMoveStop::Stop){
         //DI(0,0);
     //}
@@ -145,6 +188,7 @@ void Turn(double Deg,int EndWait=TurnEndWait,AutoMoveStop StopType=AutoMoveStop:
     //}
     //else if(StopType==AutoMoveStop::Continuous) {}
 }
+*/
 void Drive(double Dis,int Pct=50,int EndWait=DriveEndWait,int Correction=1){
     double WheelCir=4*3.14159265;
     double Dir=SGN(Dis);
@@ -173,24 +217,29 @@ void Drive(double Dis,int Pct=50,int EndWait=DriveEndWait,int Correction=1){
         DR(Pct1,Pct2);
         vex::task::sleep(1);
     }
-    Controller1.Screen.newLine();
-    Controller1.Screen.print("Drove ");
-    Controller1.Screen.print(Dis);
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("Drived");
     if(EndWait==-1){//                                                          Junction
         //only use if another drive command fallows
     }
     else if(EndWait>0){//default; set stop, wait for stop, wait for endwait;    StopWait
-        QDRS();//quick drive ramp stop
+        //QDRS();//quick drive ramp stop
+        DR(0,0);
+        while(LDR.Pct!=0 || RDR.Pct!=0){EndTimeSlice(LDR.ChangeMsec);}
         vex::task::sleep(EndWait);
     }
     else{//>=0,!=-1; set stop dont wait;                                        Stop
         DR(0,0);
     }
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("Drove");
+
 }
 void DriveRecon(int Pct,int Wait,int EndWait=250){
     DR(Pct,Pct);
     vex::task::sleep(Wait);
-    DI(0,0);
-    Controller1.Screen.newLine();
+    DR(0,0);
+    while(LDR.Pct!=0 || RDR.Pct!=0){EndTimeSlice(LDR.ChangeMsec);}
+    Controller1.Screen.clearLine();
     Controller1.Screen.print("RECONED");
 }
