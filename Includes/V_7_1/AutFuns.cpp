@@ -101,7 +101,8 @@ void Turn(double Deg,bool Rel=true,int EndWait=TurnEndWait,int LPct=25,int RPct=
     int Dir=SGN(Deg);
     LPct=std::abs(LPct)*Dir;
     RPct=std::abs(RPct)*Dir;
-    while(std::abs(Gyro.value(vex::rotationUnits::deg))<std::abs(Deg)){
+    //while(std::abs(Gyro.value(vex::rotationUnits::deg))<std::abs(Deg)){
+    while(std::abs(Gyro.value(vex::rotationUnits::deg)-Deg)>2){//while displacement is greter than 2
         DI(LPct,-RPct);
         EndTimeSlice(1);
     }

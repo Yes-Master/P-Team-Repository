@@ -44,14 +44,15 @@ void AutFunFrontBlue(){
     Flip(FliperPosUp);
 }
 void AutFunBackRed(){
-    Drive(39);
-    Turn(-11);
+    Drive(24,100,-1);
+    Drive(3,50,250);
+    Turn(-84);
     Flip(FliperPosDown);
     Drive(-11);
     Flip(FliperPosUp);
-    Turn(20);
+    Turn(150);
     IntakeAutoEnabled=false;
-    Drive(-45,100);
+    Drive(-45,100);//get on platform
 }
 void AutFunBackBlue(){
     Drive(40);
@@ -66,5 +67,4 @@ void AutFunBackBlue(){
 }
 void testing(){
     Turn(85);
-    
 }
