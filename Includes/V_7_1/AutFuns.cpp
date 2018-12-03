@@ -63,7 +63,7 @@ void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
 
 }
 void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
-    if(FliperRequested==FliperPosUp) Flip(FliperPosMid,true,0);//send fliper to mid no end wait
+    if(FliperRequested==FliperPosIn) Flip(FliperPosInPun,true,0);//send fliper to mid no end wait
     PuncherControlEnabled=true;
     IntakeSetting=IntakePctStop;
     PuncherMotor.startRotateFor(370,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
@@ -72,7 +72,7 @@ void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
             vex::task::sleep(20);
         }
     }
-    if(FliperRequested==FliperPosMid)    Flip(FliperPosUp,true,0);//resets fliper back to up if it had to be ajusted down
+    if(FliperRequested==FliperPosInPun)    Flip(FliperPosIn,true,0);//resets fliper back to up if it had to be ajusted with no end wait
     vex::task::sleep(EndWait);
     IntakeTimeEnabled=true;
     PuncherControlEnabled=false;

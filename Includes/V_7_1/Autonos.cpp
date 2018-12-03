@@ -19,7 +19,7 @@ void AutFunFrontRed(){
     Drive(-8,100,0);
     // IntakeAutoEnabled=true;
     Drive(-15,25,750);
-    Flip(FliperPosUp);
+    Flip(FliperPosIn);
 }
 void AutFunFrontBlue(){
     Drive(25,100);//retune
@@ -41,7 +41,7 @@ void AutFunFrontBlue(){
     Drive(-8,100,0);
     // IntakeAutoEnabled=true;
     Drive(-15,25,750);
-    Flip(FliperPosUp);
+    Flip(FliperPosIn);
 }
 void AutFunBackRed(){
     Drive(24,100,-1);
@@ -49,7 +49,7 @@ void AutFunBackRed(){
     Turn(-84);
     Flip(FliperPosDown);
     Drive(-11);
-    Flip(FliperPosUp);
+    Flip(FliperPosIn);
     Turn(150);
     IntakeAutoEnabled=false;
     Drive(-45,100);//get on platform
@@ -59,7 +59,7 @@ void AutFunBackBlue(){
     Turn(84);
     Flip(FliperPosDown);
     Drive(-10);
-    Flip(FliperPosUp);
+    Flip(FliperPosIn);
     Turn(-18.5);
     IntakeAutoEnabled=false;
     Drive(-43,100);

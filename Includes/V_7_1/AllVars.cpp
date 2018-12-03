@@ -32,7 +32,7 @@ int FliperPosUpMid=-250;
 int FliperPosDown=-450;
 int FliperPosTal=5;
 //enum Fliper{UP=-10,DOWN=-450,MID=-60,TAL=5};
-int FliperRequested=FliperPosUp;
+int FliperRequested=FliperPosIn;
 //
 bool FeedBall=false;
 bool PuncBall=false;

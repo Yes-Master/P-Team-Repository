@@ -97,7 +97,7 @@ void FliperStop(){
     FlipMotor.stop();
 }
 void FliperSMS(int Pct){
-    if(FlipMotor.rotation(vex::rotationUnits::deg)>FliperPosUp && Pct>0)     Pct=0;//upper limit
+    if(FlipMotor.rotation(vex::rotationUnits::deg)>FliperPosIn && Pct>0)     Pct=0;//upper limit
     if(FlipMotor.rotation(vex::rotationUnits::deg)<FliperPosDown && Pct<0)   Pct=0;//lower limit
     if(Pct==0)  FliperStop();
     else{
@@ -132,6 +132,7 @@ void DriveSMS(int left, int right){
     RightDriveSMS(right);
 }
 //Calibration
+/*
 int FliperCalibration(){
     int Rpm=200;       //Velocity to hit the end stop
     int TimeOut=1000;   //Max time to hit end stop
@@ -178,7 +179,7 @@ int PuncherCalibration(){
     }
     PuncherCalTime=Brain.timer(vex::timeUnits::msec);
 }
-
+*/
 void GyroCalibration(bool Wait=true){
     Gyro.startCalibration();
     if(Wait){

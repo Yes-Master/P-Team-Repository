@@ -108,15 +108,14 @@ void FliperManualControl(){
     }
 }
 void FliperFlip(){
-    if(FliperRequested==FliperPosIn || FliperRequested==FliperInPun){//getting out of baller
+    if(FliperRequested==FliperPosIn || FliperRequested==FliperPosInPun){//getting out of baller
         FliperRequested=FliperPosDown;
         DriveMotorInverted=true;//set drive dir to flipper
         IntakeAutoEnabled=false;//disable auto intake
-        }
     }
-    else if(FliperRequested==FliperUpMid)   FliperRequested=FliperPosDown;
-    else if(FliperRequested==FliperPosDown)  FliperRequested=FliperUpMid;
-    else if(DriveMotorInverted==false)   FliperRequested=FliperPosIn;//if in baller be in
+    else if(FliperRequested==FliperPosUpMid)    FliperRequested=FliperPosDown;
+    else if(FliperRequested==FliperPosDown)     FliperRequested=FliperPosUpMid;
+    if(DriveMotorInverted==false)               FliperRequested=FliperPosIn;//if in baller be in
 }
 void FliperPosControl(){
     if(Controller1.ButtonL1.pressing() && !L1Pressed){

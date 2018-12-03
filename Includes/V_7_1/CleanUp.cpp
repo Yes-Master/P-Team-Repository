@@ -44,7 +44,7 @@ void UserStart(){
     vex::task ConRumTask(ComRumer);
     IntakeAutoEnabled=true;
     DriveBrake=false;
-    FliperRequested=FliperPosUp;//auton uses this var
+    FliperRequested=FliperPosIn;//auton uses this var
 
 }
 void AutoStart(){
