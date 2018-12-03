@@ -1,4 +1,5 @@
 void AutoClean(){
+    StartEnabled=false;
     //stop all motors
     DriveSMS(0,0);
     DI(0,0);//set drive ramping to 0
@@ -12,6 +13,7 @@ void AutoClean(){
     //PuncherMotorIsSpinningUpDaterEnabled=false;
 }
 void UserClean(){
+    StartEnabled=false;
     Controller1.Screen.clearScreen();
     //stop all motors
     DriveSMS(0,0);

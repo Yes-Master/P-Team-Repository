@@ -191,3 +191,34 @@ void GyroCalibration(bool Wait=true){
     }
     //GyroCalTime=Brain.timer(vex::timeUnits::msec);
 }
+//
+void PrintGyro(){
+    Brain.Screen.clearLine();
+    Brain.Screen.print(Gyro.value(vex::rotationUnits::deg));
+    Brain.Screen.render();
+}
+int Start(){
+    StartEnabled=true;
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("IM NOT READY");
+    while(StartEnabled){
+        if(Brain.Screen.pressing() && !BrainPressed){
+            Controller1.Screen.clearLine();
+            Controller1.Screen.print("DONT");
+            EndTimeSlice(1000);
+            PrintGyro();
+            Controller1.Screen.print("NOT NOW");
+            GyroCalibration();
+            PrintGyro();
+            Controller1.Screen.clearLine();
+            Controller1.Screen.print("YOU CAN DO IT");
+        }
+        else{
+            PrintGyro();
+            EndTimeSlice(20);
+        }
+        if(!Brain.Screen.pressing())   BrainPressed=false;
+
+    }
+    return 1;
+}

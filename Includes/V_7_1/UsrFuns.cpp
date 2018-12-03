@@ -50,7 +50,7 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
         IntakeAutoEnabled=!IntakeAutoEnabled;//toggle intake auto enable
         if(DriveMotorInverted==true){//if in fliper
             DriveMotorInverted=false;//set drive dir for baller
-            FliperRequested=FliperPosUp;//put fliper up
+            FliperRequested=FliperPosIn;//put fliper in
         }
     }
     else if(!Controller1.ButtonA.pressing() && APressed)    APressed=false;
@@ -82,12 +82,12 @@ void PuncherControl(){
     if(Controller1.ButtonX.pressing()){
         PuncherControlEnabled=true;
         IntakeSetting=IntakePctStop;
-        if(FliperRequested==FliperPosUp) FliperRequested=FliperPosMid;
+        if(FliperRequested==FliperPosIn) FliperRequested=FliperPosInPun;
         PuncherSMS(100);
     }
     else if(PuncherControlEnabled){//first loop not enabled
         PuncherSMS(0);
-        if(FliperRequested==FliperPosMid)    FliperRequested=FliperPosUp;
+        if(FliperRequested==FliperPosInPun)    FliperRequested=FliperPosIn;
         IntakeTimeEnabled=true;
         PuncherControlEnabled=false;
     }
@@ -108,15 +108,15 @@ void FliperManualControl(){
     }
 }
 void FliperFlip(){
-    if(FliperRequested==FliperPosUp){
+    if(FliperRequested==FliperPosIn || FliperRequested==FliperInPun){//getting out of baller
         FliperRequested=FliperPosDown;
-        if(DriveMotorInverted==false){//if in baller mode; acts as toggle
-            DriveMotorInverted=true;//set drive dir to flipper
-            IntakeAutoEnabled=false;//disable auto intake
+        DriveMotorInverted=true;//set drive dir to flipper
+        IntakeAutoEnabled=false;//disable auto intake
         }
     }
-    else if(FliperRequested==FliperPosMid)   FliperRequested=FliperPosDown;
-    else if(FliperRequested==FliperPosDown)  FliperRequested=FliperPosUp;
+    else if(FliperRequested==FliperUpMid)   FliperRequested=FliperPosDown;
+    else if(FliperRequested==FliperPosDown)  FliperRequested=FliperUpMid;
+    else if(DriveMotorInverted==false)   FliperRequested=FliperPosIn;//if in baller be in
 }
 void FliperPosControl(){
     if(Controller1.ButtonL1.pressing() && !L1Pressed){

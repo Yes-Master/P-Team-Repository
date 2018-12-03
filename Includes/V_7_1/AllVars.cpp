@@ -26,9 +26,10 @@ bool ComRum=false;
 bool FliperManualControlEnabled=false;
 bool FliperPosControlEnabled=true;
 bool L1Pressed=false;
-int FliperPosUp=-10;
+int FliperPosIn=-10;
+int FliperPosInPun=-60;
+int FliperPosUpMid=-250;
 int FliperPosDown=-450;
-int FliperPosMid=-60;
 int FliperPosTal=5;
 //enum Fliper{UP=-10,DOWN=-450,MID=-60,TAL=5};
 int FliperRequested=FliperPosUp;
@@ -63,6 +64,8 @@ int FliperEndWait=250;
 bool DriveRampingEnabled=true;//task
 bool IntakeAutonEnabled=true;//task
 bool ControllerScreenEnabled=true;//task
+bool StartEnabled=false;//task
+bool BrainPressed=false;
 //end auto
 //calibration
 int FliperCalTime=0;
