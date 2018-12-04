@@ -160,6 +160,7 @@ void DriveDirToggle(){
         UpPressed=true;
         DriveMotorInverted=!DriveMotorInverted;
         if(DriveMotorInverted==true)    IntakeAutoEnabled=false;//disable intake auto when switching to cap drive dir
+        FliperRequested=FliperPosIn;
     }
     else if(!Controller1.ButtonUp.pressing() && UpPressed)  UpPressed=false;
 }

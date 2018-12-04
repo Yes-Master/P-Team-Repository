@@ -245,7 +245,7 @@ void AutoSelPrintFun(){
     Brain.Screen.print("Back  Blue");
     Brain.Screen.print("-");
         if(AutoProg==ProgPot::Pink)         Brain.Screen.print("Testin");
-        else if(AutoProg==ProgPot::Green)   Brain.Screen.print("Green ");
+        else if(AutoProg==ProgPot::Green)   Brain.Screen.print("Normal");
         else if(AutoProg==ProgPot::Yellow)  Brain.Screen.print("Sniper");
     }
 }
