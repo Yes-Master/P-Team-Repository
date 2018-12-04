@@ -206,9 +206,15 @@ int Start(){
         if(Brain.Screen.pressing() && !BrainPressed){
             Controller1.Screen.clearLine();
             Controller1.Screen.print("DONT");
+            Brain.Screen.clearLine();
+            Brain.Screen.print("NO TOUCHY");
+            Brain.Screen.render();
             EndTimeSlice(1000);
             PrintGyro();
             Controller1.Screen.print("NOT NOW");
+            Brain.Screen.clearLine();
+            Brain.Screen.print("NOT NOW");
+            Brain.Screen.render();
             GyroCalibration();
             PrintGyro();
             Controller1.Screen.clearLine();

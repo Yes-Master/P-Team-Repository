@@ -45,6 +45,7 @@ void UserStart(){
     IntakeAutoEnabled=true;
     DriveBrake=false;
     FliperRequested=FliperPosIn;//auton uses this var
+    //FliperPosControlEnabled=true;//enable the fliper pos to move to target set above
 
 }
 void AutoStart(){
