@@ -66,6 +66,38 @@ void AutFunBackBlue(){
     Drive(-43,100);
 
 }
-void testing(){
+void Sniper(){
+
+}
+void FrontSkills(){
+
+}
+void BackSkills(){
+
+}
+void Testing(){
     Turn(85);
+}
+
+void AutoSelPrintFun(){
+    if(FeildPos==StartPos::BackRed){
+        if(AutoProg==ProgPot::Pink)         BackSkills();//Skills
+        else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
+        else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
+    }
+    else if(AutSel1.value(vex::analogUnits::pct)>50){
+        if(AutoProg==ProgPot::Pink)         FrontSkills();//Skills
+        else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
+        else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
+    }
+    else if(AutSel1.value(vex::analogUnits::pct)>17){
+        if(AutoProg==ProgPot::Pink)         Testing();//Skills
+        else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
+        else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
+    }
+    else{
+        if(AutoProg==ProgPot::Pink)         Testing();//Skills
+        else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
+        else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
+    }
 }
