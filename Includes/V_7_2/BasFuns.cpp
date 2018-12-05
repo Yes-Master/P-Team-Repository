@@ -3,6 +3,13 @@ void EndTimeSlice(int EndWait=5){
     vex::task::sleep(EndWait);
 }
 //screen
+/*void BrainPrint(std::string Str,bool render=true,std::string End="",bool clearLine=true,bool newLine=false){
+    if(newLine)     Brain.Screen.newLine();
+    if(clearLine)   Brain.Screen.clearLine();
+    Brain.Screen.print();
+    if(End!="")     Brain.Screen.print(int(End));
+    if(render)      Brain.Screen.render();
+}*/
 double LastRotation=0;
 double MinChange=0;
 int ControllerScreen(){
@@ -213,7 +220,7 @@ void AutonSelFun(){
         else                                                AutoProg = ProgPot::Pink;
     }
     else{                                                   //blue back
-        FeildPos=::StartPos::BackBlue;
+        FeildPos=StartPos::BackBlue;
         if(AutSel2.value(vex::percentUnits::pct)>70)        AutoProg = ProgPot::Yellow;
         else if(AutSel2.value(vex::percentUnits::pct)>25)   AutoProg = ProgPot::Green;
         else                                                AutoProg = ProgPot::Pink;
@@ -258,7 +265,6 @@ void BrainPrintStart(){
     Brain.Screen.render();
 }
 int Start(){
-
     StartEnabled=true;
     Controller1.Screen.clearLine();
     Controller1.Screen.print("IM NOT READY");

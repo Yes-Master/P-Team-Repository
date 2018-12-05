@@ -45,15 +45,15 @@ void AutFunFrontBlue(){
     Flip(FliperPosUpMid);
 }
 void AutFunBackRed(){
-    Drive(24,100,-1);
+    Drive(20,100,-1);
     Drive(3,50,250);
-    Turn(-84);
+    Turn(-100);
     Flip(FliperPosDown);
-    Drive(-11);
+    Drive(-10);
     Flip(FliperPosIn);
-    Turn(150);
+    Turn(170);
     IntakeAutoEnabled=false;
-    Drive(-45,100);//get on platform
+    Drive(-44,100);//get on platform
 }
 void AutFunBackBlue(){
     Drive(40);
@@ -79,7 +79,7 @@ void Testing(){
     Turn(85);
 }
 
-void AutoSelPrintFun(){
+void AutoSelRunFuns(){
     if(FeildPos==StartPos::BackRed){
         if(AutoProg==ProgPot::Pink)         BackSkills();//Skills
         else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
