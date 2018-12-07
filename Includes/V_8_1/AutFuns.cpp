@@ -81,40 +81,22 @@ void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
 
 }
 
-void Turn(double Deg,int Mode=0,int EndWait=TurnEndWait,int LPct=25,int RPct=25){//Mode=0 reletive auto dir, -1 left,1 right
-//    GyroCalibration(true);
-int Dir=SGN(Deg);
-if(Mode!=0) Dir=Mode;
-    if(Mode==0) Deg+=Gyro.value(vex::rotationUnits::deg);
-    /*
-    if(std::abs(Deg)>360){
-        while(std::abs(Deg)>360){
-            Deg-=SGN(Deg)*360;//take care of the jump between -360,0,360
-        }
-        Dir=SGN(Deg);
-        LPct=LPct*Dir;
-        RPct=RPct*Dir;
-        while(std::abs(Gyro.value(vex::rotationUnits::deg))<360){
-            DI(LPct,-RPct);
-            EndTimeSlice(1);
-        }
-    }
-    */
-    
-    LPct=std::abs(LPct)*Dir;
-    RPct=std::abs(RPct)*Dir;
-    //while(std::abs(Gyro.value(vex::rotationUnits::deg))<std::abs(Deg)){
-    while(std::abs(Gyro.value(vex::rotationUnits::deg)-Deg)>0.5){//while displacement is greter than 2
+void Turn(double Dis,int LPct=25,int RPct=25,int EndWait=TurnEndWait){//-left,+right
+    int Dir=SGN(Dis);
+    Dis=std::abs(Dis)/12.56;
+    LPct=LPct*Dir;
+    RPct=RPct*Dir;
+    FLDriveMotor.resetRotation();
+    while(std::abs(FLDriveMotor.rotation(vex::rotationUnits::rev))<Dis){
         DI(LPct,-RPct);
-        EndTimeSlice(1);
+        vex::task::sleep(1);
     }
     DI(0,0);
     Controller1.Screen.clearLine();
     Controller1.Screen.print("Turned");
-    Controller1.Screen.print(Gyro.value(vex::rotationUnits::deg));
     vex::task::sleep(EndWait);
-
 }
+
 void Drive(double Dis,int Pct=50,int EndWait=DriveEndWait,int Correction=1){
     double WheelCir=4*3.14159265;
     double Dir=SGN(Dis);

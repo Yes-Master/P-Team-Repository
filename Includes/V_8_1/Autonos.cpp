@@ -1,20 +1,20 @@
 void AutFunFrontRed(){
     Drive(24,100,-1);
     Drive(3,50,500);
-    Drive(-27,100,-1);
-    DriveRecon(-35,500);
+    Drive(-28,100,-1);
+    DriveRecon(-15,500);
 
-    Drive(3,50);
-    Turn(-84);
+    Drive(2,50);
+    Turn(-9.4);
     Drive(1,25);
     Puncher();
     Drive(10,100);
     if(PuncBall)    Puncher();
-    Turn(-6);//slight turn to miss pole
+    Turn(-1.5);//slight turn to miss pole
     // IntakeAutoEnabled=false;
     Drive(2,100);
 
-    Turn(-30);//45deg turn get cap
+    Turn(-3);//45deg turn get cap
     Flip(FliperPosDown);
     Drive(-8,100,0);
     // IntakeAutoEnabled=true;
@@ -24,20 +24,20 @@ void AutFunFrontRed(){
 void AutFunFrontBlue(){
     Drive(24,100,-1);
     Drive(3,50,500);
-    Drive(-27,100,-1);
-    DriveRecon(-35,500);
+    Drive(-28,100,-1);
+    DriveRecon(-15,500);
 
-    Drive(3,50);
-    Turn(85);
-    Drive(1,25);
+    Drive(6,50);
+    Turn(9.3);//the good times
+   // Drive(1,25);
     Puncher();
-    Drive(12,100);
+    Drive(8,100);
     if(PuncBall)    Puncher();
-    Turn(5);//slight turn to miss pole
+    //Turn(1);//slight turn to miss pole
     // IntakeAutoEnabled=false;
-    Drive(3,100);
+    Drive(6,100);
 
-    Turn(25);//45deg turn get cap
+    Turn(4);//45deg turn get cap
     Flip(FliperPosDown);
     Drive(-8,100,0);
     // IntakeAutoEnabled=true;
@@ -47,22 +47,22 @@ void AutFunFrontBlue(){
 void AutFunBackRed(){
     Drive(24,100,-1);
     Drive(3,50,250);
-    Turn(-92);
+    Turn(-10);
     Flip(FliperPosDown);
     Drive(-9);
     Flip(FliperPosIn);
-    Turn(165);
+    Turn(18);
     IntakeAutoEnabled=false;
     Drive(-44,100);//get on platform
 }
 void AutFunBackBlue(){
     Drive(24,100,-1);
     Drive(3,50,250);
-    Turn(95);
+    Turn(10);
     Flip(FliperPosDown);
     Drive(-9);
     Flip(FliperPosIn);
-    Turn(-170);
+    Turn(-18);
     IntakeAutoEnabled=false;
     Drive(-42,100);//get on platform
 }
@@ -70,7 +70,38 @@ void Sniper(){
 
 }
 void FrontSkills(){
-    
+    Drive(24,100,-1);
+    Drive(3,50,500);
+    Drive(-28,100,-1);
+    DriveRecon(-15,500);
+
+    Drive(2,50);
+    Turn(-9.4);
+    Drive(1,25);
+    Puncher();
+    Drive(10,100);
+    if(PuncBall)    Puncher();
+    Turn(-1.5);//slight turn to miss pole
+    // IntakeAutoEnabled=false;
+    Drive(2,100);
+
+    Turn(-3);//45deg turn get cap
+    Flip(FliperPosDown);
+    Drive(-8,100,0);
+    // IntakeAutoEnabled=true;
+    Drive(-15,25,750);
+    Flip(FliperPosIn);
+    //=======================================
+    Turn(-4);//turn to wall
+    Drive(23,50);//drive to wall
+    DriveRecon(15,500);//recon
+    Drive(-3,50);//drive away form wall
+    Turn(-9.4);//turn perallel to wall
+    Drive(50,50);//drive perallel to wall && line up to park
+    Turn(9.4);//turn to park
+    Drive(2,50);//drive to wall
+    DriveRecon(15,250);//recon
+    Drive(-100);//drive on park
 }
 void BackSkills(){
     Drive(27,100,500);
@@ -115,9 +146,9 @@ void BackSkills(){
 
 }
 void Testing(){
-    Turn(100);
-    EndTimeSlice(2000);
-    Turn(-170);
+    Turn(9);
+    EndTimeSlice(250);
+    Turn(-3);
 }
 
 void AutoSelRunFuns(){
