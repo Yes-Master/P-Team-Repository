@@ -76,3 +76,8 @@ enum class StartPos {FrontRed,BackRed,FrontBlue,BackBlue};
 enum class ProgPot {Pink,Green,Yellow};
 StartPos FeildPos = StartPos::FrontRed;
 ProgPot AutoProg = ProgPot::Green;
+
+
+//need to find a place for
+bool R2Pressed=false;
+bool R1Pressed=false;

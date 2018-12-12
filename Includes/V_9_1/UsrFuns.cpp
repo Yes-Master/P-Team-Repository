@@ -1,6 +1,9 @@
-/*
+/*Need to add
+*/
+/*Change Log
 right down  hold(outfeed) && toggle(DriveMode=Baller,Autointake=true,FLiperrequested=fliperposin,)
 right up    hold(puncher,DriveHold);
+BtnX->BtnR1 Puncher Control && Post Punch enable auto intake if rotated more than 340 deg and there is not a ball in the puncher
 */
 void LiftControl(){
     if(Controller1.ButtonRight.pressing())      LiftSMS(100);
@@ -61,19 +64,27 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
 
     IntakeAuto();
 }
+//right down  hold(outfeed) && toggle(DriveMode=Baller,Autointake=true,FLiperrequested=fliperposin,)
 void IntakeManualControl(){//Controller Manual OverRide
     if(Controller1.ButtonR2.pressing()){
-        IntakeManualControlEnabled=true;
-        IntakeSetting=IntakePctOut;
+        IntakeManualControlEnabled=true;//halt auto intake function from running
+        IntakeSetting=IntakePctOut;//out feed the intake
+        if(!R2Pressed){//if btnR2 pressed but was not pressed
+            FliperRequested=FliperPosIn;//put fliper in
+            IntakeAutoEnabled=true;//intake balls auto after manual overide
+            DriveMotorInverted=false;//Baller drive dir;
+        }
     }
-    else if(Controller1.ButtonR1.pressing()){
+    else if(!Controller1.ButtonR2.pressing() && R2Pressed)  R2Pressed=false;
+
+    else if(Controller1.ButtonY.pressing()){//btnR1->btnY;
         IntakeManualControlEnabled=true;   
         IntakeSetting=IntakePctIn;
     }
-    else if(IntakeManualControlEnabled){//first loop disabled
-        IntakeAutoEnabled=false;
+    else if(IntakeManualControlEnabled){//first loop not manualy controlled
+        //IntakeAutoEnabled=false;
         IntakeManualControlEnabled=false;
-        IntakeSetting=IntakePctStop;
+        if(!IntakeAutoEnabled)  IntakeSetting=IntakePctStop;//if not auto controlled stop intakeing
     }
 }
 void IntakeControl(){//OverRide Control Code
@@ -82,18 +93,24 @@ void IntakeControl(){//OverRide Control Code
     IntakeSMS(IntakeSetting);
 }
 //
+//right up    hold(puncher,DriveHold);
 void PuncherControl(){
-    if(Controller1.ButtonX.pressing()){
+    int StartDeg=PuncherMotor.rotation(vex::rotationUnits::deg);//save start pos;needs to be here for scope
+    if(Controller1.ButtonR1.pressing()){
         PuncherControlEnabled=true;
-        IntakeSetting=IntakePctStop;
-        if(FliperRequested==FliperPosIn) FliperRequested=FliperPosInPun;
+        if(!R1Pressed){//toggle initializer
+            IntakeManualControlEnabled=true;//halt auto intake from running via manual control override
+            IntakeSetting=IntakePctStop;//stop intaking
+
+        }
+        if(FliperRequested==FliperPosIn) FliperRequested=FliperPosInPun;//move fliper out of the way;this is outside of the init just in case of drive toggle problems
         PuncherSMS(100);
     }
     else if(PuncherControlEnabled){//first loop not enabled
-        PuncherSMS(0);
-        if(FliperRequested==FliperPosInPun)    FliperRequested=FliperPosIn;
-        IntakeTimeEnabled=true;
-        PuncherControlEnabled=false;
+        PuncherControlEnabled=false;//toggle
+        PuncherSMS(0);//stop puncher
+        if(FliperRequested==FliperPosInPun)    FliperRequested=FliperPosIn;//undo flipper move if required
+        if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-StartDeg)>340 && !PuncBall) IntakeAutoEnabled=true;//if puncher displacement is > 340 and there is not a ball in the puncher then Enable IntakeAuto
     }
 }
 //
