@@ -77,7 +77,7 @@ void IntakeManualControl(){//Controller Manual OverRide
     }
     else if(!Controller1.ButtonR2.pressing() && R2Pressed)  R2Pressed=false;
 
-    else if(Controller1.ButtonY.pressing()){//btnR1->btnY;
+    else if(Controller1.ButtonX.pressing()){//btnR1->btnY;
         IntakeManualControlEnabled=true;   
         IntakeSetting=IntakePctIn;
     }
