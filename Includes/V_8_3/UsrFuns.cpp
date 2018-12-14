@@ -1,13 +1,15 @@
-/*Need to
-add tollerances to puncher pos control && puncher fire lockout
-add controller rumble every time charged or fired
-add enum class for charging fire or not moving
+/*Need to add
 */
 /*Change Log
 right down  hold(outfeed) && toggle(DriveMode=Baller,Autointake=true,FLiperrequested=fliperposin,)
 right up    hold(puncher,DriveHold);
 BtnX->BtnR1 Puncher Control && Post Punch enable auto intake if rotated more than 340 deg and there is not a ball in the puncher
 */
+void LiftControl(){
+    if(Controller1.ButtonRight.pressing())      LiftSMS(100);
+    else if(Controller1.ButtonLeft.pressing())  LiftSMS(-100);
+    else                                        LiftSMS(0);
+}
 //
 //rstet timer if ball in puncher or
 void IntakeAutoUpDate(){//UpDate Sensors Code
@@ -18,7 +20,7 @@ void IntakeAutoUpDate(){//UpDate Sensors Code
         ComRum=false;
     }  
     else{
-        if(PuncherSpinToControlEnabled)           PuncBall=false;
+        if(PuncherControlEnabled)           PuncBall=false;
         else{
             if(GlobTime>PuncBallTimeWait)   PuncBall=false;
             else if(GlobTime>ComRumTime)    ComRum=true;
@@ -75,7 +77,7 @@ void IntakeManualControl(){//Controller Manual OverRide
     }
     else if(!Controller1.ButtonR2.pressing() && R2Pressed)  R2Pressed=false;
 
-    else if(Controller1.ButtonY.pressing()){//btnR1->btnY;
+    else if(Controller1.ButtonX.pressing()){//btnR1->btnY;
         IntakeManualControlEnabled=true;   
         IntakeSetting=IntakePctIn;
     }
@@ -90,37 +92,26 @@ void IntakeControl(){//OverRide Control Code
     if(!IntakeManualControlEnabled) IntakeAutoControl();
     IntakeSMS(IntakeSetting);
 }
-
-void PuncherChargeControl(){
-    if(Controller1.ButtonR1.pressing() && !R1Pressed){
-        R1Pressed=true;
-        if(Charged) PuncherDeg+=60;
-        else        PuncherDeg+=300;
-    }
-    else if(!Controller1.ButtonR1.pressing() && R1Pressed)  R1Pressed=false;
-
-    PuncherSpinTo(PuncherDeg,false);//rotate Abs
-}
-void PuncherPosRoter(){
-    if(PuncherPos==PuncherPositions::ShortTop)      PuncherPos=PuncherPositions::ShortMid;
-    else if(PuncherPos==PuncherPositions::ShortMid) PuncherPos=PuncherPositions::ShortTop;
-}
-void PuncherPosControl(){
-    if(Controller1.ButtonY.pressing() && !YPressed){
-        YPressed=true;
-        PuncherPosRoter();
-        if(PuncherPos==PuncherPositions::ShortTop){
-            PuncherPosMotor.startRotateTo(0,vex::rotationUnits::deg,100,vex::velocityUnits::pct);
-        }
-        else if(PuncherPos==PuncherPositions::ShortMid){
-            PuncherPosMotor.startRotateTo(180,vex::rotationUnits::deg,100,vex::velocityUnits::pct);
-        }
-    }
-    else if(!Controller1.ButtonY.pressing() && YPressed)    YPressed=false;
-}
+//
+//right up    hold(puncher,DriveHold);
 void PuncherControl(){
-    PuncherPosControl();
-    PuncherChargeControl();
+    int StartDeg=PuncherMotor.rotation(vex::rotationUnits::deg);//save start pos;needs to be here for scope
+    if(Controller1.ButtonR1.pressing()){
+        PuncherControlEnabled=true;
+        if(!R1Pressed){//toggle initializer
+            IntakeManualControlEnabled=true;//halt auto intake from running via manual control override
+            IntakeSetting=IntakePctStop;//stop intaking
+
+        }
+        if(FliperRequested==FliperPosIn) FliperRequested=FliperPosInPun;//move fliper out of the way;this is outside of the init just in case of drive toggle problems
+        PuncherSMS(100);
+    }
+    else if(PuncherControlEnabled){//first loop not enabled
+        PuncherControlEnabled=false;//toggle
+        PuncherSMS(0);//stop puncher
+        if(FliperRequested==FliperPosInPun)    FliperRequested=FliperPosIn;//undo flipper move if required
+        if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-StartDeg)>340 && !PuncBall) IntakeAutoEnabled=true;//if puncher displacement is > 340 and there is not a ball in the puncher then Enable IntakeAuto
+    }
 }
 //
 void FliperManualControl(){
@@ -197,21 +188,13 @@ void DriveDirToggle(){
 void DriveManualControl(){
     LJoy=Controller1.Axis3.value();
     RJoy=Controller1.Axis2.value();
-    LSJoy=Controller1.Axis4.value();
-    RSJoy=Controller1.Axis1.value();
 
     if(std::abs(LJoy)<5)    LJoy=0;
     if(std::abs(RJoy)<5)    RJoy=0;
-    if(std::abs(LSJoy)<15)  LSJoy=0;
-    if(std::abs(RSJoy)<15)  RSJoy=0;
     
-    if(LJoy!=0 || RJoy!=0 || LSJoy!=0 || RSJoy!=0){
+    if(LJoy!=0 || RJoy!=0){
         DriveManualControlEnabled=true;
-        DriveTankSMS(
-            DriveMotorInverted ? -RJoy : LJoy,
-            DriveMotorInverted ? -LJoy : RJoy,
-            DriveMotorInverted ? -RSJoy : LSJoy,
-            DriveMotorInverted ? -LSJoy : RSJoy);
+        DriveSMS(DriveMotorInverted ? -RJoy : LJoy,DriveMotorInverted ? -LJoy : RJoy);
     }
     else{
         if(DriveManualControlEnabled)  DriveSMS(0,0);//Last loop before disableing; used to release drivemanualcontrol

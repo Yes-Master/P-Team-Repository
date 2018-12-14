@@ -16,6 +16,16 @@ int ComRumer(){
     return 1;
 }
 //basic motor functions
+void LiftStop(){
+    LiftMotor.stop();
+}
+void LiftSMS(int Pct){
+    if(Pct==0)  LiftStop();
+    else{
+        LiftMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
+    }
+}
+
 void PuncherStop(){
     PuncherMotor.stop();
 }
@@ -23,19 +33,6 @@ void PuncherSMS(int Pct){
     if(Pct==0)  PuncherStop();
     else{
         PuncherMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
-    }
-}
-void PuncherSpinTo(int Tar,bool Rel=true,int Pct=100,int Tal=5){
-    int Dir=SGN(Tar);
-    if(Rel) Tar+=PuncherMotor.rotation(vex::rotationUnits::deg);
-    if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal){//outside of tal
-        PuncherSpinToControlEnabled=true;
-        Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
-        PuncherPctSetting=Pct*Dir;//set the motor to spin in the correct direction
-    }
-    else if(PuncherSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
-        PuncherPctSetting=0;
-        PuncherSpinToControlEnabled=false;//tog
     }
 }
 
@@ -61,58 +58,6 @@ void FliperSMS(int Pct){
     }
 }
 
-void FLSMS(int V){
-    if(V==0)    FLDriveMotor.stop();
-    else{
-        FLDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void FRSMS(int V){
-    if(V==0)    FRDriveMotor.stop();
-    else{
-        FRDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void BLSMS(int V){
-    if(V==0)    BLDriveMotor.stop();
-    else{
-        BLDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void BRSMS(int V){
-    if(V==0)    BRDriveMotor.stop();
-    else{
-        BRDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void DriveSMS(int V1=0,int V2=0,int V3=0,int V4=0){//raw 
-    FLSMS(V1);
-    BLSMS(V2);
-    FRSMS(V3);
-    BRSMS(V4);
-}
-void DriveTankSMS(int j1,int j2,int j3=0,int j4=0){//left,right,side1,side2
-    int LF=j1;//left
-    int RF=j2;//right
-    int SD=(j3+j4)/2;//side
-
-    DriveSMS(//left go apart && right go into when going right
-        LF+SD,
-        LF-SD,
-        RF-SD,
-        RF+SD);
-}
-void DriveArcadeSMS(int J1,int J2,int J3=0){//forward,side,rotation
-    int LF=J1+J3;//left
-    int RF=J1-J3;//right
-    int SD=J2;//side
-    DriveSMS(//left go apart && right go into when going right
-        LF+SD,
-        LF-SD,
-        RF-SD,
-        RF+SD);
-}
-/*
 void LeftDriveStop(){
     FLDriveMotor.stop();
     BLDriveMotor.stop();
@@ -139,7 +84,7 @@ void DriveSMS(int left, int right){
     LeftDriveSMS(left);
     RightDriveSMS(right);
 }
-*/
+
 //Calibration
 /*
 int FliperCalibration(){

@@ -37,9 +37,9 @@ bool APressed=false;//auto intake toggle
 bool L1Pressed=false;
 bool L2Pressed=false;//brake toggle pressed
 bool UpPressed=false;//Drive Dir toggle pressed
-bool YPressed=false;//
 
 //Task Bools
+bool PuncherControlEnabled=false;
 bool IntakeStateUpDateEnabled=true;
 bool ComRumerEnabled=false;
 bool IntakeAutoEnabled=false;
@@ -48,17 +48,13 @@ bool BrainScreenStartFunEnabled=false;
 bool ControllerScreenStartFunEnabled=false;
 bool ControllerScreenUsrFunEnabled=false;
 bool BrainScreenUsrFunEnabled=false;
-
 //Drive
 bool DriveMotorInverted=false;
-bool DriveMotorInvertedWas=DriveMotorInverted;
+bool DriveMotorInvertedWas=false;
 bool DriveManualControlEnabled=false;
 bool DriveHold=false;
-bool DriveHoldWas=DriveHold;
 int LJoy=0;
 int RJoy=0;
-int LSJoy=0;
-int RSJoy=0;
 
 //Intake
 bool IntakeManualControlEnabled=false;
@@ -71,12 +67,7 @@ int IntakeSetting=IntakePctStop;
 bool IntakeBallsEnabled=false;
 
 //Puncher
-int PuncherDeg=0;
-int PuncherPctSetting=0;
-bool Charged=false;//if the puncher is ready to fire
-bool PuncherSpinToControlEnabled=false;//Puncher is charging or fireing
-enum class PuncherPositions {ShortTop,ShortMid};
-PuncherPositions PuncherPos=PuncherPositions::ShortTop;
+
 
 //Fliper
 bool FliperManualControlEnabled=false;
