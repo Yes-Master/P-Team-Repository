@@ -7,141 +7,57 @@ void EndTimeSlice(int EndWait=5){
 // double LastRotation=0;
 // double MinChange=0;
 //control
-int ComRumerFun(){
-    Controller1.rumble(".");
+int ComRumer(){
+    ComRumerEnabled=true;
+    while(ComRumerEnabled){
+        if(ComRum && IntakeAutoEnabled && IntakeSetting==IntakePctStop)  Controller1.rumble(".");
+        vex::task::sleep(20);
+    }
     return 1;
 }
 //basic motor functions
-void PuncherSMS(int Pct){
-    if(Pct==0){
-        PuncherMotor.stop();
-        PuncherSTS=false;
-    }
+void LiftStop(){
+    LiftMotor.stop();
+}
+void LiftSMS(int Pct){
+    if(Pct==0)  LiftStop();
     else{
-        PuncherSTS=true;
+        LiftMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
+    }
+}
+
+void PuncherStop(){
+    PuncherMotor.stop();
+}
+void PuncherSMS(int Pct){
+    if(Pct==0)  PuncherStop();
+    else{
         PuncherMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
-void PuncherSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
-    int Dir=SGN(Tar);
-    if(Rel) Tar+=PuncherMotor.rotation(vex::rotationUnits::deg);
-    if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherSpinToControlRunEnabled){//outside of tal
-        PuncherSpinToControlEnabled=true;
-        Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
-        PuncherPctSetting=Pct*Dir;//set the motor to spin in the correct direction
-    }
-    else if(PuncherSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
-        PuncherPctSetting=0;
-        PuncherSpinToControlEnabled=false;//toggle
-        if(Stop)    PuncherSpinToControlRunEnabled=false;//stop after it has been hit
-    }
-    if(SMS) PuncherSMS(PuncherPctSetting);
-}
 
-void PuncherPosSMS(int Pct){
-    if(Pct==0){
-        PuncherPosMotor.stop(vex::brakeType::hold);
-        PuncherPosSTS=false;
-    }
-    else{
-        PuncherPosSTS=true;
-        PuncherPosMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
-    }
+void IntakeStop(){
+    IntakeMotor.stop();
 }
-void PuncherPosSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
-    int Dir=SGN(Tar-PuncherPosMotor.rotation(vex::rotationUnits::deg));
-
-    if(Rel) Tar+=PuncherPosMotor.rotation(vex::rotationUnits::deg);
-    if(std::abs(PuncherPosMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherPosSpinToControlRunEnabled){//outside of tal
-        PuncherPosSpinToControlEnabled=true;
-        Dir=SGN(Tar-PuncherPosMotor.rotation(vex::rotationUnits::deg));
-        PuncherPosPctSetting=Pct*Dir;//set the motor to spin in the correct direction
-        if(SMS) PuncherPosSMS(PuncherPosPctSetting);
-    }
-    else if(PuncherPosSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
-        PuncherPosPctSetting=0;
-        if(SMS) PuncherPosSMS(PuncherPosPctSetting);
-        PuncherPosSpinToControlEnabled=false;//toggle
-        if(Stop)    PuncherPosSpinToControlRunEnabled=false;
-    }
-}
-
 void IntakeSMS(int Pct){
-    if(Pct==0){
-        IntakeMotor.stop();
-        IntakeSTS=false;
-    }
+    if(Pct==0)  IntakeStop();
     else{
-        IntakeSTS=true;
         IntakeMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
 
+void FliperStop(){
+    FlipMotor.stop();
+}
 void FliperSMS(int Pct){
     if(FlipMotor.rotation(vex::rotationUnits::deg)>FliperPosIn && Pct>0)     Pct=0;//upper limit
     if(FlipMotor.rotation(vex::rotationUnits::deg)<FliperPosDown && Pct<0)   Pct=0;//lower limit
-    if(Pct==0){
-        FlipMotor.stop();
-        FliperSTS=false;
-    }
+    if(Pct==0)  FliperStop();
     else{
-        FliperSTS=true;
         FlipMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
 
-void FLSMS(int V){
-    if(V==0)    FLDriveMotor.stop();
-    else{
-        FLDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void FRSMS(int V){
-    if(V==0)    FRDriveMotor.stop();
-    else{
-        FRDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void BLSMS(int V){
-    if(V==0)    BLDriveMotor.stop();
-    else{
-        BLDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void BRSMS(int V){
-    if(V==0)    BRDriveMotor.stop();
-    else{
-        BRDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
-    }
-}
-void DriveSMS(int V1=0,int V2=0,int V3=0,int V4=0){//raw 
-    FLSMS(V1);
-    BLSMS(V2);
-    FRSMS(V3);
-    BRSMS(V4);
-}
-void DriveTankSMS(int j1,int j2,int j3=0,int j4=0){//left,right,side1,side2
-    int LF=j1;//left
-    int RF=j2;//right
-    int SD=(j3+j4)/2;//side
-
-    DriveSMS(//left go apart && right go into when going right
-        LF+SD,
-        LF-SD,
-        RF-SD,
-        RF+SD);
-}
-void DriveArcadeSMS(int J1,int J2,int J3=0){//forward,side,rotation
-    int LF=J1+J3;//left
-    int RF=J1-J3;//right
-    int SD=J2;//side
-    DriveSMS(//left go apart && right go into when going right
-        LF+SD,
-        LF-SD,
-        RF-SD,
-        RF+SD);
-}
-/*
 void LeftDriveStop(){
     FLDriveMotor.stop();
     BLDriveMotor.stop();
@@ -168,7 +84,7 @@ void DriveSMS(int left, int right){
     LeftDriveSMS(left);
     RightDriveSMS(right);
 }
-*/
+
 //Calibration
 /*
 int FliperCalibration(){

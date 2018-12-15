@@ -20,6 +20,7 @@ void UserClean(){
     ControllerScreenUsrFunEnabled=false;
     BrainScreenUsrFunEnabled=false;
     IntakeStateUpDateEnabled=false;
+    ComRumerEnabled=false;
 }
 void UserStart(){
     //    vex::task FliperCalTask(FliperCal);
@@ -33,6 +34,7 @@ void UserStart(){
     vex::task ControllerScreenUsrTask(ControllerScreenUsrFun);
     vex::task BrainScreenUsrTask(BrainScreenUsrFun);
     vex::task BallUpDateTask(IntakeStateUpDate);
+    vex::task ConRumTask(ComRumer);
 
     IntakeAutoEnabled=true;
     DriveHold=false;

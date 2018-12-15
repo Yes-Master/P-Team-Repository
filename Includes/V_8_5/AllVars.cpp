@@ -19,13 +19,6 @@ StartPos FeildPosBrainScreenSetColorLast = FeildPos;
 StartPos FeildPosControllerScreenPrintAutonosLast = FeildPos;
 ProgPot AutoProgControllerScreenPrintAutonosLast = AutoProg;
 
-//Basic Motor
-    //Set To Spin
-    bool PuncherSTS=false;
-    bool PuncherPosSTS=false;
-    bool IntakeSTS=false;
-    bool FliperSTS=false;
-
 //Autonos
 int DriveEndWait=100;
 int TurnEndWait=250;
@@ -44,10 +37,9 @@ bool APressed=false;//auto intake toggle
 bool L1Pressed=false;
 bool L2Pressed=false;//brake toggle pressed
 bool UpPressed=false;//Drive Dir toggle pressed
-bool YPressed=false;//
-bool BPressed=false;//puncherposcontrol
 
 //Task Bools
+bool PuncherControlEnabled=false;
 bool IntakeStateUpDateEnabled=true;
 bool ComRumerEnabled=false;
 bool IntakeAutoEnabled=false;
@@ -56,17 +48,13 @@ bool BrainScreenStartFunEnabled=false;
 bool ControllerScreenStartFunEnabled=false;
 bool ControllerScreenUsrFunEnabled=false;
 bool BrainScreenUsrFunEnabled=false;
-
 //Drive
 bool DriveMotorInverted=false;
-bool DriveMotorInvertedWas=DriveMotorInverted;
+bool DriveMotorInvertedWas=false;
 bool DriveManualControlEnabled=false;
 bool DriveHold=false;
-bool DriveHoldWas=DriveHold;
 int LJoy=0;
 int RJoy=0;
-int LSJoy=0;
-int RSJoy=0;
 
 //Intake
 bool IntakeManualControlEnabled=false;
@@ -79,26 +67,14 @@ int IntakeSetting=IntakePctStop;
 bool IntakeBallsEnabled=false;
 
 //Puncher
-int PuncherDeg=0;
-int PuncherPctSetting=0;
-bool Charged=false;//if the puncher is ready to fire
-bool PuncherSpinToControlEnabled=false;//Puncher is charging or fireing
 
-//PuncherPos
-bool PuncherPosSpinToControlEnabled=false;
-enum class PuncherPositions {ShortTop,ShortMid};
-PuncherPositions PuncherPos=PuncherPositions::ShortTop;
-int PuncherPosPctSetting=0;
-bool PuncherSpinToControlRunEnabled=false;//dont continue to hit target
-int PuncherPosDeg=10;
-bool PuncherPosSpinToControlRunEnabled=false;
 
 //Fliper
 bool FliperManualControlEnabled=false;
 bool FliperPosControlEnabled=true;
 int FliperPosIn=-5;
 int FliperPosInPun=-60;
-int FliperPosUpMid=-200;
+int FliperPosUpMid=-250;
 int FliperPosDown=-450;
 int FliperPosTal=5;
 int FliperRequested=FliperPosIn;
