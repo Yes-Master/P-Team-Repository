@@ -7,6 +7,24 @@ add controller rumble every time charged or fired
 add tollerances to puncher pos control && puncher fire lockout
 */
 //
+/*
+Joy1    RightSide
+Joy2    Right
+Joy3    Left
+Joy4    LeftSide
+L1      HOLD:Puncher,DriveBrake
+L2                      TOG:DriveBrakeTog
+R1      HOLD:IntakeIn;  TOG:Fliper=In,DriveDir=Ball,IntakeAutoEnabled=false;
+R2      HOLD:InkakeOut; TOG:Fliper=In,DriveDir=Ball,IntakeAutoEnabled=true;
+Up                      TOG:PunPos=1;closeup    2
+Down                    TOG:PunPos=4;fardown    4.25
+Left                    TOG:PunPos=2;closedown  4
+Right                   TOG:PunPos=3;farup      3.25
+Y                       TOG:DriveDir
+B       NULL
+X       NULL
+A                       TOG:IntakeAutoEnabled,Fliper=In,DriveDir=Ball
+*/
 //rstet timer if ball in puncher or
 void IntakeAutoUpDate(){//UpDate Sensors Code
     //Puncher UpDate
@@ -51,10 +69,8 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
     if(Controller1.ButtonA.pressing() && !APressed){
         APressed=true;
         IntakeAutoEnabled=!IntakeAutoEnabled;//toggle intake auto enable
-        if(DriveMotorInverted==true){//if in fliper
-            DriveMotorInverted=false;//set drive dir for baller
-            FliperRequested=FliperPosIn;//put fliper in
-        }
+        FliperRequested=FliperPosIn;//put fliper in
+        DriveMotorInverted=false;//set Ball DriveDir
     }
     else if(!Controller1.ButtonA.pressing() && APressed)    APressed=false;
 
@@ -65,20 +81,28 @@ void IntakeManualControl(){//Controller Manual OverRide
     if(Controller1.ButtonR2.pressing()){
         IntakeManualControlEnabled=true;//halt auto intake function from running
         IntakeSetting=IntakePctOut;//out feed the intake
-        if(!R2Pressed){//if btnR2 pressed but was not pressed
-            FliperRequested=FliperPosIn;//put fliper in
-            IntakeAutoEnabled=true;//intake balls auto after manual overide
+        if(!R2Pressed){//Init
+            R2Pressed=true;
             DriveMotorInverted=false;//Baller drive dir;
+            FliperRequested=FliperPosIn;//put fliper in
+            IntakeAutoEnabled=true;//Enable AutoIntake for after manual control
         }
     }
-    else if(!Controller1.ButtonR2.pressing() && R2Pressed)  R2Pressed=false;
+    else if(!Controller1.ButtonR2.pressing() && R2Pressed)  R2Pressed=false;//DeInit
 
-    else if(Controller1.ButtonY.pressing()){//btnR1->btnY;
+    else if(Controller1.ButtonR1.pressing()){//btnR1
         IntakeManualControlEnabled=true;   
         IntakeSetting=IntakePctIn;
+        if(!R1Pressed){//Init
+            R1Pressed=true;
+            DriveMotorInverted=false;//Baller drive dir;
+            FliperRequested=FliperPosIn;//put fliper in
+            IntakeAutoEnabled=false;//Disable Autointake for after manual control
+        }
     }
-    else if(IntakeManualControlEnabled){//first loop not manualy controlled
-        //IntakeAutoEnabled=false;
+    else if(!Controller1.ButtonR1.pressing() && R1Pressed)  R1Pressed=false;//DeInit
+
+    else if(IntakeManualControlEnabled){//DeInit
         IntakeManualControlEnabled=false;
         if(!IntakeAutoEnabled)  IntakeSetting=IntakePctStop;//if not auto controlled stop intakeing
     }
@@ -112,27 +136,36 @@ void PuncherChargeControl(){
 
     PuncherSpinTo(PuncherDeg,true);//spin motor to puncherDeg && set motor to spin
 }
-void PuncherPosRoter(){
-    if(PuncherPos==PuncherPositions::ShortTop)      PuncherPos=PuncherPositions::ShortMid;
-    else if(PuncherPos==PuncherPositions::ShortMid) PuncherPos=PuncherPositions::ShortTop;
-}
 void PuncherPosControl(){
-    if(Controller1.ButtonB.pressing() && !BPressed){
-        BPressed=true;
-        PuncherPosRoter();
-        if(PuncherPos==PuncherPositions::ShortTop){
-            PuncherPosDeg=10;
+    if(Controller1.ButtonUp.pressing() && !UpPressed){
+            UpPressed=true;
+            PuncherPosDeg=100;
             PuncherPosSpinToControlRunEnabled=true;
-        }
-        else if(PuncherPos==PuncherPositions::ShortMid){
+    }
+    else if(!Controller1.ButtonUp.pressing() && UpPressed)          UpPressed=false;
+
+    else if(Controller1.ButtonLeft.pressing() && !LeftPressed){
+            LeftPressed=true;
             PuncherPosDeg=200;
             PuncherPosSpinToControlRunEnabled=true;
         }
-    }
-    else if(!Controller1.ButtonB.pressing() && BPressed)    BPressed=false;
-    
-    PuncherPosSpinTo(PuncherPosDeg,true);//spin motor to 0 && set motor to spin
+    else if(!Controller1.ButtonLeft.pressing() && LeftPressed)      LeftPressed=false;
 
+    else if(Controller1.ButtonRight.pressing() && !RightPressed){
+            RightPressed=true;
+            PuncherPosDeg=300;
+            PuncherPosSpinToControlRunEnabled=true;
+        }
+    else if(!Controller1.ButtonRight.pressing() && RightPressed)    RightPressed=false;
+
+    else if(Controller1.ButtonDown.pressing() && !DownPressed){
+        DownPressed=true;
+        PuncherPosDeg=400;
+        PuncherPosSpinToControlRunEnabled=true;
+    }
+    else if(!Controller1.ButtonDown.pressing() && DownPressed)      DownPressed=false;
+
+    PuncherPosSpinTo(PuncherPosDeg,true);//spin motor to && set motor to spin
 }
 void PuncherControl(){
     PuncherPosControl();
@@ -163,7 +196,7 @@ void FliperFlip(){
     else if(FliperRequested==FliperPosDown)     FliperRequested=FliperPosUpMid;
     if(DriveMotorInverted==false)               FliperRequested=FliperPosIn;//if in baller be in
 }
-void FliperPosControl(){
+void FliperPosControl(){/*
     if(Controller1.ButtonL1.pressing() && !L1Pressed){
         L1Pressed=true;
         FliperFlip();
@@ -173,7 +206,7 @@ void FliperPosControl(){
 
     if(FliperPosControlEnabled){
         FlipMotor.startRotateTo(FliperRequested,vex::rotationUnits::deg,100,vex::velocityUnits::pct);
-    }
+    }*/
 }
 void FliperControl(){
     //FliperManualControl();
@@ -202,13 +235,13 @@ void DriveHoldControl(){
     }
 }
 void DriveDirToggle(){
-    if(Controller1.ButtonUp.pressing() && !UpPressed){
-        UpPressed=true;
-        DriveMotorInverted=!DriveMotorInverted;
-        if(DriveMotorInverted==true)    IntakeAutoEnabled=false;//disable intake auto when switching to cap drive dir
+    if(Controller1.ButtonY.pressing() && !YPressed){
+        YPressed=true;
+        DriveMotorInverted=!DriveMotorInverted;//false:Ball; true:cap;
+        if(DriveMotorInverted==true)    IntakeAutoEnabled=false;//disable intake auto when switching out of BallDir
         FliperRequested=FliperPosIn;
     }
-    else if(!Controller1.ButtonUp.pressing() && UpPressed)  UpPressed=false;
+    else if(!Controller1.ButtonY.pressing() && YPressed)  YPressed=false;
 }
 void DriveManualControl(){
     LJoy=Controller1.Axis3.value();
