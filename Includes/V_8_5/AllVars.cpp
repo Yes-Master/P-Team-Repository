@@ -20,10 +20,10 @@ StartPos FeildPosControllerScreenPrintAutonosLast = FeildPos;
 ProgPot AutoProgControllerScreenPrintAutonosLast = AutoProg;
 
 //Autonos
-int DriveEndWait=100;
-int TurnEndWait=250;
-int PuncherEndWait=250;
-int FliperEndWait=250;
+int DriveEndWait=50;
+int TurnEndWait=100;
+int PuncherEndWait=0;
+int FliperEndWait=0;
 bool DriveRampingEnabled=true;//task
 bool IntakeAutonEnabled=true;//task
 bool ControllerScreenEnabled=true;//task

@@ -98,12 +98,12 @@ void PuncherChargeControl(){
         R1Pressed=true;
         vex::task CompRumerTask(ComRumerFun);
         if(Charged && !PuncherPosSTS){//if charged && the puncherPos is not spining
-            PuncherDeg+=100;
+            PuncherDeg+=80;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
             Charged=false;
         }
         else if(!Charged){
-            PuncherDeg+=260;
+            PuncherDeg+=280;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
             Charged=true;
         }

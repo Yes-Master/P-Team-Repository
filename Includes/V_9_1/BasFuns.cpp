@@ -23,8 +23,8 @@ void PuncherSMS(int Pct){
     }
 }
 void PuncherSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
-    int Dir=SGN(Tar);
     if(Rel) Tar+=PuncherMotor.rotation(vex::rotationUnits::deg);
+    int Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
     if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherSpinToControlRunEnabled){//outside of tal
         PuncherSpinToControlEnabled=true;
         Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
@@ -49,9 +49,8 @@ void PuncherPosSMS(int Pct){
     }
 }
 void PuncherPosSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
-    int Dir=SGN(Tar-PuncherPosMotor.rotation(vex::rotationUnits::deg));
-
     if(Rel) Tar+=PuncherPosMotor.rotation(vex::rotationUnits::deg);
+    int Dir=SGN(Tar-PuncherPosMotor.rotation(vex::rotationUnits::deg));
     if(std::abs(PuncherPosMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherPosSpinToControlRunEnabled){//outside of tal
         PuncherPosSpinToControlEnabled=true;
         Dir=SGN(Tar-PuncherPosMotor.rotation(vex::rotationUnits::deg));
