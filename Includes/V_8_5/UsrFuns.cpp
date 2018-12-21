@@ -94,24 +94,29 @@ void IntakeControl(){//OverRide Control Code
 }
 //
 //right up    hold(puncher,DriveHold);
-void PuncherControl(){
-    int StartDeg=PuncherMotor.rotation(vex::rotationUnits::deg);//save start pos;needs to be here for scope
-    if(Controller1.ButtonR1.pressing()){
-        PuncherControlEnabled=true;
-        if(!R1Pressed){//toggle initializer
-            IntakeManualControlEnabled=true;//halt auto intake from running via manual control override
-            IntakeSetting=IntakePctStop;//stop intaking
-
+void PuncherChargeControl(){
+    if(Controller1.ButtonR1.pressing() && !R1Pressed){
+        R1Pressed=true;
+        vex::task CompRumerTask(ComRumerFun);
+        if(Charged){//if charged && the puncherPos is not spining
+            PuncherDeg+=90;
+            PuncherSpinToControlRunEnabled=true;//enable puncherspinto
+            Charged=false;
+            if(FliperRequested==FliperPosInPun) FliperRequested=FliperPosIn;
         }
-        if(FliperRequested==FliperPosIn) FliperRequested=FliperPosInPun;//move fliper out of the way;this is outside of the init just in case of drive toggle problems
-        PuncherSMS(100);
+        else if(!Charged){
+            if(FliperRequested==FliperPosIn)    FliperRequested=FliperPosInPun;
+            PuncherDeg+=270;
+            PuncherSpinToControlRunEnabled=true;//enable puncherspinto
+            Charged=true;
+        }
     }
-    else if(PuncherControlEnabled){//first loop not enabled
-        PuncherControlEnabled=false;//toggle
-        PuncherSMS(0);//stop puncher
-        if(FliperRequested==FliperPosInPun)    FliperRequested=FliperPosIn;//undo flipper move if required
-        if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-StartDeg)>340 && !PuncBall) IntakeAutoEnabled=true;//if puncher displacement is > 340 and there is not a ball in the puncher then Enable IntakeAuto
-    }
+    else if(!Controller1.ButtonR1.pressing() && R1Pressed)  R1Pressed=false;
+
+    PuncherSpinTo(PuncherDeg,true);//spin motor to puncherDeg && set motor to spin
+}
+void PuncherControl(){
+    PuncherChargeControl();
 }
 //
 void FliperManualControl(){

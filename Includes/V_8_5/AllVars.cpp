@@ -32,9 +32,9 @@ bool BrainPressed=false;
 
 //Toggle Btns
 bool R2Pressed=false;
-bool R1Pressed=false;
+bool R1Pressed=false;//puncher
 bool APressed=false;//auto intake toggle
-bool L1Pressed=false;
+bool L1Pressed=false;//
 bool L2Pressed=false;//brake toggle pressed
 bool UpPressed=false;//Drive Dir toggle pressed
 
@@ -67,7 +67,12 @@ int IntakeSetting=IntakePctStop;
 bool IntakeBallsEnabled=false;
 
 //Puncher
-
+int PuncherDeg=0;
+int PuncherPctSetting=0;
+bool Charged=false;//if the puncher is ready to fire
+bool PuncherSpinToControlEnabled=false;//Puncher is charging or fireing
+bool PuncherSTS=false;
+bool PuncherSpinToControlRunEnabled=false;
 
 //Fliper
 bool FliperManualControlEnabled=false;

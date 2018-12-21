@@ -38,6 +38,7 @@ bool StartEnabled=false;//task
 bool BrainPressed=false;
 
 //Toggle Btns
+bool L1Pressed=false;//PuncherCharge
 bool L2Pressed=false;//DriveBrakeTog
 bool R2Pressed=false;//Intake=Out
 bool R1Pressed=false;//Intake=In
@@ -47,7 +48,7 @@ bool DownPressed=false;
 bool LeftPressed=false;
 bool RightPressed=false;
 
-bool YPressed=false;//DriveDir
+bool XPressed=false;//DriveDir
 bool APressed=false;//IntakeAutoEnabled
 
 //Task Bools

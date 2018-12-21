@@ -144,8 +144,10 @@ int BrainScreenUsrFun(){
     BrainScreenUsrFunEnabled=true;
     while(BrainScreenUsrFunEnabled){
         BrainScreenSetColor();//clears screen
-        BrainScreenPrintAutonos();
+        //BrainScreenPrintAutonos();
         //BallFeedVars();
+        Brain.Screen.clearLine();
+        Brain.Screen.print(PuncherPosSTS);
         Brain.Screen.render();
         vex::task::sleep(25);
     }

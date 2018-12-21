@@ -48,7 +48,7 @@ void PuncherPosSMS(int Pct){
         PuncherPosMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
-void PuncherPosSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
+void PuncherPosSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=50,int Tal=5){
     if(Rel) Tar+=PuncherPosMotor.rotation(vex::rotationUnits::deg);
     int Dir=SGN(Tar-PuncherPosMotor.rotation(vex::rotationUnits::deg));
     if(std::abs(PuncherPosMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherPosSpinToControlRunEnabled){//outside of tal
@@ -60,7 +60,7 @@ void PuncherPosSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pc
     else if(PuncherPosSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
         PuncherPosPctSetting=0;
         if(SMS) PuncherPosSMS(PuncherPosPctSetting);
-        PuncherPosSpinToControlEnabled=false;//toggle
+        PuncherPosSpinToControlEnabled=false;
         if(Stop)    PuncherPosSpinToControlRunEnabled=false;
     }
 }

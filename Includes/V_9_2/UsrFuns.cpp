@@ -12,7 +12,7 @@ Joy1    RightSide
 Joy2    Right
 Joy3    Left
 Joy4    LeftSide
-L1      HOLD:Puncher,DriveBrake
+L1      HOLD:DriveBrake TOG:PuncherCharge
 L2                      TOG:DriveBrakeTog
 R1      HOLD:IntakeIn;  TOG:Fliper=In,DriveDir=Ball,IntakeAutoEnabled=false;
 R2      HOLD:InkakeOut; TOG:Fliper=In,DriveDir=Ball,IntakeAutoEnabled=true;
@@ -20,9 +20,9 @@ Up                      TOG:PunPos=1;closeup    2
 Down                    TOG:PunPos=4;fardown    4.25
 Left                    TOG:PunPos=2;closedown  4
 Right                   TOG:PunPos=3;farup      3.25
-Y                       TOG:DriveDir
+Y       NULL
 B       NULL
-X       NULL
+X                       TOG:DriveDir
 A                       TOG:IntakeAutoEnabled,Fliper=In,DriveDir=Ball
 */
 //rstet timer if ball in puncher or
@@ -118,28 +118,28 @@ void IntakeControl(){//OverRide Control Code
 }
 
 void PuncherChargeControl(){
-    if(Controller1.ButtonR1.pressing() && !R1Pressed){
-        R1Pressed=true;
+    if(Controller1.ButtonL1.pressing() && !L1Pressed){
+        L1Pressed=true;
         vex::task CompRumerTask(ComRumerFun);
         if(Charged && !PuncherPosSTS){//if charged && the puncherPos is not spining
-            PuncherDeg+=80;
+            PuncherDeg+=90;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
             Charged=false;
         }
         else if(!Charged){
-            PuncherDeg+=280;
+            PuncherDeg+=270;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
             Charged=true;
         }
     }
-    else if(!Controller1.ButtonR1.pressing() && R1Pressed)  R1Pressed=false;
+    else if(!Controller1.ButtonL1.pressing() && L1Pressed)  L1Pressed=false;
 
     PuncherSpinTo(PuncherDeg,true);//spin motor to puncherDeg && set motor to spin
 }
 void PuncherPosControl(){
     if(Controller1.ButtonUp.pressing() && !UpPressed){
             UpPressed=true;
-            PuncherPosDeg=100;
+            PuncherPosDeg=300;
             PuncherPosSpinToControlRunEnabled=true;
     }
     else if(!Controller1.ButtonUp.pressing() && UpPressed)          UpPressed=false;
@@ -153,14 +153,14 @@ void PuncherPosControl(){
 
     else if(Controller1.ButtonRight.pressing() && !RightPressed){
             RightPressed=true;
-            PuncherPosDeg=300;
+            PuncherPosDeg=100;
             PuncherPosSpinToControlRunEnabled=true;
         }
     else if(!Controller1.ButtonRight.pressing() && RightPressed)    RightPressed=false;
 
     else if(Controller1.ButtonDown.pressing() && !DownPressed){
         DownPressed=true;
-        PuncherPosDeg=400;
+        PuncherPosDeg=500;
         PuncherPosSpinToControlRunEnabled=true;
     }
     else if(!Controller1.ButtonDown.pressing() && DownPressed)      DownPressed=false;
@@ -235,13 +235,13 @@ void DriveHoldControl(){
     }
 }
 void DriveDirToggle(){
-    if(Controller1.ButtonY.pressing() && !YPressed){
-        YPressed=true;
+    if(Controller1.ButtonX.pressing() && !XPressed){
+        XPressed=true;
         DriveMotorInverted=!DriveMotorInverted;//false:Ball; true:cap;
         if(DriveMotorInverted==true)    IntakeAutoEnabled=false;//disable intake auto when switching out of BallDir
         FliperRequested=FliperPosIn;
     }
-    else if(!Controller1.ButtonY.pressing() && YPressed)  YPressed=false;
+    else if(!Controller1.ButtonX.pressing() && XPressed)  XPressed=false;
 }
 void DriveManualControl(){
     LJoy=Controller1.Axis3.value();

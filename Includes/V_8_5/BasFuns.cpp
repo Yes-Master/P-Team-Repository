@@ -15,6 +15,10 @@ int ComRumer(){
     }
     return 1;
 }
+int ComRumerFun(){
+    Controller1.rumble(".");
+    return 1;
+}
 //basic motor functions
 void LiftStop(){
     LiftMotor.stop();
@@ -26,14 +30,30 @@ void LiftSMS(int Pct){
     }
 }
 
-void PuncherStop(){
-    PuncherMotor.stop();
-}
 void PuncherSMS(int Pct){
-    if(Pct==0)  PuncherStop();
+    if(Pct==0){
+        PuncherMotor.stop();
+        PuncherSTS=false;
+    }
     else{
+        PuncherSTS=true;
         PuncherMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
+}
+void PuncherSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
+    if(Rel) Tar+=PuncherMotor.rotation(vex::rotationUnits::deg);
+    int Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
+    if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherSpinToControlRunEnabled){//outside of tal
+        PuncherSpinToControlEnabled=true;
+        Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
+        PuncherPctSetting=Pct*Dir;//set the motor to spin in the correct direction
+    }
+    else if(PuncherSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
+        PuncherPctSetting=0;
+        PuncherSpinToControlEnabled=false;//toggle
+        if(Stop)    PuncherSpinToControlRunEnabled=false;//stop after it has been hit
+    }
+    if(SMS) PuncherSMS(PuncherPctSetting);
 }
 
 void IntakeStop(){
