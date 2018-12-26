@@ -75,13 +75,17 @@ bool PuncherSpinToControlEnabled=false;//Puncher is charging or fireing
 bool PuncherSTS=false;
 bool PuncherSpinToControlRunEnabled=false;
 
+int PuncherSpinToTaskFunTar=0;
+bool PuncherSpinToTaskFunSMS=true;
+bool PuncherSpinToTaskFunStop=true;
+
 //Fliper
 bool FliperManualControlEnabled=false;
 bool FliperPosControlEnabled=true;
 int FliperPosIn=-50;
 int FliperPosInPun=-175;
 int FliperPosUpMid=-300;
-int FliperPosDown=-470;
+int FliperPosDown=-480;
 int FliperPosTal=5;
 int FliperRequested=FliperPosIn;
 

@@ -78,8 +78,20 @@ void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
     PuncherControlEnabled=false;
         Controller1.Screen.clearLine();
     Controller1.Screen.print("Punched");
-
 }
+int PuncherSpinToAutFun(){//make globle
+    While(PuncherSpinToFunEnabled){//add When it stops it stops the task as well as the function
+        PuncherSpinTo(PuncherSpinToFunTar,PuncherSpinToFunSMS,PuncherSpinToFunStop,false);
+        EndTimeSlice(20);
+    }
+    return 1;
+}
+void PuncherSpinToAut(int Tar){//Tar is 80 || 280 || 360//make global
+    PuncherSpinToFunTar+=Tar;
+    PuncherSpinToControlRunEnabled=true;//enable spin to contorol
+}
+
+
 
 void Turn(double Dis,int LPct=25,int RPct=25,int EndWait=TurnEndWait){//-left,+right
     int Dir=SGN(Dis);
