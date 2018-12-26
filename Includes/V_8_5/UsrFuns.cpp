@@ -20,7 +20,7 @@ void IntakeAutoUpDate(){//UpDate Sensors Code
         ComRum=false;
     }  
     else{
-        if(PuncherControlEnabled)           PuncBall=false;
+        if(!Charged && !PuncherSpinToControlRunEnabled) PuncBall=false;
         else{
             if(GlobTime>PuncBallTimeWait)   PuncBall=false;
             else if(GlobTime>ComRumTime)    ComRum=true;
@@ -98,17 +98,15 @@ void PuncherChargeControl(){
     if(Controller1.ButtonR1.pressing() && !R1Pressed){
         R1Pressed=true;
         vex::task CompRumerTask(ComRumerFun);
-        if(Charged){//if charged && the puncherPos is not spining
-            PuncherDeg+=90;
-            PuncherSpinToControlRunEnabled=true;//enable puncherspinto
-            Charged=false;
-            if(FliperRequested==FliperPosInPun) FliperRequested=FliperPosIn;
-        }
-        else if(!Charged){
-            if(FliperRequested==FliperPosIn)    FliperRequested=FliperPosInPun;
-            PuncherDeg+=270;
+        if(!Charged){
+            PuncherDeg+=280;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
             Charged=true;
+        }
+        else if(Charged){//if charged && the puncherPos is not spining
+            PuncherDeg+=80;
+            PuncherSpinToControlRunEnabled=true;//enable puncherspinto
+            Charged=false;
         }
     }
     else if(!Controller1.ButtonR1.pressing() && R1Pressed)  R1Pressed=false;
@@ -141,7 +139,6 @@ void FliperFlip(){
     }
     else if(FliperRequested==FliperPosUpMid)    FliperRequested=FliperPosDown;
     else if(FliperRequested==FliperPosDown)     FliperRequested=FliperPosUpMid;
-    if(DriveMotorInverted==false)               FliperRequested=FliperPosIn;//if in baller be in
 }
 void FliperPosControl(){
     if(Controller1.ButtonL1.pressing() && !L1Pressed){
@@ -150,6 +147,12 @@ void FliperPosControl(){
         FliperPosControlEnabled=true;
     }
     if(!Controller1.ButtonL1.pressing() && L1Pressed)   L1Pressed=false;
+    
+    if(!DriveMotorInverted){//if in ball
+    FliperPosControlEnabled=true;
+        if(Charged)                                             FliperRequested=FliperPosInPun; //if puncher moving out to charge location,         FliperPosInPun
+        else if(!Charged && !PuncherSpinToControlRunEnabled)    FliperRequested=FliperPosIn;    //if puncher not charged && is at target location,  FliperPosIn
+    }
 
     if(FliperPosControlEnabled){
         FlipMotor.startRotateTo(FliperRequested,vex::rotationUnits::deg,100,vex::velocityUnits::pct);

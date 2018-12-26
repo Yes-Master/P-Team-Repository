@@ -22,7 +22,14 @@ void UserClean(){
     IntakeStateUpDateEnabled=false;
     ComRumerEnabled=false;
 }
+void MotorsCal(){
+    if(!MotorsCaled){
+        FliperCal();
+        MotorsCaled=true;
+    }
+}
 void UserStart(){
+    MotorsCal();
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
 
@@ -41,6 +48,7 @@ void UserStart(){
     FliperRequested=FliperPosIn;//auton uses this var
 }
 void AutoStart(){
+    MotorsCal();
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
     Controller1.Screen.print("auto started");
@@ -50,7 +58,7 @@ void AutoStart(){
     BLDriveMotor.setStopping(vex::brakeType::hold);
     BRDriveMotor.setStopping(vex::brakeType::hold);
 
-    vex::task ControllerScreenStartTask(ControllerScreenStartFun);
+    //vex::task ControllerScreenStartTask(ControllerScreenStartFun);
     vex::task DriveRampingTask(DriveRamping);
     vex::task IntakeAutonTask(IntakeAuton);
 }

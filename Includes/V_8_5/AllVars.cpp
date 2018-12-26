@@ -48,6 +48,7 @@ bool BrainScreenStartFunEnabled=false;
 bool ControllerScreenStartFunEnabled=false;
 bool ControllerScreenUsrFunEnabled=false;
 bool BrainScreenUsrFunEnabled=false;
+bool MotorsCaled=false;
 //Drive
 bool DriveMotorInverted=false;
 bool DriveMotorInvertedWas=false;
@@ -77,12 +78,15 @@ bool PuncherSpinToControlRunEnabled=false;
 //Fliper
 bool FliperManualControlEnabled=false;
 bool FliperPosControlEnabled=true;
-int FliperPosIn=-5;
-int FliperPosInPun=-60;
-int FliperPosUpMid=-250;
-int FliperPosDown=-450;
+int FliperPosIn=-50;
+int FliperPosInPun=-175;
+int FliperPosUpMid=-300;
+int FliperPosDown=-470;
 int FliperPosTal=5;
 int FliperRequested=FliperPosIn;
+
+double LastRotation;
+bool FliperCaled=false;
 
 //Decaper
 bool LiftPosControlEnabled=false;

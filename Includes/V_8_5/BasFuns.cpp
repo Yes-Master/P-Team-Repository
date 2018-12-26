@@ -77,6 +77,43 @@ void FliperSMS(int Pct){
         FlipMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
+/*
+void FliperSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
+    if(Rel) Tar+=FlipMotor.rotation(vex::rotationUnits::deg);
+    int Dir=SGN(Tar-FlipMotor.rotation(vex::rotationUnits::deg));
+    if(std::abs(FlipMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherSpinToControlRunEnabled){//outside of tal
+        PuncherSpinToControlEnabled=true;
+        Dir=SGN(Tar-FlipMotor.rotation(vex::rotationUnits::deg));
+        PuncherPctSetting=Pct*Dir;//set the motor to spin in the correct direction
+    }
+    else if(PuncherSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
+        PuncherPctSetting=0;
+        PuncherSpinToControlEnabled=false;//toggle
+        if(Stop)    PuncherSpinToControlRunEnabled=false;//stop after it has been hit
+    }
+    if(SMS) PuncherSMS(PuncherPctSetting);
+}
+*/
+void FliperCal(){
+    FliperCaled=false;
+    int Rpm=100;
+    int TimeOut=1000;
+    int UpdateMsec=50;
+    int CalTimer=0;
+    FlipMotor.spin(vex::directionType::fwd, Rpm, vex::velocityUnits::rpm);     //starts the spin to hit the end stop 
+    double MinChange=Rpm/120000*UpdateMsec;///(1/4)*(Rpm/60/1000); MinChange = 1/4 of requested rpm but in msec`s
+    vex::task::sleep(250);//wait for acel
+    LastRotation=FlipMotor.rotation(vex::rotationUnits::rev)/1000;//make sure it goes first loop
+    while(std::abs(FlipMotor.rotation(vex::rotationUnits::rev)-LastRotation)>MinChange && CalTimer<TimeOut){//if displacement is more then 1/4 of what it is set to be and it is not out of time
+        LastRotation=FlipMotor.rotation(vex::rotationUnits::rev);
+        CalTimer=CalTimer+UpdateMsec;
+        vex::task::sleep(UpdateMsec);
+    }
+    FlipMotor.resetRotation();
+    FlipMotor.stop();
+    FliperCaled=true;
+    FliperRequested=FliperPosIn;
+}
 
 void LeftDriveStop(){
     FLDriveMotor.stop();

@@ -147,14 +147,12 @@ void BackSkills(){
         if(PuncBall)    Puncher();
     }
     else if(PuncBall && !FeedBall)    Puncher();
-
-
-
 }
 void Testing(){
-    Turn(9);
-    EndTimeSlice(250);
-    Turn(-3);
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("test");
+    FliperCal();
+    Flip(FliperPosIn);
 }
 
 void AutoSelRunFuns(){
@@ -163,18 +161,18 @@ void AutoSelRunFuns(){
         else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
-    else if(AutSel1.value(vex::analogUnits::pct)>50){
+    else if(FeildPos==StartPos::FrontRed){
         if(AutoProg==ProgPot::Pink)         FrontSkills();//Skills
         else if(AutoProg==ProgPot::Green)   AutFunFrontRed();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
-    else if(AutSel1.value(vex::analogUnits::pct)>17){
-        if(AutoProg==ProgPot::Pink)         Testing();//Skills
+    else if(FeildPos==StartPos::FrontBlue){
+        if(AutoProg==ProgPot::Pink)         Testing();
         else if(AutoProg==ProgPot::Green)   AutFunFrontBlue();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
-    else{
-        if(AutoProg==ProgPot::Pink)         Testing();//Skills
+    else if(FeildPos==StartPos::FrontBlue){
+        if(AutoProg==ProgPot::Pink)         Testing();
         else if(AutoProg==ProgPot::Green)   AutFunBackBlue();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
