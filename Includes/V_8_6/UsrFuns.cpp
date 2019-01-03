@@ -1,17 +1,9 @@
-/*Need to add
-*/
-/*Change Log
-right down  hold(outfeed) && toggle(DriveMode=Baller,Autointake=true,FLiperrequested=fliperposin,)
-right up    hold(puncher,DriveHold);
-BtnX->BtnR1 Puncher Control && Post Punch enable auto intake if rotated more than 340 deg and there is not a ball in the puncher
-*/
 void LiftControl(){
     if(Controller1.ButtonRight.pressing())      LiftSMS(100);
     else if(Controller1.ButtonLeft.pressing())  LiftSMS(-100);
     else                                        LiftSMS(0);
 }
 //
-//rstet timer if ball in puncher or
 void IntakeAutoUpDate(){//UpDate Sensors Code
     //Puncher UpDate
     if(PuncSen.value(vex::analogUnits::pct)<PuncBallTal){
@@ -20,7 +12,7 @@ void IntakeAutoUpDate(){//UpDate Sensors Code
         ComRum=false;
     }  
     else{
-        if(!Charged && !PuncherSpinToControlRunEnabled) PuncBall=false;
+        if(!PuncherCharged && !PuncherSpinToControlRunEnabled) PuncBall=false;
         else{
             if(GlobTime>PuncBallTimeWait)   PuncBall=false;
             else if(GlobTime>ComRumTime)    ComRum=true;
@@ -48,7 +40,7 @@ void IntakeAuto(){//Autonomous Logic Control
 int IntakeStateUpDate(){//Task to UpDate IntakeAutoUpDate every second in the background
     while(1){
         IntakeAutoUpDate();
-        vex::task::sleep(5);
+        EndTimeSlice(5);
     }
 }
 void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
@@ -64,7 +56,6 @@ void IntakeAutoControl(){//Controller Input To control Autonomous Logic Control
 
     IntakeAuto();
 }
-//right down  hold(outfeed) && toggle(DriveMode=Baller,Autointake=true,FLiperrequested=fliperposin,)
 void IntakeManualControl(){//Controller Manual OverRide
     if(Controller1.ButtonR2.pressing()){
         IntakeManualControlEnabled=true;//halt auto intake function from running
@@ -93,20 +84,19 @@ void IntakeControl(){//OverRide Control Code
     IntakeSMS(IntakeSetting);
 }
 //
-//right up    hold(puncher,DriveHold);
 void PuncherChargeControl(){
     if(Controller1.ButtonR1.pressing() && !R1Pressed){
         R1Pressed=true;
         vex::task CompRumerTask(ComRumerFun);
-        if(!Charged){
+        if(!PuncherCharged){
             PuncherDeg+=PunPosFromReleasedToCharged;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
-            Charged=true;
+            PuncherCharged=true;
         }
-        else if(Charged){//if charged && the puncherPos is not spining
+        else if(PuncherCharged){//if charged && the puncherPos is not spining
             PuncherDeg+=PunPosFromChargedToReleased;
             PuncherSpinToControlRunEnabled=true;//enable puncherspinto
-            Charged=false;
+            PuncherCharged=false;
         }
     }
     else if(!Controller1.ButtonR1.pressing() && R1Pressed)  R1Pressed=false;
@@ -150,8 +140,8 @@ void FliperPosControl(){
     
     if(!DriveMotorInverted){//if in ball
     FliperPosControlEnabled=true;
-        if(Charged)                                             FliperRequested=FliperPosInPun; //if puncher moving out to charge location,         FliperPosInPun
-        else if(!Charged && !PuncherSpinToControlRunEnabled)    FliperRequested=FliperPosIn;    //if puncher not charged && is at target location,  FliperPosIn
+        if(PuncherCharged)                                             FliperRequested=FliperPosInPun; //if puncher moving out to charge location,         FliperPosInPun
+        else if(!PuncherCharged && !PuncherSpinToControlRunEnabled)    FliperRequested=FliperPosIn;    //if puncher not charged && is at target location,  FliperPosIn
     }
 
     if(FliperPosControlEnabled){

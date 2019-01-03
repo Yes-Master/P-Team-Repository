@@ -46,17 +46,18 @@ void DI(int L,int R){
     RDR.Pct=R;
     DriveSMS(LDR.Pct,RDR.Pct);
 }
+
 void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
     FliperRequested=Val;//used for both auton and usr needs to be reset
-    FlipMotor.startRotateTo(Val,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
+    FlipMotor.startRotateTo(FliperRequested,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
     if(Wait){
         int WaitTime=0;
-        while(ABS(Val-FlipMotor.rotation(vex::rotationUnits::deg))>FliperPosTal && WaitTime<500){
+        while(std::abs(FliperRequested-FlipMotor.rotation(vex::rotationUnits::deg))>FliperPosTal && WaitTime<500){
             WaitTime++;
-            vex::task::sleep(1);
+            EndTimeSlice(1);
         }
         FliperSMS(0);
-        vex::task::sleep(EndWait);
+        EndTimeSlice(EndWait);
     }
     Controller1.Screen.clearLine();
     Controller1.Screen.print("Fliped");
@@ -81,19 +82,36 @@ void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
     Controller1.Screen.print("Punched");
 }
 */
+int FliperPunFireMoveBackFun(){
+    while(PuncherCharged || PuncherSpinToControlRunEnabled){
+        EndTimeSlice();
+    }
+    Flip(FliperPosIn,false);
+    return 1;
+}
 int PuncherSpinToAutFun(){//make globle
-PuncherSpinToControlEnabled=true;//init
-PuncherSpinToControlRunEnabled=true;//enable spin to contorol to run
+    PuncherSpinToControlEnabled=true;//init
+    PuncherSpinToControlRunEnabled=true;//enable spin to contorol to run
     while(PuncherSpinToControlEnabled){//while spining to target
-        PuncherSpinTo(PuncherSpinToAutTar,true);//get to target,set the motor to spin
+        PuncherSpinTo(PuncherDeg,true);//get to target,set the motor to spin
         EndTimeSlice();
     }
     return 1;
 }
-void PuncherSpinToAut(int Tar,bool Wait=true,int EndWait=50){//Tar is 80 || 280 || 360;Tar PunPosFromChargedToReleased || PunPosFromReleasedToCharged || 360
-    PuncherSpinToAutTar+=Tar;
-    PuncherSpinToControlRunEnabled=true;//enable spin to contorol to run
-    PuncherSpinToControlEnabled=true;//here for while failover
+void PuncherAut(bool Charged=PuncherCharged,bool Wait=true,int EndWait=50){//Tar is 80 || 280 || 360;Tar PunPosFromChargedToReleased || PunPosFromReleasedToCharged || 360
+   PuncherCharged=Charged;
+   if(!PuncherCharged){//Charging
+        if(FlipMotor.rotation(vex::rotationUnits::deg)>FliperPosInPun)  Flip(FliperPosInPun,false); //if fliperin FliperPosInPun
+        PuncherDeg+=PunPosFromReleasedToCharged;
+        PuncherSpinToControlRunEnabled=true;//enable puncherspinto
+        PuncherCharged=true;
+    }
+    else if(PuncherCharged){//Fireing
+        if(FliperRequested==FliperPosInPun)  vex::task FliperPunFireMoveBackTask(FliperPunFireMoveBackFun);//wait for the rack to fully fire and stop
+        PuncherDeg+=PunPosFromChargedToReleased;
+        PuncherSpinToControlRunEnabled=true;//enable puncherspinto
+        PuncherCharged=false;
+    }
     vex::task PuncherSpinToAutTask(PuncherSpinToAutFun);
     if(Wait){
         while(PuncherSpinToControlEnabled){
@@ -102,8 +120,6 @@ void PuncherSpinToAut(int Tar,bool Wait=true,int EndWait=50){//Tar is 80 || 280 
         EndTimeSlice(EndWait);
     }
 }
-
-
 
 void Turn(double Dis,int LPct=25,int RPct=25,int EndWait=TurnEndWait){//-left,+right
     int Dir=SGN(Dis);
@@ -120,7 +136,6 @@ void Turn(double Dis,int LPct=25,int RPct=25,int EndWait=TurnEndWait){//-left,+r
     Controller1.Screen.print("Turned");
     vex::task::sleep(EndWait);
 }
-
 void Drive(double Dis,int Pct=50,int EndWait=DriveEndWait,int Correction=2){
     double WheelCir=4*3.14159265;
     double Dir=SGN(Dis);

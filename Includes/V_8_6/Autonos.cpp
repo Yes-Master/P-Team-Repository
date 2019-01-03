@@ -10,7 +10,7 @@ void AutFunFrontRed(){
     //Puncher();
     Drive(8,100);
     if(PuncBall)    //Puncher();
-//    Drive(2,50);//drive up to pole
+    //Drive(2,50);//drive up to pole
     Turn(-0.8);//slight turn to miss pole
     // IntakeAutoEnabled=false;
     Drive(7,100);//drive into flag
@@ -82,7 +82,7 @@ void FrontSkills(){
     //Puncher();
     Drive(8,100);
     if(PuncBall)    //Puncher();
-//    Drive(2,50);//drive up to pole
+    //Drive(2,50);//drive up to pole
     Turn(-0.8);//slight turn to miss pole
     // IntakeAutoEnabled=false;
     Drive(7,100);//drive into flag
@@ -151,9 +151,12 @@ void BackSkills(){
 void Testing(){
     Controller1.Screen.clearLine();
     Controller1.Screen.print("test");
-    PuncherSpinToAut(PunPosFromReleasedToCharged);
+    IntakeAutoEnabled=false;
+    PuncherAut();
+    EndTimeSlice(2000);
+    PuncherAut();
 }
-
+//
 void AutoSelRunFuns(){
     if(FeildPos==StartPos::BackRed){
         if(AutoProg==ProgPot::Pink)         BackSkills();//Skills
@@ -170,7 +173,7 @@ void AutoSelRunFuns(){
         else if(AutoProg==ProgPot::Green)   AutFunFrontBlue();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
-    else if(FeildPos==StartPos::FrontBlue){
+    else if(FeildPos==StartPos::BackBlue){
         if(AutoProg==ProgPot::Pink)         Testing();
         else if(AutoProg==ProgPot::Green)   AutFunBackBlue();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
