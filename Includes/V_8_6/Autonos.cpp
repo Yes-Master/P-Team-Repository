@@ -5,11 +5,17 @@ void AutFunFrontRed(){
     DriveRecon(-25,500);
 
     Drive(8,25);
+    PuncherAut(false);//charge the puncher dont wait
     Turn(-9.3);
-    //Drive(1,25);
-    //Puncher();
+    Drive(1,25);
+    PuncherAut();//fire
+    // EndTimeSlice(500);
+    PuncherAut(false);//charge the puncher dont wait
+    // EndTimeSlice(500);
     Drive(8,100);
-    if(PuncBall)    //Puncher();
+    // EndTimeSlice(500);
+    if(PuncBall)    PuncherAut();//fire
+    // EndTimeSlice(500);
     //Drive(2,50);//drive up to pole
     Turn(-0.8);//slight turn to miss pole
     // IntakeAutoEnabled=false;
@@ -28,11 +34,13 @@ void AutFunFrontBlue(){
     DriveRecon(-25,400);
 
     Drive(8,25);
+    PuncherAut(false);
     Turn(9.3);//the good times
     //Drive(1,25);
-    //Puncher();
+    PuncherAut();
+    PuncherAut(false);
     Drive(8,100);
-    if(PuncBall)    //Puncher();
+    if(PuncBall)    PuncherAut();
     Turn(0.2);//slight turn to miss pole
     // IntakeAutoEnabled=false;
     Drive(7,100);
@@ -67,7 +75,8 @@ void AutFunBackBlue(){
     Drive(-39,100);//get on platform
 }
 void Sniper(){
-    //Puncher();
+    PuncherAut(false);
+    PuncherAut();
 }
 void FrontSkills(){
     Drive(26,100,-1);
@@ -148,16 +157,19 @@ void BackSkills(){
     }
     else if(PuncBall && !FeedBall){}    //Puncher();
 }
-void Testing(){
+void TestingFront(){
     Controller1.Screen.clearLine();
     Controller1.Screen.print("test");
     IntakeAutoEnabled=false;
     PuncherAut();
-    EndTimeSlice(2000);
+    EndTimeSlice(750);
     PuncherAut();
 }
+void TestingBack(){
+    //
+}
 //
-void AutoSelRunFuns(){
+void AutoSelRunFuns(){//runs selected auton
     if(FeildPos==StartPos::BackRed){
         if(AutoProg==ProgPot::Pink)         BackSkills();//Skills
         else if(AutoProg==ProgPot::Green)   AutFunBackRed();//Normal
@@ -169,12 +181,12 @@ void AutoSelRunFuns(){
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
     else if(FeildPos==StartPos::FrontBlue){
-        if(AutoProg==ProgPot::Pink)         Testing();
+        if(AutoProg==ProgPot::Pink)         TestingFront();
         else if(AutoProg==ProgPot::Green)   AutFunFrontBlue();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }
     else if(FeildPos==StartPos::BackBlue){
-        if(AutoProg==ProgPot::Pink)         Testing();
+        if(AutoProg==ProgPot::Pink)         TestingBack();
         else if(AutoProg==ProgPot::Green)   AutFunBackBlue();//Normal
         else if(AutoProg==ProgPot::Yellow)  Sniper();//Sniper
     }

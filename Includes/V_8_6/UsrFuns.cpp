@@ -6,13 +6,13 @@ void LiftControl(){
 //
 void IntakeAutoUpDate(){//UpDate Sensors Code
     //Puncher UpDate
-    if(PuncSen.value(vex::analogUnits::pct)<PuncBallTal){
+    if(PuncSen.value(vex::analogUnits::pct)<PuncBallTal){//if there is pysicaly a ball
         GlobTime=0;//reset timer
         PuncBall=true;
         ComRum=false;
     }  
-    else{
-        if(!PuncherCharged && !PuncherSpinToControlRunEnabled) PuncBall=false;
+    else{//delay for posible ball return
+        if(!PuncherCharged && PuncherSpinToControlRunEnabled) PuncBall=false;
         else{
             if(GlobTime>PuncBallTimeWait)   PuncBall=false;
             else if(GlobTime>ComRumTime)    ComRum=true;

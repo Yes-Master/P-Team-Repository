@@ -1,9 +1,20 @@
-void PreClean(){
+void PreClean(){//cleans up after pre auton
     ControllerScreenStartFunEnabled=false;
     BrainScreenStartFunEnabled=false;
-
 }
-void AutoClean(){
+//need forward def
+void StartInit(bool Task=false){//Init for first time started
+    if(!StartInited){
+        StartInited=true;//tog
+        PreClean();//clean pre auton
+        //motorcal
+        if(Task)    vex::task FliperCalTask(FliperCalTaskFun);
+        else        FliperCal();
+        MotorsCaled=true;
+    }
+}
+//clean up
+void AutoClean(){//cleans up auton
     PreClean();
     StopAllMotors();
     //task stops
@@ -11,7 +22,7 @@ void AutoClean(){
     DriveRampingEnabled=false;
     IntakeAutonEnabled=false;
 }
-void UserClean(){
+void UserClean(){//cleans up user
     PreClean();
     Controller1.Screen.clearScreen();//get rid of drive dir
     StopAllMotors();
@@ -22,14 +33,9 @@ void UserClean(){
     IntakeStateUpDateEnabled=false;
     ComRumerEnabled=false;
 }
-void MotorsCal(){
-    if(!MotorsCaled){
-        FliperCal();
-        MotorsCaled=true;
-    }
-}
-void UserStart(){
-    MotorsCal();
+//set up
+void UserStart(){//sets up for user
+    StartInit();
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
 
@@ -47,8 +53,8 @@ void UserStart(){
     DriveHold=false;
     FliperRequested=FliperPosIn;//auton uses this var
 }
-void AutoStart(){
-    MotorsCal();
+void AutoStart(){//sets up for auton
+    StartInit(true);
     //    vex::task FliperCalTask(FliperCal);
     //    vex::task PuncherCalTask(PuncherCal);
     Controller1.Screen.print("auto started");

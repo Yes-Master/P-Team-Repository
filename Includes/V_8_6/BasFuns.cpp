@@ -114,6 +114,10 @@ void FliperCal(){
     FliperCaled=true;
     FliperRequested=FliperPosIn;
 }
+int FliperCalTaskFun(){
+    FliperCal();
+    return 1;
+}
 
 void LeftDriveStop(){
     FLDriveMotor.stop();

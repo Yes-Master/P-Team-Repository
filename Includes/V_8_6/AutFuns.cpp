@@ -1,4 +1,4 @@
-int IntakeAuton(){
+int IntakeAuton(){//handles intake in the backbround
     IntakeAutonEnabled=true;
     IntakeAutoEnabled=true;//for intakeauto void
     while(IntakeAutonEnabled){
@@ -9,44 +9,7 @@ int IntakeAuton(){
     }
     return 1;
 }
-
-int DriveRamping(){
-    DriveRampingEnabled=true;
-    while(DriveRampingEnabled){
-        LDR.TaskRun();
-        RDR.TaskRun();
-        DriveSMS(LDR.Pct,RDR.Pct);
-        vex::task::sleep(LDR.ChangeMsec);
-    }
-    return 1;
-}
-void DR(int L,int R){
-    LDR.RequestedPct=L;
-    RDR.RequestedPct=R;
-}
-void QDRS(int CMS=2){//quick drive ramp stop
-    //save old ramping Change Msec
-    int LDRCMS=LDR.ChangeMsec;
-    int RDRCMS=RDR.ChangeMsec;
-    //set new ramping Change Msec
-    LDR.ChangeMsec=CMS;
-    RDR.ChangeMsec=CMS;
-    //set drive to stop
-    DR(0,0);
-    //wait for drive to stop
-    while(LDR.Pct!=0 || RDR.Pct!=0){EndTimeSlice();}
-    //Revert drive ramping Change Msec
-    LDR.ChangeMsec=LDRCMS;
-    RDR.ChangeMsec=RDRCMS;
-}
-void DI(int L,int R){
-    LDR.RequestedPct=L;
-    RDR.RequestedPct=R;
-    LDR.Pct=L;
-    RDR.Pct=R;
-    DriveSMS(LDR.Pct,RDR.Pct);
-}
-
+//fliper
 void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
     FliperRequested=Val;//used for both auton and usr needs to be reset
     FlipMotor.startRotateTo(FliperRequested,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
@@ -63,25 +26,6 @@ void Flip(int Val,bool Wait=true,int EndWait=FliperEndWait,int Pct=100){
     Controller1.Screen.print("Fliped");
 
 }
-/*
-void Puncher(bool Wait=true,int EndWait=PuncherEndWait,int Pct=100){
-    if(FliperRequested==FliperPosIn) Flip(FliperPosInPun,true,0);//send fliper to mid no end wait
-    PuncherControlEnabled=true;
-    IntakeSetting=IntakePctStop;
-    PuncherMotor.startRotateFor(370,vex::rotationUnits::deg,Pct,vex::velocityUnits::pct);
-    if(Wait){
-        while(PuncherMotor.isSpinning()){
-            vex::task::sleep(20);
-        }
-    }
-    if(FliperRequested==FliperPosInPun)    Flip(FliperPosIn,true,0);//resets fliper back to up if it had to be ajusted with no end wait
-    vex::task::sleep(EndWait);
-    IntakeTimeEnabled=true;
-    PuncherControlEnabled=false;
-        Controller1.Screen.clearLine();
-    Controller1.Screen.print("Punched");
-}
-*/
 int FliperPunFireMoveBackFun(){
     while(PuncherCharged || PuncherSpinToControlRunEnabled){
         EndTimeSlice();
@@ -89,6 +33,7 @@ int FliperPunFireMoveBackFun(){
     Flip(FliperPosIn,false);
     return 1;
 }
+//puncher
 int PuncherSpinToAutFun(){//make globle
     PuncherSpinToControlEnabled=true;//init
     PuncherSpinToControlRunEnabled=true;//enable spin to contorol to run
@@ -98,8 +43,7 @@ int PuncherSpinToAutFun(){//make globle
     }
     return 1;
 }
-void PuncherAut(bool Charged=PuncherCharged,bool Wait=true,int EndWait=50){//Tar is 80 || 280 || 360;Tar PunPosFromChargedToReleased || PunPosFromReleasedToCharged || 360
-   PuncherCharged=Charged;
+void PuncherAut(bool Wait=true,int EndWait=0){//Tar is 80 || 280 || 360;Tar PunPosFromChargedToReleased || PunPosFromReleasedToCharged || 360
    if(!PuncherCharged){//Charging
         if(FlipMotor.rotation(vex::rotationUnits::deg)>FliperPosInPun)  Flip(FliperPosInPun,false); //if fliperin FliperPosInPun
         PuncherDeg+=PunPosFromReleasedToCharged;
@@ -120,7 +64,44 @@ void PuncherAut(bool Charged=PuncherCharged,bool Wait=true,int EndWait=50){//Tar
         EndTimeSlice(EndWait);
     }
 }
-
+//drive auton basic control fuctions
+int DriveRamping(){//sets drive motors to spin
+    DriveRampingEnabled=true;
+    while(DriveRampingEnabled){
+        LDR.TaskRun();
+        RDR.TaskRun();
+        DriveSMS(LDR.Pct,RDR.Pct);
+        vex::task::sleep(LDR.ChangeMsec);
+    }
+    return 1;
+}
+void DR(int L,int R){//update the drive ramping requested values
+    LDR.RequestedPct=L;
+    RDR.RequestedPct=R;
+}
+void QDRS(int CMS=2){//Quick Drive Ramp Stop; changes the accel to stop more suddenly
+    //save old ramping Change Msec
+    int LDRCMS=LDR.ChangeMsec;
+    int RDRCMS=RDR.ChangeMsec;
+    //set new ramping Change Msec
+    LDR.ChangeMsec=CMS;
+    RDR.ChangeMsec=CMS;
+    //set drive to stop
+    DR(0,0);
+    //wait for drive to stop
+    while(LDR.Pct!=0 || RDR.Pct!=0){EndTimeSlice();}
+    //Revert drive ramping Change Msec
+    LDR.ChangeMsec=LDRCMS;
+    RDR.ChangeMsec=RDRCMS;
+}
+void DI(int L,int R){//drive instentaniouly
+    LDR.RequestedPct=L;
+    RDR.RequestedPct=R;
+    LDR.Pct=L;
+    RDR.Pct=R;
+    DriveSMS(LDR.Pct,RDR.Pct);
+}
+//drive functions
 void Turn(double Dis,int LPct=25,int RPct=25,int EndWait=TurnEndWait){//-left,+right
     int Dir=SGN(Dis);
     Dis=std::abs(Dis)/12.56;
@@ -201,7 +182,7 @@ void DriveWait(bool stop){
     while(LDR.Pct!=0 || RDR.Pct!=0){EndTimeSlice(LDR.ChangeMsec);}
 }
 
-//need to do forward def
+//need forward def
 void StopAllMotors(){
     DI(0,0);//set drive ramping to 0
     DriveSMS(0,0);
