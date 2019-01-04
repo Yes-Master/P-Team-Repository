@@ -56,8 +56,11 @@ bool DriveMotorInverted=false;
 bool DriveMotorInvertedWas=false;
 bool DriveManualControlEnabled=false;
 bool DriveHold=false;
-int LJoy=0;
-int RJoy=0;
+int LVJoy=0;
+int RVJoy=0;
+int LHJoy=0;
+int RHJoy=0;
+
 
 //Intake
 bool IntakeManualControlEnabled=false;

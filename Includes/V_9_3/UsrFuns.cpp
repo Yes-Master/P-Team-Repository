@@ -1,8 +1,8 @@
-void LiftControl(){
-    if(Controller1.ButtonRight.pressing())      LiftSMS(100);
-    else if(Controller1.ButtonLeft.pressing())  LiftSMS(-100);
-    else                                        LiftSMS(0);
-}
+// void LiftControl(){
+//     if(Controller1.ButtonRight.pressing())      LiftSMS(100);
+//     else if(Controller1.ButtonLeft.pressing())  LiftSMS(-100);
+//     else                                        LiftSMS(0);
+// }
 //
 void IntakeAutoUpDate(){//UpDate Sensors Code
     //Puncher UpDate
@@ -182,18 +182,29 @@ void DriveDirToggle(){
     else if(!Controller1.ButtonUp.pressing() && UpPressed)  UpPressed=false;
 }
 void DriveManualControl(){
-    LJoy=Controller1.Axis3.value();
-    RJoy=Controller1.Axis2.value();
+    LHJoy=Controller1.Axis4.value();
+    LVJoy=Controller1.Axis3.value();
+    RVJoy=Controller1.Axis2.value();
+    RHJoy=Controller1.Axis1.value();
 
-    if(std::abs(LJoy)<5)    LJoy=0;
-    if(std::abs(RJoy)<5)    RJoy=0;
+    if(std::abs(LVJoy)<5)    LVJoy=0;
+    if(std::abs(RVJoy)<5)    RVJoy=0;
+    if(std::abs(LHJoy)<5)    LHJoy=0;
+    if(std::abs(RHJoy)<5)    RHJoy=0;
+
     
-    if(LJoy!=0 || RJoy!=0){
+    if(LVJoy!=0 || RVJoy!=0 || LHJoy!=0 || RHJoy!=0){
         DriveManualControlEnabled=true;
-        DriveSMS(DriveMotorInverted ? -RJoy : LJoy,DriveMotorInverted ? -LJoy : RJoy);
+        // DriveSMS(DriveMotorInverted ? -RJoy : LJoy,DriveMotorInverted ? -LJoy : RJoy);
+        DriveTankSMS(
+            DriveMotorInverted ? -RVJoy : LVJoy,
+            DriveMotorInverted ? -LVJoy : RVJoy,
+            DriveMotorInverted ? -LHJoy : RHJoy,
+            DriveMotorInverted ? -LHJoy : RHJoy
+            );
     }
     else{
-        if(DriveManualControlEnabled)  DriveSMS(0,0);//Last loop before disableing; used to release drivemanualcontrol
+        if(DriveManualControlEnabled)  DriveSMS(0,0,0,0);//Last loop before disableing; used to release drivemanualcontrol
         DriveManualControlEnabled=false;
     }
 }

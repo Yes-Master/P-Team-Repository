@@ -70,7 +70,7 @@ int DriveRamping(){//sets drive motors to spin
     while(DriveRampingEnabled){
         LDR.TaskRun();
         RDR.TaskRun();
-        DriveSMS(LDR.Pct,RDR.Pct);
+        DriveSMS(LDR.Pct,LDR.Pct,RDR.Pct,RDR.Pct);
         vex::task::sleep(LDR.ChangeMsec);
     }
     return 1;
@@ -80,7 +80,7 @@ void DI(int L,int R){//drive instentaniouly
     RDR.RequestedPct=R;
     LDR.Pct=L;
     RDR.Pct=R;
-    DriveSMS(LDR.Pct,RDR.Pct);
+    DriveSMS(LDR.Pct,LDR.Pct,RDR.Pct,RDR.Pct);
 }
 void DR(int L,int R){//update the drive ramping requested values
 //    if(std::abs(L)<5 && std::abs(R)<5)    DI(0,0);//stop NOW!!!
@@ -188,9 +188,8 @@ void DriveWait(bool stop){
 //need forward def
 void StopAllMotors(){
     DI(0,0);//set drive ramping to 0
-    DriveSMS(0,0);
+    DriveSMS(0,0,0,0);
     FlipMotor.stop();
     IntakeSMS(0);
     PuncherSMS(0);
-    LiftMotor.stop();
 }

@@ -2,10 +2,7 @@
 void EndTimeSlice(int EndWait=5){
     vex::task::sleep(EndWait);
 }
-//screen
 
-// double LastRotation=0;
-// double MinChange=0;
 //control
 int ComRumer(){
     ComRumerEnabled=true;
@@ -20,15 +17,15 @@ int ComRumerFun(){
     return 1;
 }
 //basic motor functions
-void LiftStop(){
-    LiftMotor.stop();
-}
-void LiftSMS(int Pct){
-    if(Pct==0)  LiftStop();
-    else{
-        LiftMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
-    }
-}
+// void LiftStop(){
+//     LiftMotor.stop();
+// }
+// void LiftSMS(int Pct){
+//     if(Pct==0)  LiftStop();
+//     else{
+//         LiftMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
+//     }
+// }
 
 void PuncherSMS(int Pct){
     if(Pct==0){
@@ -120,81 +117,57 @@ int FliperCalTaskFun(){
     return 1;
 }
 
-void LeftDriveStop(){
-    FLDriveMotor.stop();
-    BLDriveMotor.stop();
-}
-void RightDriveStop(){
-    FRDriveMotor.stop();
-    BRDriveMotor.stop();
-}
-void LeftDriveSMS(int pct){
-    if(pct==0)   LeftDriveStop();
+void FLSMS(int V){
+    if(V==0)    FLDriveMotor.stop();
     else{
-        FLDriveMotor.spin(vex::directionType::fwd,pct,vex::velocityUnits::pct);
-        BLDriveMotor.spin(vex::directionType::fwd,pct,vex::velocityUnits::pct);
+        FLDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
     }
 }
-void RightDriveSMS(int pct){
-    if(pct==0)  RightDriveStop();
+void FRSMS(int V){
+    if(V==0)    FRDriveMotor.stop();
     else{
-        FRDriveMotor.spin(vex::directionType::fwd,pct,vex::velocityUnits::pct);
-        BRDriveMotor.spin(vex::directionType::fwd,pct,vex::velocityUnits::pct);
+        FRDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
     }
 }
-void DriveSMS(int left, int right){
-    LeftDriveSMS(left);
-    RightDriveSMS(right);
+void BLSMS(int V){
+    if(V==0)    BLDriveMotor.stop();
+    else{
+        BLDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
+    }
 }
+void BRSMS(int V){
+    if(V==0)    BRDriveMotor.stop();
+    else{
+        BRDriveMotor.spin(vex::directionType::fwd,V,vex::velocityUnits::pct);
+    }
+}
+void DriveSMS(int V1=0,int V2=0,int V3=0,int V4=0){//raw 
+    FLSMS(V1);
+    BLSMS(V2);
+    FRSMS(V3);
+    BRSMS(V4);
+}
+void DriveTankSMS(int j1,int j2,int j3=0,int j4=0){//left,right,side1,side2
+    int LF=j1;//left
+    int RF=j2;//right
+    int SD=(j3+j4)/2;//side
 
-//Calibration
-/*
-int FliperCalibration(){
-    int Rpm=200;       //Velocity to hit the end stop
-    int TimeOut=1000;   //Max time to hit end stop
-    int UpdateMsec=20;  //the time delay in the loop
-    int CalTimer=0;     //resets a local timer
-    FlipMotor.spin(vex::directionType::fwd, Rpm, vex::velocityUnits::rpm);     //starts the spin to hit the end stop 
-     MinChange=(std::abs(Rpm)/240000*UpdateMsec)/5;//gear ratio                                 ///(1/4)*(Rpm/60/1000); MinChange = 1/4 of requested rpm changed into msec
-     LastRotation=FlipMotor.rotation(vex::rotationUnits::rev)+4*MinChange;  //makes sure that the while loop starts
-    vex::task::sleep(100);                                                  //wait for the motor get some speed
-    while(std::abs(FlipMotor.rotation(vex::rotationUnits::rev)-LastRotation)>MinChange && CalTimer<TimeOut){//while the motors displacement is more then the MinChange and while the the timer is less then the timeout time
-        LastRotation=FlipMotor.rotation(vex::rotationUnits::rev);//update LastRotation
-        CalTimer=CalTimer+UpdateMsec;   //add time to the timer
-        vex::task::sleep(UpdateMsec);   //wait for the motor to spin
-    }                                   //motor stoped spinning or time ran out
-    Controller1.Screen.print("fliper cal done");
-    if(CalTimer>=TimeOut) return 0;     //if timed out return error code 0 or false
-    else{                               //hit the end stop
-        FlipMotor.resetRotation();             //reset the rotation
-        FliperSMS(0);                      //dont burn out the motor
-        return 1;                           //return 1 or true
-    }
-    FliperCalTime=Brain.timer(vex::timeUnits::msec);
+    DriveSMS(//left go apart && right go into when going right
+        LF+SD,
+        LF-SD,
+        RF-SD,
+        RF+SD);
 }
-
-int PuncherCalibration(){
-    int Rpm=-200;       //Velocity to hit the end stop
-    int TimeOut=1000;   //Max time to hit end stop
-    int UpdateMsec=20;  //the time delay in the loop
-    int CalTimer=0;     //resets a local timer
-    PuncherMotor.spin(vex::directionType::fwd, Rpm, vex::velocityUnits::rpm);    //starts the spin to hit the end stop 
-    double MinChange=Rpm/240000*UpdateMsec;                                 ///(1/4)*(Rpm/60/1000); MinChange = 1/4 of requested rpm changed into msec instead of min
-    int LastRotation=PuncherMotor.rotation(vex::rotationUnits::rev)+4*MinChange; //makes sure that the while loop starts
-    vex::task::sleep(100);                                                  //wait for the motor get some speed
-    while(std::abs(PuncherMotor.rotation(vex::rotationUnits::rev)-LastRotation)>MinChange && CalTimer<TimeOut){//while the motors displacement is more then the MinChange and while the the timer is less then the timeout time
-        LastRotation=PuncherMotor.rotation(vex::rotationUnits::rev);//update LastRotation
-        CalTimer=CalTimer+UpdateMsec;   //add time to the timer
-        vex::task::sleep(UpdateMsec);   //wait for the motor to spin
-    }                                   //motor stoped spinning or time ran out
-    if(CalTimer>=TimeOut) return 0;     //if timed out return error code 0 or false
-    else{                               //hit the end stop
-    PuncherMotor.resetRotation();            //reset the rotation
-    PuncherMotor.stop();                     //dont burn out the motor
-    return 1;                           //return 1 or true
-    }
-    PuncherCalTime=Brain.timer(vex::timeUnits::msec);
-}*/
+void DriveArcadeSMS(int J1,int J2,int J3=0){//forward,side,rotation
+    int LF=J1+J3;//left
+    int RF=J1-J3;//right
+    int SD=J2;//side
+    DriveSMS(//left go apart && right go into when going right
+        LF+SD,
+        LF-SD,
+        RF-SD,
+        RF+SD);
+}
 
 void AutonSelFun(){
     if(AutSel1.value(vex::analogUnits::pct)>80){            //red back
