@@ -40,33 +40,11 @@ void PuncherSMS(int Pct){
         PuncherMotor.spin(vex::directionType::fwd,Pct,vex::velocityUnits::pct);
     }
 }
-// void PuncherSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
-//     if(Rel) Tar+=PuncherMotor.rotation(vex::rotationUnits::deg);
-//     // int Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));//only use if it can go both dir's
-//     int Dir=1;
-//     if(PuncherMotor.rotation(vex::rotationUnits::deg)>Tar){//if it is over shot its target
-        
-//     }
-//     else{
-//         if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherSpinToControlRunEnabled){//outside of tal
-//             PuncherSpinToControlEnabled=true;
-//             //Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));//only use if it can go both dir's
-//             PuncherPctSetting=Pct*Dir;//set the motor to spin in the correct direction
-//         }
-//         else if(PuncherSpinToControlEnabled){//if in tar zone and was enabled; fist not enabled
-//             PuncherPctSetting=0;
-//             PuncherSpinToControlEnabled=false;//toggle
-//             if(Stop)    PuncherSpinToControlRunEnabled=false;//stop after it has been hit
-//         }
-//         if(SMS) PuncherSMS(PuncherPctSetting);
-//     }
-// }
-
 void PuncherSpinTo(int Tar,bool SMS=true,bool Stop=true,bool Rel=false,int Pct=100,int Tal=10){
     if(Rel) Tar+=PuncherMotor.rotation(vex::rotationUnits::deg);
     // int Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
     int Dir=1;
-    if(std::abs(PuncherMotor.rotation(vex::rotationUnits::deg)-Tar)>Tal && PuncherSpinToControlRunEnabled){//outside of tal
+    if(PuncherMotor.rotation(vex::rotationUnits::deg)<Tar && PuncherSpinToControlRunEnabled){//outside of tal
         PuncherSpinToControlEnabled=true;
         // Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
         PuncherPctSetting=Pct*Dir;//set the motor to spin in the correct direction
