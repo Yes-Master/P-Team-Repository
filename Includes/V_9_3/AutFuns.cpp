@@ -64,6 +64,26 @@ void PuncherAut(bool Wait=true,int EndWait=0){//Tar is 80 || 280 || 360;Tar PunP
         EndTimeSlice(EndWait);
     }
 }
+//puncherposcon
+int PuncherPosSpinToAutFun(){//make globle
+    PuncherPosSpinToControlEnabled=true;//init
+    PuncherPosSpinToControlRunEnabled=true;//enable spin to contorol to run
+    while(PuncherPosSpinToControlEnabled){//while spining to target
+        PuncherPosSpinTo(PuncherPosDeg,true);//get to target,set the motor to spin
+        EndTimeSlice();
+    }
+    return 1;
+}
+void PuncherPosAut(int Deg,bool Wait=true,int EndWait=0){//Tar is 80 || 280 || 360;Tar PunPosFromChargedToReleased || PunPosFromReleasedToCharged || 360
+    PuncherPosDeg=Deg;
+    vex::task PuncherPosSpinToAutTask(PuncherPosSpinToAutFun);
+    if(Wait){
+        while(PuncherPosSpinToControlEnabled){
+            EndTimeSlice();
+        }
+        EndTimeSlice(EndWait);
+    }
+}
 //drive auton basic control fuctions
 int DriveRamping(){//sets drive motors to spin
     DriveRampingEnabled=true;

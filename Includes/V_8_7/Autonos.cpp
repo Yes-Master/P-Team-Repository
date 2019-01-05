@@ -1,6 +1,6 @@
 void AutFunFrontRed(){
     Drive(26,100,-1);
-    Drive(3,50,2000);
+    Drive(3,50,500);
     Drive(-29.5,100,-1);
     DriveRecon(-25,500);
 
@@ -10,7 +10,7 @@ void AutFunFrontRed(){
     Drive(1,25);
     PuncherAut();//fire
     PuncherAut(false);//charge the puncher dont wait
-    Drive(8,100);
+    Drive(4,100);
     PuncherAut();//fire
     //Drive(2,50);//drive up to pole
     Turn(-0.8);//slight turn to miss pole
@@ -30,13 +30,13 @@ void AutFunFrontBlue(){
     DriveRecon(-25,400);
 
     Drive(8,25);
-    PuncherAut(false);
+    PuncherAut(false);//charge
     Turn(9.3);//the good times
     //Drive(1,25);
-    PuncherAut();
-    PuncherAut(false);
+    PuncherAut();//fire
+    PuncherAut(false);//chrge
     Drive(8,100);
-    if(PuncBall)    PuncherAut();
+    PuncherAut();//fire
     Turn(0.2);//slight turn to miss pole
     // IntakeAutoEnabled=false;
     Drive(7,100);
@@ -162,7 +162,9 @@ void TestingFront(){
     PuncherAut();
 }
 void TestingBack(){
-    //
+    PuncherAut();
+    Controller1.Screen.clearLine();
+    Controller1.Screen.print("done with punc");
 }
 //
 void AutoSelRunFuns(){//runs selected auton

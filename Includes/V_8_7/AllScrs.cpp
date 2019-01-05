@@ -109,6 +109,15 @@ void BrainScreenPrintSensorAutoFeed(){//print the sensor values for the auto fee
     Brain.Screen.print(" , ");
     Brain.Screen.print(FeedSen2.value(vex::analogUnits::pct));
 }
+void BrainScreenPrintPuncher(){
+    Brain.Screen.print(PuncherSpinToControlRunEnabled);
+    Brain.Screen.print(" , ");
+    Brain.Screen.print(PuncherSpinToControlEnabled);
+    Brain.Screen.print(" , ");
+    Brain.Screen.print(PuncherPctSetting);
+ 
+}
+
 void BrainScreenPrintStart(){//functions that run during the preauton
     BrainScreenSetColor();
     BrainScreenPrintAutonos();
@@ -143,9 +152,11 @@ int ControllerScreenUsrFun(){
 int BrainScreenUsrFun(){
     BrainScreenUsrFunEnabled=true;
     while(BrainScreenUsrFunEnabled){
-        BrainScreenSetColor();//clears screen
-        BrainScreenPrintAutonos();
+        // BrainScreenSetColor();//clears screen
+        // BrainScreenPrintAutonos();
         //BallFeedVars();
+        Brain.Screen.clearScreen();
+        BrainScreenPrintPuncher();
         Brain.Screen.render();
         vex::task::sleep(25);
     }

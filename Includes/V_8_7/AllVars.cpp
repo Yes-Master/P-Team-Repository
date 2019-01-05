@@ -83,8 +83,8 @@ int PuncherSpinToTaskFunTar=0;
 bool PuncherSpinToTaskFunSMS=true;
 bool PuncherSpinToTaskFunStop=true;
 int PuncherSpinToAutTar=0;//target val for puncher spin to task
-int PunPosFromReleasedToCharged=280;//the number to add to get from released to charged pos
-int PunPosFromChargedToReleased=80;//the number to add to get form charged to released pos
+int PunPosFromReleasedToCharged=260;//the number to add to get from released to charged pos
+int PunPosFromChargedToReleased=100;//the number to add to get form charged to released pos
 
 //Fliper
 bool FliperManualControlEnabled=false;
