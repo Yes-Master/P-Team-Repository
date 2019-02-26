@@ -53,11 +53,11 @@
     Ramping RightS(1,4);
     // Ramping DAR(1,4);
     //
-    #include "Share/AllVars.cpp"
-    #include "Share/BasFuns.cpp"
-    #include "Share/AllScrs.cpp"
-    #include "Share/AutFuns.cpp"
-    #include "Share/Autonos.cpp"
-    #include "Share/UsrFuns.cpp"
-    #include "Share/CleanUp.cpp"
-    #include "Share/ConFuns.cpp"
+    #include "P-Team-Repository/share/AllVars.cpp"
+    #include "P-Team-Repository/share/BasFuns.cpp"
+    #include "P-Team-Repository/share/AllScrs.cpp"
+    #include "P-Team-Repository/share/AutFuns.cpp"
+    #include "P-Team-Repository/share/Autonos.cpp"
+    #include "P-Team-Repository/share/UsrFuns.cpp"
+    #include "P-Team-Repository/share/CleanUp.cpp"
+    #include "P-Team-Repository/share/ConFuns.cpp"
