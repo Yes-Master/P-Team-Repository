@@ -1,0 +1,73 @@
+"Joys"
+    J1
+        RightSide
+    J2
+        RightForward
+    J3
+        LeftForward
+    J4
+        LeftSide
+"Btns"
+    "Sholder"
+        L1                      //Mode Depend
+        L2
+            Tog
+                DriveHold
+        R1                      //Mode Depend
+        R2                      //Mode Depend
+    "LPad"
+        X                       //InakeIn
+            Pressing
+                InakeIn
+            Tog
+                !AutoInake
+        Y                       //IntakeOut
+            Pressing
+                IntakeOut
+            Tog
+                !AutoInake
+        A                       //AutoInake
+            Tog
+                AutoInake
+        B                       //NULL
+
+    "RPad"
+        Up                      //ModeTog
+            Tog
+                Mode switch
+        Down                    //Park
+        Left                    //MOde Depend
+        Right                   //Mode Depend
+
+"Modes"
+Cap-Pos
+    L1                          //ClampPos
+        Tog
+            ClampPosChanger
+    R1                          //LiftPos
+        Tog
+            LiftPosUp
+    R2                          //LiftPos
+        Tog
+            LiftPosDown
+    Left                        //LiftPosTog
+        Tog
+            LiftPosChanger
+    Right                       //NULL
+
+Flag
+    L1                          //
+    R1                          //Puncher
+        Tog
+            PuncherCharge
+    R2
+        Pressing
+            IntakeOut
+        Tog
+            AutoInake
+    Left
+        Tog
+            LiftPos1
+    Right
+        Tog
+            LiftPos2
