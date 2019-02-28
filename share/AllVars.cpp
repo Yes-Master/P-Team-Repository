@@ -76,10 +76,10 @@ bool DriveSide=false;//used for auton janky plz no
         int ClampPosDown=250;
 //Lift
     //Positions
-        int LiftPosDown=70;
-        int LiftPosPunDown=175;//back
-        int LiftPosPunUp=320;//front
-        int LiftPosUp=320;
+        int LiftPosDown=70/2;
+        int LiftPosPunDown=175/2;//back
+        int LiftPosPunUp=160;//front
+        int LiftPosUp=160;
         
 //Puncher
     //Control
