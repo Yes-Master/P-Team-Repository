@@ -46,7 +46,7 @@ void PreLogic(){
     Clamp.SetTolerance(1);
 
     Lift.SetStop(vex::brakeType::hold);
-    Lift.SetPosLimits(5,900);
+    Lift.SetPosLimits(5,850);
     // Lift.SetTolerance(1);
     // Lift.SetVSetting(0);
     // Lift.SendControl=SendControl::SST;//start user in sst mode
