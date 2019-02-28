@@ -4,7 +4,7 @@ void PreClean(){//cleans up after pre auton
 }
 //forward defed
 int Liftcaltaskfun(){
-    Lift.Calibrate(-25,1/2,500,10,150);
+    Lift.Calibrate(-100,1/2,500,10,150);
     
     Lift.SetTargetSetting(LiftPosDown);
     Lift.SendControl=SendControl::SST;//start user in sst mode
