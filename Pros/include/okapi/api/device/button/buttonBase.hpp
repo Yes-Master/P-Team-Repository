@@ -40,7 +40,7 @@ class ButtonBase : public AbstractButton {
   bool inverted{false};
   bool wasPressedLast_c{false};
   bool wasPressedLast_ctp{false};
-  bool wasPressedLast_ctr{false};
+  // bool wasPressedLast_ctr{false};
 
   virtual bool currentlyPressed() = 0;
 
