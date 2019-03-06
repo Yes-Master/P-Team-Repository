@@ -1,4 +1,5 @@
 #include "robot/control/modes/flag.hpp"
+#include "robot/control/modes/flow.hpp"
 
 #include "robot/control/systems/drive.hpp"
 #include "robot/control/systems/intake.hpp"
@@ -17,10 +18,12 @@ namespace Flag{
 
     // Lift::Control::
 
-    // Puncher::Control::
+    Puncher::Control::charge();
   }
   void init(){
-
+    Drive::set_inverted(false);
+    Lift::set_target(Lift::Down,Lift::VDown);
+    Flow::set_mode(Flow::Modes::FLAG);
   }
   void deInit(){
 

@@ -73,7 +73,7 @@ namespace Puncher{
     //methods
     void execute(){
       if(Motor.getPosition()<get_target() && get_run()){//outside of tal
-        set_controller(Controllers::NONE);
+        set_controller(Controllers::POSITION);
         // Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
         set_v(VMove);//set the motor to spin in the correct direction
       }
@@ -97,7 +97,7 @@ namespace Puncher{
       set_charged(false);
     }
   }
-  void execute(void* t){
+  void execute(){
     OnOffCon::execute();
     if(get_controller()==Controllers::POSITION){
       Motor.moveVelocity(get_v());
@@ -106,34 +106,46 @@ namespace Puncher{
       Motor.moveVelocity(VStop);
     }
   }
+  void execute(void* t){
+    execute();
+  }
   namespace Control{
     void charge(){
       if(BtnCharge.changed()){
         if(BtnCharge.isPressed()){//inti
           Intake::Auto::enable();
-          Drive::set_brakeMode(okapi::Motor::brakeMode::hold);
-          set_doubleShot(true);
-          Intake::Auto::enable();
-          pros::Task DoubleShotTask (::Auton::Routines::doubleShotFront,(void*)"why", TASK_PRIORITY_DEFAULT,TASK_STACK_DEPTH_DEFAULT, "DoubleShotTask");
+          // Drive::set_brakeMode(okapi::Motor::brakeMode::hold);
+          // set_doubleShot(true);
+          // pros::Task DoubleShotTask (::Auton::Routines::doubleShotFront,(void*)"why", TASK_PRIORITY_DEFAULT,TASK_STACK_DEPTH_DEFAULT, "DoubleShotTask");
+          Changer();
         }
         else{//deInit
-          set_doubleShot(false);
-          Drive::set_brakeMode(okapi::Motor::brakeMode::coast);
-          Lift::set_target(Lift::Down,Lift::VDown);
+          // set_doubleShot(false);
+          // Drive::set_brakeMode(okapi::Motor::brakeMode::coast);
+          // Lift::set_target(Lift::Down,Lift::VDown);
         }
       }
       else if(BtnCharge.isPressed()){//hold
 
       }
+      else{
+
+      }
     }
   }
   namespace Auton{
-    void charge(){
-      if(!get_charged())  OnOffCon::set_targetRel(OnOffCon::ReleasedtoCharged);
+    void wait(int endwait=0){
+      while(!Motor.isStopped()){
+        pros::delay(5);
+      }
     }
-    void fire(){
-      if(!get_charged())  Auton::charge();
-      OnOffCon::set_targetRel(OnOffCon::ChargedToReleased);
+    void charge(bool w){
+      if(!get_charged())  Changer();//charge
+      if(w)  wait();
+    }
+    void fire(bool w){
+      Auton::charge();
+      Changer();//fire
     }
   }
 }

@@ -14,17 +14,48 @@ namespace Flow{
   Modes get_mode(){
     return Mode;
   }
-  void set_mode(){
-
+  void set_mode(Modes m){
+    Mode=m;
   }
   //methods
+  namespace Control{
+    void modeTog(){
+      if(BtnTog.changed()){
+        if(BtnTog.isPressed()){
+          switch (get_mode()) {
+            case Modes::FLAG:
+              Caps::init();
+            break;
+            case Modes::CAPS:
+              Flag::init();
+            break;
+            case Modes::DEBUG:
+              Flag::init();
+            break;
+            case Modes::NONE:
+            break;
+          }
+        }
+        else{
+
+        }
+      }
+      else if(BtnTog.isPressed()){
+
+      }
+      else{
+
+      }
+    }
+  }
   void execute(){
     Drive::execute();
     Intake::execute();
     Lift::execute();
-    // Puncher::execute();
+    Puncher::execute();
   }
   void user(){
+    Control::modeTog();
     switch (get_mode()) {
       case Modes::FLAG:
         Flag::user();

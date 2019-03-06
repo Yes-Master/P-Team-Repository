@@ -4,10 +4,10 @@
 
 namespace Lift{
   //vars
-  extern const int Down;
-  extern const int DownPun;//back
-  extern const int UpPun;//front
-  extern const int Up;
+  extern const double Down;
+  extern const double DownPun;//back
+  extern const double UpPun;//front
+  extern const double Up;
 
   extern const int VMove;
   extern const int VDown;
@@ -18,8 +18,8 @@ namespace Lift{
   enum class Controllers{MANUAL,POSITION,NONE};
   //vars FUNCTIONS
   // double get_target();
-  void set_target(int t);
-  void set_target(int t,int v);
+  void set_target(double t);
+  void set_target(double t,int v);
   //methods
   void execute();
   namespace Control{

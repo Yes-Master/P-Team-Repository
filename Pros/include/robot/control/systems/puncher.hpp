@@ -12,12 +12,16 @@ namespace Puncher{
   bool get_charged();
   //methods
   void execute();
+  void execute(void* t);
+  namespace OnOffCon{
+    bool get_run();
+  }
   namespace Control{
     void charge();
   }
   namespace Auton{
-    void charge(bool wait=false);
-    void fire(bool wait=true);
+    void charge(bool w=false);
+    void fire(bool w=true);
   }
 }
 #endif /* end of include guard: PUNCHER_HPP */

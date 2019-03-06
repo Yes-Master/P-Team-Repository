@@ -44,7 +44,7 @@ namespace Drive{
     if(std::abs(j3)>std::abs(j4))   SD=j3;
     else                            SD=j4;
 
-    set_v(LF+SD,LF-SD,RF-SD,RF+SD);
+    set_v(LF+SD,RF-SD,LF-SD,RF+SD);
   }
   void execute(){
 
@@ -52,9 +52,9 @@ namespace Drive{
   namespace Control{
     void manual(){
       int LHJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftX)*200;
-      int LVJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftX)*200;
-      int RVJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftX)*200;
-      int RHJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftX)*200;
+      int LVJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftY)*200;
+      int RVJoy=master_controller.getAnalog(okapi::ControllerAnalog::rightY)*200;
+      int RHJoy=master_controller.getAnalog(okapi::ControllerAnalog::rightX)*200;
 
 
       if(std::abs(LVJoy)<5)    LVJoy=0;

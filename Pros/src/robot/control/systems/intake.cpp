@@ -41,8 +41,8 @@ namespace Intake{
     if(get_controller()==Controllers::NONE) Motor.moveVelocity(VStop);
   }
   namespace Control{
+    int timer=0;
     void combo(){
-      int timer;
       if(BtnCombo.changed()){
         if(BtnCombo.isPressed()){//init
 
@@ -130,10 +130,10 @@ namespace Intake{
     //vars
     const int PuncBallTimeWait=250;//puncher ball timeout value
 
-    const int Feed1BallTal=65;//sensor tollerance values
-    const int Feed2BallTal=65;//sensor tollerance values
-    const int OverBallTal=65;//sensor tollerance values
-    const int PuncBallTal=60;//sensor tollerance values
+    const int Feed1BallTal=2000;//sensor tollerance values
+    const int Feed2BallTal=2000;//sensor tollerance values
+    const int OverBallTal=2000;//sensor tollerance values
+    const int PuncBallTal=2000;//sensor tollerance values
 
     const int ComRumTime=100;//100 loops
     int PuncherTimer=0;

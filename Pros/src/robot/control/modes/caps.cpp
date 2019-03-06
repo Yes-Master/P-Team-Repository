@@ -21,6 +21,9 @@ namespace Caps{
     // Puncher::Control::
   }
   void init(){
+    Intake::Auto::disable();
+    Lift::set_target(Lift::Down,Lift::VDown);
+    Drive::set_inverted(true);
     Flow::set_mode(Flow::Modes::FLAG);
   }
   void deInit(){

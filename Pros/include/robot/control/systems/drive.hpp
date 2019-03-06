@@ -6,7 +6,7 @@ namespace Drive{
   enum class Controllers{MANUAL,NONE};
   //vars FUNCTIONS
   // bool get_invert();
-  void set_invert();
+  void set_inverted(bool i);
   void set_brakeMode(okapi::Motor::brakeMode b);
   //methods
   void execute();

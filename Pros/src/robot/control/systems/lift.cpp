@@ -2,10 +2,10 @@
 
 namespace Lift{
   //vars
-  const int Down=70;
-  const int DownPun=175;//back
-  const int UpPun=320;//front
-  const int Up=320;
+  const double Down=70;
+  const double DownPun=175;//back
+  const double UpPun=320;//front
+  const double Up=320;
 
   const int VMove=100;
   const int VDown=-VMove;
