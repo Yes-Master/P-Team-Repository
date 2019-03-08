@@ -37,6 +37,7 @@ namespace Intake {
       //vars FUNCTIONS
       bool get_puncherActual();
       bool get_puncher();
+      void set_puncher(bool p);
       bool get_over();
       bool get_feed();
       //methods

@@ -2,17 +2,17 @@
 
 namespace Lift{
   //vars
-  const double Down=70;
-  const double DownPun=175;//back
-  const double UpPun=320;//front
-  const double Up=320;
+  const double Down=0;
+  const double DownPun=0;//back
+  const double UpPun=100;//front
+  const double Up=3020;
 
   const int VMove=100;
   const int VDown=-VMove;
   const int VUp=VMove;
   const int VStop=0;
 
-  Controllers controller;
+  Controllers controller=Controllers::NONE;
 
   // const int VDown=-100;
   // const int VUp=100;
@@ -41,6 +41,7 @@ namespace Lift{
     Target=t;
   }
   void set_target(double t,int v){
+    set_controller(Controllers::POSITION);
     set_target(t);
     set_v(v);
   }
@@ -48,13 +49,13 @@ namespace Lift{
   void execute(){
     switch(get_controller()){
       case Controllers::MANUAL:
-      Motor.moveVelocity(get_v());
+      motor.moveVelocity(get_v());
       break;
       case Controllers::POSITION:
-      Motor.moveAbsolute(get_target(), get_v());
+      motor.moveAbsolute(get_target(), get_v());
       break;
       case Controllers::NONE:
-      Motor.moveVelocity(0);//stop the motor
+      motor.moveVelocity(0);//stop the motor
       break;
     };
   }
@@ -99,6 +100,14 @@ namespace Lift{
       else{
 
       }
+    }
+  }
+  namespace Auton{
+    void wait(int w){
+      while(motor.getPosition()-get_target()>5){
+        pros::delay(5);
+      }
+      pros::delay(w);
     }
   }
 }

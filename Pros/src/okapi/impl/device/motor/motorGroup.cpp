@@ -78,7 +78,11 @@ double MotorGroup::getTargetPosition() {
 }
 
 double MotorGroup::getPosition() {
-  return motors[0].getPosition();
+  int sum=0;
+  for (auto &&elem : motors) {
+    sum+=elem.getPosition();
+  }
+  return sum/motors.size();
 }
 
 std::int32_t MotorGroup::tarePosition() {
@@ -97,7 +101,11 @@ std::int32_t MotorGroup::getTargetVelocity() {
 }
 
 double MotorGroup::getActualVelocity() {
-  return motors[0].getActualVelocity();
+  int sum=0;
+  for (auto &&elem : motors) {
+    sum+=elem.getActualVelocity();
+  }
+  return sum/motors.size();
 }
 
 std::int32_t MotorGroup::getCurrentDraw() {

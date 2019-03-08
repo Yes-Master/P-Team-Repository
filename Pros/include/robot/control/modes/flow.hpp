@@ -9,6 +9,7 @@ namespace Flow{
   Modes get_mode();
   void set_mode(Modes m);
   //methods
+  void init();
   void user();
 
 }

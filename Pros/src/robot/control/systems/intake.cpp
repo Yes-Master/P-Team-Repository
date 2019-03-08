@@ -8,7 +8,7 @@ namespace Intake{
   const int VOut=-600;
   const int VStop=0;
   const int VIn=600;
-  const int VOver=-300;
+  const int VOver=-100;
 
   int V=VStop;
 
@@ -38,7 +38,7 @@ namespace Intake{
   void execute(){
     Auto::execute();
     Control::execute();
-    if(get_controller()==Controllers::NONE) Motor.moveVelocity(VStop);
+    if(get_controller()==Controllers::NONE) motor.moveVelocity(VStop);
   }
   namespace Control{
     int timer=0;
@@ -123,17 +123,17 @@ namespace Intake{
       }
     }
     void execute(){
-      if(get_controller()==Controllers::MANUAL) Motor.moveVelocity(get_v());
+      if(get_controller()==Controllers::MANUAL) motor.moveVelocity(get_v());
     }
   }
   namespace Auto{
     //vars
     const int PuncBallTimeWait=250;//puncher ball timeout value
 
-    const int Feed1BallTal=2000;//sensor tollerance values
-    const int Feed2BallTal=2000;//sensor tollerance values
-    const int OverBallTal=2000;//sensor tollerance values
-    const int PuncBallTal=2000;//sensor tollerance values
+    const int Feed1BallTal=2500;//sensor tollerance values
+    const int Feed2BallTal=2500;//sensor tollerance values
+    const int OverBallTal=2500;//sensor tollerance values
+    const int PuncBallTal=2500;//sensor tollerance values
 
     const int ComRumTime=100;//100 loops
     int PuncherTimer=0;
@@ -147,17 +147,19 @@ namespace Intake{
     bool OverMode=false;
     //vars FUNCTIONS
     namespace Balls{
+      //vars
+      //vars FUNCTIONS
       bool get_puncherActual(){
         return PuncBallActual;
       }
       bool get_puncher(){
         return PuncBall;
       }
+      void set_puncher(bool p){
+        PuncBall=p;
+      }
       bool get_over(){
         return OverBall;
-      }
-      bool get_feed(){
-        return FeedBall;
       }
       bool get_feedTop(){
         return Feed2Ball;
@@ -165,7 +167,42 @@ namespace Intake{
       bool get_feedBottom(){
         return Feed1Ball;
       }
-    }
+      bool get_feed(){
+        if(get_feedTop()) return true;
+        if(get_feedBottom()) return true;
+        return false;
+      }
+
+      //methods
+      void updateVars(){
+        //Puncher UpDate
+        if(Puncher.get_value()<PuncBallTal){//if there is pysicaly a ball
+          PuncherTimer=0;//reset timer
+          PuncBall=PuncBallActual=true;
+          ComRum=false;
+        }
+        else{//if ball not present
+          PuncBallActual=false;
+          if(/*PuncherRuning*/false)  PuncBall=false;//if the punc in running and there is not a ball physicaly present
+          else{//delay for posible ball return
+            if(PuncherTimer>PuncBallTimeWait)   PuncBall=false;
+            else if(PuncherTimer>ComRumTime)    ComRum=true;
+            PuncherTimer++;//add one to timer
+          }
+
+        }
+        //FeedBall UpDate
+        if(Over.get_value()<OverBallTal)  OverBall=true;
+        else  OverBall=false;
+
+        if(Bottom.get_value()<Feed1BallTal) Feed1Ball=true;
+        else  Feed1Ball=false;
+
+        if(Top.get_value()<Feed2BallTal)  Feed2Ball=true;
+        else  Feed2Ball=false;
+      }
+
+    }//end Balls
     Modes get_mode(){
       return Mode;
     }
@@ -192,55 +229,21 @@ namespace Intake{
       set_enabled(false);
       set_controller(Controllers::NONE);
     }
-    void updateVars(){
-      //Puncher UpDate
-      if(Puncher.get_value()<PuncBallTal){//if there is pysicaly a ball
-        PuncherTimer=0;//reset timer
-        PuncBall=PuncBallActual=true;
-        ComRum=false;
-      }
-      else{//if ball not present
-        PuncBallActual=false;
-        if(/*PuncherRuning*/false)  PuncBall=false;//if the punc in running and there is not a ball physicaly present
-        else{//delay for posible ball return
-          if(PuncherTimer>PuncBallTimeWait)   PuncBall=false;
-          else if(PuncherTimer>ComRumTime)    ComRum=true;
-          PuncherTimer++;//add one to timer
-        }
-
-      }
-      //FeedBall UpDate
-      if(Over.get_value()<OverBallTal)    OverBall=true;
-      else                                                    OverBall=false;
-
-      if(Bottom.get_value()<Feed1BallTal)  Feed1Ball=true;
-      else                                                    Feed1Ball=false;
-
-      if(Top.get_value()<Feed2BallTal)  Feed2Ball=true;
-      else                                                    Feed2Ball=false;
-
-      if(Feed1Ball || Feed2Ball)  FeedBall=true;
-      else                        FeedBall=false;
-    }
     void calcV(){
       if(get_enabled()){
         EnabledWas=true;
 
         if(OverMode){
           set_v(VOver);
-          if(OverBall){
-            OverTimer=0;
-          }
-          else{
-            if(Balls::get_feed() || OverTimer>100) OverMode=false;
-            else OverTimer++;
-          }
+          if(Balls::get_feedTop() || Balls::get_feedBottom() || OverTimer>100) OverMode=false;
+          else OverTimer++;
         }
         else{
           if(!Balls::get_puncher()) set_v(VIn);
           else{//if punball
-            if(Balls::get_over()){
+            if(Balls::get_over()){//init over mode
               OverMode=true;
+              OverTimer=0;//initialize timer for over mode
               set_v(VOver);
             }
             else{//!overflow
@@ -259,17 +262,17 @@ namespace Intake{
       }
     }
     void execute(){
-      updateVars();
+      Balls::updateVars();
       if(get_controller()==Controllers::AUTO){
         calcV();
         // set_v(-10);
-        Motor.moveVelocity(get_v());
+        motor.moveVelocity(get_v());
       }
     }
 
     // void User_Control(){//not needed here combine all inside of the controlmodes
     //   Toggle_Control();
     // }
-  }
+  }//end Auto
   //methods
 }

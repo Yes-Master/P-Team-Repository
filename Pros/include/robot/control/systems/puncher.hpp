@@ -20,6 +20,7 @@ namespace Puncher{
     void charge();
   }
   namespace Auton{
+    void wait(int w=0);
     void charge(bool w=false);
     void fire(bool w=true);
   }

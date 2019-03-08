@@ -24,7 +24,7 @@ namespace Caps{
     Intake::Auto::disable();
     Lift::set_target(Lift::Down,Lift::VDown);
     Drive::set_inverted(true);
-    Flow::set_mode(Flow::Modes::FLAG);
+    Flow::set_mode(Flow::Modes::CAPS);
   }
   void deInit(){
 

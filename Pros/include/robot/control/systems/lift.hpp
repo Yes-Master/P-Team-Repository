@@ -26,6 +26,9 @@ namespace Lift{
     void manual();
     void position();
   }
+  namespace Auton{
+    void wait(int w=0);
+  }
 }
 
 #endif /* end of include guard: LIFT_HPP */

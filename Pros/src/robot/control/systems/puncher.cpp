@@ -4,6 +4,8 @@
 #include "robot/control/systems/lift.hpp"
 #include "robot/auton/routines.hpp"
 namespace Puncher{
+  // pros::Mutex DoubleShotTaskMutex();
+
   //vars
   Controllers Controller=Controllers::NONE;
   bool DoubleShot=false;
@@ -72,9 +74,9 @@ namespace Puncher{
     }
     //methods
     void execute(){
-      if(Motor.getPosition()<get_target() && get_run()){//outside of tal
+      if(motor.getPosition()<get_target() && get_run()){//outside of tal
         set_controller(Controllers::POSITION);
-        // Dir=SGN(Tar-PuncherMotor.rotation(vex::rotationUnits::deg));
+        // Dir=SGN(Tar-Punchermotor.rotation(vex::rotationUnits::deg));
         set_v(VMove);//set the motor to spin in the correct direction
       }
       else if(get_controller()==Controllers::POSITION){//if in tar zone and was enabled; fist not enabled
@@ -95,17 +97,19 @@ namespace Puncher{
       OnOffCon::set_targetRel(OnOffCon::ChargedToReleased);
       OnOffCon::set_run(true);
       set_charged(false);
+      Intake::Auto::Balls::set_puncher(false);
     }
   }
   void execute(){
     OnOffCon::execute();
     if(get_controller()==Controllers::POSITION){
-      Motor.moveVelocity(get_v());
+      motor.moveVelocity(get_v());
     }
     else if(get_controller()==Controllers::NONE){
-      Motor.moveVelocity(VStop);
+      motor.moveVelocity(VStop);
     }
   }
+
   void execute(void* t){
     execute();
   }
@@ -114,14 +118,14 @@ namespace Puncher{
       if(BtnCharge.changed()){
         if(BtnCharge.isPressed()){//inti
           Intake::Auto::enable();
-          // Drive::set_brakeMode(okapi::Motor::brakeMode::hold);
-          // set_doubleShot(true);
-          // pros::Task DoubleShotTask (::Auton::Routines::doubleShotFront,(void*)"why", TASK_PRIORITY_DEFAULT,TASK_STACK_DEPTH_DEFAULT, "DoubleShotTask");
-          Changer();
+          Drive::set_brakeMode(okapi::Motor::brakeMode::hold);
+          set_doubleShot(true);
+          pros::Task DoubleShotTask (::Auton::Routines::doubleShotFront,(void*)"test", TASK_PRIORITY_DEFAULT,TASK_STACK_DEPTH_DEFAULT, "DoubleShotTask");
+          // Changer();
         }
         else{//deInit
-          // set_doubleShot(false);
-          // Drive::set_brakeMode(okapi::Motor::brakeMode::coast);
+          set_doubleShot(false);
+          Drive::set_brakeMode(okapi::Motor::brakeMode::coast);
           // Lift::set_target(Lift::Down,Lift::VDown);
         }
       }
@@ -134,18 +138,21 @@ namespace Puncher{
     }
   }
   namespace Auton{
-    void wait(int endwait=0){
-      while(!Motor.isStopped()){
+    void wait(int w){
+      while(OnOffCon::get_run()){//wait for the motor to hit its target pos
         pros::delay(5);
       }
+      pros::delay(w);
     }
     void charge(bool w){
       if(!get_charged())  Changer();//charge
       if(w)  wait();
     }
     void fire(bool w){
-      Auton::charge();
+      Auton::charge(false);//verify charghed dont wait
       Changer();//fire
+      if(w)  wait();
+      Intake::Auto::Balls::set_puncher(false);
     }
   }
 }

@@ -2,7 +2,7 @@
 #define ROUTINES_HPP
 namespace Auton{
   namespace Routines{
-    void doubleShotFront(void* why);
+    void doubleShotFront(void* test);
   }
 }
 

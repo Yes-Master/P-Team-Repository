@@ -2,8 +2,8 @@
 
 okapi::Controller master_controller(okapi::ControllerId::master);
 namespace Flow{
-  okapi::ControllerButton modeBtn = master_controller[okapi::ControllerDigital::up];
-  okapi::ControllerButton toCapsBtn = master_controller[okapi::ControllerDigital::L1];
+  okapi::ControllerButton BtnTog = master_controller[okapi::ControllerDigital::up];
+  okapi::ControllerButton BtnToCaps = master_controller[okapi::ControllerDigital::L1];
 }
 namespace Drive{
   okapi::ControllerButton BtnBrake = master_controller[okapi::ControllerDigital::L2];

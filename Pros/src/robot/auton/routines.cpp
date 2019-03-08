@@ -5,28 +5,30 @@
 #include "robot/control/systems/lift.hpp"
 #include "robot/control/systems/puncher.hpp"
 
+#include "main.h"
 namespace Auton{
   namespace Routines{
-    void doubleShotFront(void* why){
-      Puncher::Auton::fire();
-        if(!Puncher::get_doubleShot())  return;
-      Puncher::Auton::charge();
-        if(!Puncher::get_doubleShot())  return;
+    void doubleShotFront(void* test){
+
+      Puncher::Auton::charge(true);
+        if(!Puncher::BtnCharge.isPressed())  return;
+      Puncher::Auton::fire(true);
+
+        if(!Puncher::BtnCharge.isPressed())  return;
+      Puncher::Auton::charge(false);
+        // if(!Puncher::BtnCharge.isPressed())  return;
       Lift::set_target(Lift::UpPun,Lift::VMove);
-        if(!Puncher::get_doubleShot())  return;
-      while(!Puncher::Motor.isStopped()){
-        pros::delay(5);
-      }
-        if(!Puncher::get_doubleShot())  return;
-      while(!Lift::Motor.isStopped()){//wait for lift to stop moving
-        pros::delay(5);
-      }
+        if(!Puncher::BtnCharge.isPressed())  return;
+      Puncher::Auton::wait();
+        if(!Puncher::BtnCharge.isPressed())  return;
+      Lift::Auton::wait();
+      // pros::delay(2000);
       while(!Intake::Auto::Balls::get_puncherActual()){
         pros::delay(5);
       }
-        if(!Puncher::get_doubleShot())  return;
-      Puncher::Auton::fire();
-        if(!Puncher::get_doubleShot())  return;
+        if(!Puncher::BtnCharge.isPressed())  return;
+      Puncher::Auton::fire(true);
+        if(!Puncher::BtnCharge.isPressed())  return;
       Lift::set_target(Lift::Down,Lift::VMove);
     }
   }

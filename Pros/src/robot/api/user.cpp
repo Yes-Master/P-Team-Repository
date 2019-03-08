@@ -3,7 +3,7 @@
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/modes/flow.hpp"
 void opcontrol(){
-  // Flow::User_Init();
+  Flow::init();
   while(1){
     Flow::user();
     pros::delay(20);

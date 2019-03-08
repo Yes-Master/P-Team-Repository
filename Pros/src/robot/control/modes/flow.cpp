@@ -9,7 +9,7 @@
 
 namespace Flow{
   //vars
-  Modes Mode=Modes::FLAG;
+  Modes Mode=Modes::NONE;
   //vars FUNCTIONS
   Modes get_mode(){
     return Mode;
@@ -48,6 +48,9 @@ namespace Flow{
       }
     }
   }
+  void init(){
+    Flag::init();
+  }
   void execute(){
     Drive::execute();
     Intake::execute();
@@ -61,7 +64,7 @@ namespace Flow{
         Flag::user();
       break;
       case Modes::CAPS:
-        // Caps::user();
+        Caps::user();
       break;
       case Modes::DEBUG:
         //debug

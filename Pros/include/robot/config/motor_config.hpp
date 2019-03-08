@@ -10,19 +10,24 @@ namespace Drive{
 }
 
 namespace Puncher{
-  extern okapi::Motor Motor;
+  extern okapi::Motor motor;
 }
 
 namespace Lift{
-  extern okapi::Motor Motor;
+  // extern okapi::Motor motor0;
+  // extern okapi::Motor motor1;
+  extern okapi::MotorGroup motor;
 }
 
 namespace Intake{
-  extern okapi::Motor Motor;
-
-  extern pros::ADILineSensor Puncher;
-  extern pros::ADILineSensor Over;
-  extern pros::ADILineSensor Top;
-  extern pros::ADILineSensor Bottom;
+  extern okapi::Motor motor;
+  namespace Auto{
+    namespace Balls{
+      extern pros::ADILineSensor Puncher;
+      extern pros::ADILineSensor Over;
+      extern pros::ADILineSensor Top;
+      extern pros::ADILineSensor Bottom;
+    }
+  }
 }
 #endif /* end of include guard: MOTOR_CONFIG_HPP */
