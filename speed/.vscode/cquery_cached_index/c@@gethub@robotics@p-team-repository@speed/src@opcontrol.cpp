@@ -33,28 +33,29 @@ void limit(int &val, int min,int max){
 	if(val>max)	val=max;
 }
 int gear=1;
-double rpm=200;
+int maxrpm=700;
+double rpm=maxrpm;
 void print(){
-	master_controller.setText(1, 0, "setting:");
-	master_controller.setText(1, 9, std::to_string(gear));
-	master_controller.setText(2, 0, "rpm:");
-	master_controller.setText(2, 5, std::to_string(rpm));
+	// master_controller.setText(1, 0, "setting:");
+	// master_controller.setText(1, 9, std::to_string(gear));
+	// master_controller.setText(2, 0, "rpm:");
+	master_controller.setText(1, 0, std::to_string(rpm));
 }
 void opcontrol() {
 	while (true) {
 		if(GearUp.changed()){
 			if(GearUp.isPressed()){
-				gear++;
-				limit(gear,1,10);
-				rpm=200/gear;
+				gear--;
+				limit(gear,1,20);
+				rpm=maxrpm/gear;
 				print();
 			}
 		}
 		else if(GearDown.changed()){
 			if(GearDown.isPressed()){
-				gear--;
-				limit(gear,1,10);
-				rpm=200/gear;
+				gear++;
+				limit(gear,1,20);
+				rpm=maxrpm/gear;
 				print();
 			}
 		}

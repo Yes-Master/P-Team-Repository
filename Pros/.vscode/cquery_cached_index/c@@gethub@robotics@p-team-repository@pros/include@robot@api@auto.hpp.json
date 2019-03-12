@@ -1,0 +1,2 @@
+16
+{"last_modification_time":1551478957,"language":0,"import_file":"c:/gethub/robotics/p-team-repository/pros/src/robot/api/auto.cpp","args_hash":4175357168027002420,"includes":[],"dependencies":["c:/gethub/robotics/p-team-repository/pros/src/robot/api/auto.cpp"],"skipped_by_preprocessor":[],"types":[],"funcs":[],"vars":[{"id":0,"usr":13508960463304528193,"detailed_name":"AUTO_HPP","short_name_offset":0,"short_name_size":8,"hover":"#define AUTO_HPP","comments":"","declarations":[],"spell":"2:9-2:17|-1|1|2","extent":"2:9-2:17|-1|1|0","uses":[],"kind":255,"storage":0}]}
