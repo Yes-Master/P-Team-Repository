@@ -94,6 +94,11 @@ namespace Drive{
       }
     }
     namespace Auton{
-      
+      void drive(double in){
+        front_left_motor.moveRelative(in,200);
+        back_left_motor.moveRelative(in,200);
+        front_right_motor.moveRelative(in,200);
+        back_right_motor.moveRelative(in,200);
+      }
     }
   }

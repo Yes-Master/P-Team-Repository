@@ -14,5 +14,8 @@ namespace Drive{
     void manual();
     void hold();
   }
+  namespace Auton{
+    void drive(double in);
+  }
 }
 #endif /* end of include guard: DRIVE_HPP */
