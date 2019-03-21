@@ -16,13 +16,13 @@ namespace Drive{
     void hold();
   }
   namespace Auton{
-    void Ramping();//sets drive motors to spin
+    void ramping();//sets drive motors to spin
     bool isSettled();
-    void Drive(double Dis,int Pct=50,int EndWait=1,int Correction=1);
-    void DriveRecon(int Pct,int Wait,int EndWait=250);
-    void DriveS(double Dis,int Pct=50,int EndWait=1,int Correction=1);
-    void DriveReconS(int Pct,int Wait,int EndWait=1);
-    void TurnEnc(double deg,int v,int endwait);
+    void drive(double Dis,int Pct=50,int EndWait=1,int Correction=1);
+    void driveRecon(int Pct,int Wait,int EndWait=250);
+    void driveS(double Dis,int Pct=50,int EndWait=1,int Correction=1);
+    void driveReconS(int Pct,int Wait,int EndWait=1);
+    void turnEnc(double deg,int v,int endwait);
 
 
     // void drive(double in);
