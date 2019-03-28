@@ -164,10 +164,10 @@ std::int32_t MotorGroup::getVoltage() {
   return motors[0].get_voltage();
 }
 
-std::int32_t MotorGroup::setMinimumPositon(double p){
+std::int32_t MotorGroup::setLimitPositonMinimum(double p){
   auto out = 1;
   for (auto &&elem : motors) {
-    const auto errorCode = elem.setMinimumPositon(p);
+    const auto errorCode = elem.setLimitPositonMinimum(p);
     if (errorCode != 1) {
       out = errorCode;
     }
@@ -175,10 +175,10 @@ std::int32_t MotorGroup::setMinimumPositon(double p){
   return out;
 }
 
-std::int32_t MotorGroup::setMaximumPosition(double p){
+std::int32_t MotorGroup::setLimitPositionMaximum(double p){
   auto out = 1;
   for (auto &&elem : motors) {
-    const auto errorCode = elem.setMaximumPosition(p);
+    const auto errorCode = elem.setLimitPositionMaximum(p);
     if (errorCode != 1) {
       out = errorCode;
     }
@@ -186,10 +186,72 @@ std::int32_t MotorGroup::setMaximumPosition(double p){
   return out;
 }
 
-std::int32_t MotorGroup::setPositonLimits(double minimum,double maximum){
+std::int32_t MotorGroup::setLimitPositons(double minimum,double maximum){
   auto out = 1;
   for (auto &&elem : motors) {
-    const auto errorCode = elem.setPositonLimits(minimum,maximum);
+    const auto errorCode = elem.setLimitPositons(minimum,maximum);
+    if (errorCode != 1) {
+      out = errorCode;
+    }
+  }
+  return out;
+}
+
+std::int32_t MotorGroup::setLimitPositionMinimumDisabled(){
+  auto out = 1;
+  for (auto &&elem : motors) {
+    const auto errorCode = elem.setLimitPositionMinimumDisabled();
+    if (errorCode != 1) {
+      out = errorCode;
+    }
+  }
+  return out;
+}
+std::int32_t MotorGroup::setLimitPositionMaximumDisabled(){
+  auto out = 1;
+  for (auto &&elem : motors) {
+    const auto errorCode = elem.setLimitPositionMaximumDisabled();
+    if (errorCode != 1) {
+      out = errorCode;
+    }
+  }
+  return out;
+}
+std::int32_t MotorGroup::setLimitPositionDisabled(){
+  auto out = 1;
+  for (auto &&elem : motors) {
+    const auto errorCode = elem.setLimitPositionDisabled();
+    if (errorCode != 1) {
+      out = errorCode;
+    }
+  }
+  return out;
+}
+std::int32_t MotorGroup::setLimitPositionMinimumEnabled(){
+  auto out = 1;
+  for (auto &&elem : motors) {
+    const auto errorCode = elem.setLimitPositionMinimumEnabled();
+    if (errorCode != 1) {
+      out = errorCode;
+    }
+  }
+  return out;
+}
+std::int32_t MotorGroup::setLimitPositionMaximumEnabled(){
+  auto out = 1;
+  for (auto &&elem : motors) {
+    const auto errorCode = elem.setLimitPositionMaximumEnabled();
+    if (errorCode != 1) {
+      out = errorCode;
+    }
+  }
+  return out;
+}
+
+std::int32_t MotorGroup::setLimitPositionsEnabled(){
+  auto out = 1;
+  for (auto &&elem : motors) {
+    const auto errorCode = elem.setLimitPositionsEnabled();
     if (errorCode != 1) {
       out = errorCode;
     }

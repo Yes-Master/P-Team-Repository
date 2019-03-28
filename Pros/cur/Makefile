@@ -21,12 +21,13 @@ USE_PACKAGE:=0
 
 # Set this to 1 to add additional rules to compile your project as a PROS library template
 IS_LIBRARY:=0
-# TODO: CHANGE THIS!
-LIBNAME:=libbest
-VERSION:=1.0.0
+LIBNAME:=lib_2131
+VERSION:=1.0.1
 # EXCLUDE_SRC_FROM_LIB= $(SRCDIR)/unpublishedfile.c
 # this line excludes opcontrol.c and similar files
 EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/opcontrol $(SRCDIR)/initialize $(SRCDIR)/autonomous,$(foreach cext,$(CEXTS),$(file).$(cext)) $(foreach cxxext,$(CXXEXTS),$(file).$(cxxext)))
+#EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/robot             # exclude any files in the src/robot directory
+#EXCLUDE_SRC_FROM_LIB+=$(SRCDIR)/custom            # exclude any files in the src/custom directory
 
 # files that get distributed to every user (beyond your source archive) - add
 # whatever files you want here. This line is configured to add all header files

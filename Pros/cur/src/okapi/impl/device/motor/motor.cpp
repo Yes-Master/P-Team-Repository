@@ -62,8 +62,8 @@ std::int32_t Motor::moveRelative(const double iposition, const std::int32_t ivel
 }
 
 std::int32_t Motor::moveVelocity(std::int16_t ivelocity) {
-  if(minimumPositionEnabled && ivelocity<0 && getPosition()<minimumPosition)  ivelocity=0;
-  if(maximumPositionEnabled && ivelocity>0 && getPosition()>maximumPosition)  ivelocity=0;
+  if(positionMinimumEnabled && ivelocity<0 && getPosition()<positionMinimum)  ivelocity=0;
+  if(positionMaximumEnabled && ivelocity>0 && getPosition()>positionMaximum)  ivelocity=0;
   return move_velocity(ivelocity);
 }
 
@@ -150,21 +150,48 @@ double Motor::getTorque() {
 std::int32_t Motor::getVoltage() {
   return get_voltage();
 }
-std::int32_t Motor::setMinimumPositon(double p){
-    minimumPosition=p;
-    minimumPositionEnabled=true;
+std::int32_t Motor::setLimitPositonMinimum(double p){
+    positionMinimum=p;
+    positionMinimumEnabled=true;
     return 1;
 }
-std::int32_t Motor::setMaximumPosition(double p){
-  maximumPosition=p;
-  maximumPositionEnabled=true;
+std::int32_t Motor::setLimitPositionMaximum(double p){
+  positionMaximum=p;
+  positionMaximumEnabled=true;
   return 1;
 }
-std::int32_t Motor::setPositonLimits(double minimum,double maximum){
-  setMinimumPositon(minimum);
-  setMaximumPosition(maximum);
+std::int32_t Motor::setLimitPositons(double minimum,double maximum){
+  setLimitPositonMinimum(minimum);
+  setLimitPositionMaximum(maximum);
   return 1;
 }
+std::int32_t Motor::setLimitPositionMinimumDisabled(){
+  positionMinimumEnabled=false;
+  return 1;
+}
+std::int32_t Motor::setLimitPositionMaximumDisabled(){
+  positionMaximumEnabled=false;
+  return 1;
+}
+std::int32_t Motor::setLimitPositionDisabled(){
+  setLimitPositionMinimumDisabled();
+  setLimitPositionMaximumDisabled();
+  return 1;
+}
+std::int32_t Motor::setLimitPositionMinimumEnabled(){
+  positionMinimumEnabled=true;
+  return 1;
+}
+std::int32_t Motor::setLimitPositionMaximumEnabled(){
+  positionMaximumEnabled=true;
+  return 1;
+}
+std::int32_t Motor::setLimitPositionsEnabled(){
+  setLimitPositionMinimumEnabled();
+  setLimitPositionMaximumEnabled();
+  return 1;
+}
+
 std::int32_t Motor::setBrakeMode(const AbstractMotor::brakeMode imode) {
   switch (imode) {
   case AbstractMotor::brakeMode::brake:

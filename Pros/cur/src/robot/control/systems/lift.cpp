@@ -79,7 +79,7 @@ bool get_calabrated(){
       motor.tarePosition();
       Calabrated=true;
       set_target(Down, VUp, true);
-      motor.setPositonLimits(Lift::MinLimit,Lift::MaxLimit);
+      motor.setLimitPositons(Lift::MinLimit,Lift::MaxLimit);
     }
     else {
       motor.moveVelocity(VCal);
@@ -140,10 +140,12 @@ bool get_calabrated(){
       if(BtnCal.changed()){
         if(BtnCal.isPressed()){//init
           set_controller(Controllers::MANUAL);
+          motor.setLimitPositionDisabled();
           set_v(VCal);
         }
         else{//deInit
           set_v(VStop);
+          motor.setLimitPositionsEnabled();
           motor.tarePosition();
         }
       }

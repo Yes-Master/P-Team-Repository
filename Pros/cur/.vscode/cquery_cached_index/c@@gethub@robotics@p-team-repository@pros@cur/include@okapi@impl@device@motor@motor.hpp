@@ -358,15 +358,43 @@ namespace okapi {
       /**
       * Sets the minimumPosition for the motor.
       */
-      virtual std::int32_t setMinimumPositon(double p);
+      virtual std::int32_t setLimitPositonMinimum(double p);
       /**
       * Sets the maximumPosition for the motor.
       */
-      virtual std::int32_t setMaximumPosition(double p);
+      virtual std::int32_t setLimitPositionMaximum(double p);
       /**
       * Sets position limiting for the motor.
       */
-      virtual std::int32_t setPositonLimits(double minimum,double maximum);
+      virtual std::int32_t setLimitPositons(double minimum,double maximum);
+      /**
+      * Disables Minimum position limiting for the motor.
+      */
+      virtual std::int32_t setLimitPositionMinimumDisabled();
+      /**
+      * Disables Minimum position limiting for the motor.
+      */
+      virtual std::int32_t setLimitPositionMaximumDisabled();
+      /**
+      * Disables position limiting for the motor.
+      */
+      virtual std::int32_t setLimitPositionDisabled();
+      /**
+      * Enables Minimum position limiting for the motor.
+      */
+      virtual std::int32_t setLimitPositionMinimumEnabled();
+      /**
+      * Enables Minimum position limiting for the motor.
+      */
+      virtual std::int32_t setLimitPositionMaximumEnabled();
+      /**
+      * Enables position limiting for the motor.
+      */
+      virtual std::int32_t setLimitPositionsEnabled();
+
+
+
+
       /**
       * Sets one of AbstractMotor::brakeMode to the motor.
       *
@@ -563,10 +591,10 @@ namespace okapi {
 
         protected:
           AbstractMotor::gearset gearset{AbstractMotor::gearset::green};
-          bool minimumPositionEnabled=false;
-          double minimumPosition=0;
-          bool maximumPositionEnabled=false;
-          double maximumPosition=0;
+          bool positionMinimumEnabled=false;
+          double positionMinimum=0;
+          bool positionMaximumEnabled=false;
+          double positionMaximum=0;
           double Target=0;
           int RPM=0;
         };
