@@ -20,8 +20,10 @@ namespace Lift{
   enum class Controllers{MANUAL,POSITION,NONE};
   //vars FUNCTIONS
   // double get_target();
+  void set_target(double t);
   void set_target(double t,bool p);
   void set_target(double t,int v,bool p);
+  bool get_calabrated();
   //methods
   void execute(int CalTimOut=20);
   namespace Control{

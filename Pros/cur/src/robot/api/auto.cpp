@@ -14,11 +14,11 @@ pros::Task AutonTask (::Auton::Task,(void*)"test", TASK_PRIORITY_DEFAULT,TASK_ST
 
 void autonomous(){
   // Puncher::motor.tarePosition();
-  SystemInit();
-    Auton::set_auton(true);
+  systemInit();
+  Auton::set_auton(true);
   AutonTask.resume();
 
   Drive::set_brakeMode(okapi::Motor::brakeMode::hold);
   Intake::Auto::enable();
-Auton::Routines::execute();
+  Auton::Selection::execute();
 }

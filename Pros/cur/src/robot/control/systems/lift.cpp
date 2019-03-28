@@ -6,17 +6,18 @@ namespace Lift{
 
   //position
   const double Down=37;
-  const double DownPun=35;//back
+  const double DownPun=110;//back
   const double UpPun=125;//front
   const double Up=230;
   const double MinLimit=Down;
-  const double MaxLimit=395;
+  const double MaxLimit=410;
   double P=Down;//position setting
 
   //velocity
   const int VMove=100;
   const int VDown=-VMove;
   const int VUp=VMove;
+  const int VPos=50;
   const int VStop=0;
   const int VCal=-50;
   int V=VStop;//velocity setting
@@ -57,17 +58,19 @@ namespace Lift{
     set_v(v);
     if(p) set_controller(Controllers::POSITION);
   }
-
+bool get_calabrated(){
+  return Calabrated;
+}
   //methods
   void PositionChanger(int v=VMove){
     set_v(v);
     if(get_controller()==Controllers::MANUAL){
       set_target(Down,VDown);
     }
-    else if(get_target()==Up)       set_target(Down,VDown);
-    else if(get_target()==Down)     set_target(Up,VUp);
-    else if(get_target()==UpPun)    set_target(Up,VUp);
-    else if(get_target()==DownPun)  set_target(Down,VDown);
+    else if(get_target()==Up)       set_target(Down,-VPos);
+    else if(get_target()==Down)     set_target(Up,VPos);
+    else if(get_target()==UpPun)    set_target(Up,VPos);
+    else if(get_target()==DownPun)  set_target(Down,-VPos);
     set_controller(Controllers::POSITION);
   }
   void Calabrate(int timeout=20){//20 loops
@@ -154,7 +157,7 @@ namespace Lift{
   }
 inline  namespace Auton{
     void wait(int w){
-      while(motor.getPosition()-get_target()>5){
+      while(std::abs(motor.getPosition()-get_target())>2){
         pros::delay(5);
       }
       pros::delay(w);

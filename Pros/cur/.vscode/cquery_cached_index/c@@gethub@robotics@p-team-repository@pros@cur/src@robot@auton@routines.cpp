@@ -11,7 +11,6 @@ namespace Auton{
   namespace intake=Intake::Auto;
   namespace lift=Lift;
   namespace puncher=Puncher::Auton;
-
   namespace Routines{
     void doubleShotFront(){
       puncher::fire(true);
@@ -24,15 +23,33 @@ namespace Auton{
         timer++;
         pros::delay(5);
       }
+      // puncher::wait();
       pros::delay(100);
       puncher::fire(true);
       lift::set_target(lift::Down,lift::VMove,true);
     }
-    void doubelShotBack();
+    void doubelShotBack(){
+      puncher::charge(false);
+      lift::set_target(Lift::DownPun,Lift::VMove,true);
+      lift::wait();
+      puncher::fire(true);
+      puncher::charge(false);
+      lift::set_target(150,Lift::VMove,true);
+      lift::wait();
+      int timer=0;
+      while(!intake::Balls::get_puncherActual() && timer<40){
+        timer++;
+        pros::delay(5);
+      }
+      puncher::wait();
+      pros::delay(100);
+      puncher::fire(true);
+      puncher::wait(50);
+      lift::set_target(lift::Down,lift::VMove,true);
+    }
     namespace Red{
       namespace Front{
-        void normal(bool park=false){}
-        void norMid(int flag=2){//0=bot,1=top,2=both//add to a game defs file
+        void NorMid(int flag=2){//-2=hold,0=bot,1=top,2=both
           drive::drive(28,200,-1);
           drive::drive(10,50,1);
 
@@ -66,15 +83,40 @@ namespace Auton{
 
           doubleShotFront();
         }
+        void midBoth()  { NorMid(2);  }
+        void midHold()  { NorMid(-2); }
+        void midTop()   { NorMid(1);  }
+        void midBottom(){ NorMid(0);  }
       }
       namespace Back{
+        void farPark(){
+          // while(!lift::get_calabrated()){
+          //   pros::delay(5);
+          // }
+          drive::drive(31,200,-1);
+          drive::drive(12,50,1);
 
+          puncher::charge();
+          drive::turnEnc(-54, 50, 0);
+
+          drive::drive(-3,50,1);
+          doubelShotBack();
+
+        }
+        void farCap(){
+
+        }
+        void farAll(){
+
+        }
+        void midCap(){
+
+        }
       }
     }
     namespace Blue{
       namespace Front{
-        void normal(bool park=false){}
-        void norMid(int flag=2){//0=bot,1=top,2=both//add to a game defs file
+        void NorMid(int flag=2){//-2=hold,0=bot,1=top,2=both//add to a game defs file
           drive::drive(28,200,-1);
           drive::drive(10,50,1);
 
@@ -108,9 +150,24 @@ namespace Auton{
 
           doubleShotFront();
         }
+        void midBoth()  { NorMid(2);  }
+        void midHold()  { NorMid(-2); }
+        void midTop()   { NorMid(1);  }
+        void midBottom(){ NorMid(0);  }
       }
       namespace Back{
+        void farPark(){
 
+        }
+        void farCap(){
+
+        }
+        void farAll(){
+
+        }
+        void midCap(){
+
+        }
       }
     }
     void skills(){
@@ -172,18 +229,12 @@ namespace Auton{
       //
       // drive::drive(90,200,1);
     }
-    void execute(){
-      switch (Auton::Selection::get_sel()) {
-        case Auton::Selection::Autons::RED:
-        Red::Front::norMid();
-        break;
-        case Auton::Selection::Autons::BLUE:
-        Blue::Front::norMid();
-        break;
-        case Auton::Selection::Autons::SKILLS:
-        skills();
-        break;
-      };
+    void testR(){
+
     }
+    void testB(){
+
+    }
+    void defaultSelection(){  Red::Back::farPark();  }
   }
 }

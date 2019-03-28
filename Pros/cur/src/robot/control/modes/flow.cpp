@@ -4,6 +4,8 @@
 
 #include "robot/api/auto.hpp"
 
+#include "robot/control/systems/controller.hpp"
+
 #include "robot/control/systems/drive.hpp"
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/systems/lift.hpp"
@@ -79,6 +81,8 @@ namespace Flow{
   }
   void user(){
     Control::modeTog();
+    Controller::driveRumble();
+    Controller::liftRumble();
     switch (get_mode()) {
       case Modes::FLAG:
         Control::toCapsTog();

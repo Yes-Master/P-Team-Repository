@@ -17,6 +17,8 @@ namespace Puncher{
   }
   namespace Control{
     void charge();
+    void doubleBack();
+    void doubleFront();
   }
   namespace Auton{
     void wait(int w=0);

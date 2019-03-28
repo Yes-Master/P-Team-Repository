@@ -3,10 +3,38 @@
 namespace Auton{
   namespace Routines{
     void doubleShotFront(void* test);
-    // void doubleShotFrontAuton();
-    void execute();
+    namespace Red{
+      namespace Front{
+        void midBoth();
+        void midHold();
+        void midTop();
+        void midBottom();
+      }
+      namespace Back{
+        void farPark();
+        void farCap();
+        void farAll();
+        void midCap();
+      }
+    }
+    namespace Blue{
+      namespace Front{
+        void midBoth();
+        void midHold();
+        void midTop();
+        void midBottom();
+      }
+      namespace Back{
+        void farPark();
+        void farCap();
+        void farAll();
+        void midCap();
+      }
+    }
+    void skills();
+    void testR();
+    void testB();
+    void defaultSelection();
   }
 }
-
-
 #endif /* end of include guard: ROUTINES_HPP */

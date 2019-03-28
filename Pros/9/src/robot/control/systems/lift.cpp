@@ -7,10 +7,10 @@ namespace Lift{
   //position
   const double Down=37;
   const double DownPun=35;//back
-  const double UpPun=100;//front
+  const double UpPun=125;//front//100
   const double Up=230;
   const double MinLimit=Down;
-  const double MaxLimit=395;
+  const double MaxLimit=385;
   double P=Down;//position setting
 
   //velocity

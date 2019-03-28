@@ -5,7 +5,7 @@
 #include "robot/control/modes/flow.hpp"
 
 void opcontrol(){
-  SystemInit();
+  systemInit();
   Flow::init();
     while(1){
     Flow::user();

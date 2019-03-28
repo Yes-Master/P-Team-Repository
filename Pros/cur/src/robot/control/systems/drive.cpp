@@ -64,7 +64,6 @@ namespace Drive{
       int RVJoy=master_controller.getAnalog(okapi::ControllerAnalog::rightY)*200;
       int RHJoy=master_controller.getAnalog(okapi::ControllerAnalog::rightX)*200;
 
-
       if(std::abs(LVJoy)<5)    LVJoy=0;
       if(std::abs(RVJoy)<5)    RVJoy=0;
       if(std::abs(LHJoy)<100)    LHJoy=0;
@@ -79,8 +78,10 @@ namespace Drive{
           get_inverted() ?  -LHJoy : RHJoy);
         }
         else{
-          if(get_controller()==Controllers::MANUAL)  tank(0,0,0,0);//Last loop before disableing; used to release drivemanualcontrol
-          set_controller(Controllers::NONE);
+          if(get_controller()==Controllers::MANUAL){
+            tank(0,0,0,0);//Last loop before disableing; used to release drivemanualcontrol
+            set_controller(Controllers::NONE);
+          }
         }
       }
       void hold(){

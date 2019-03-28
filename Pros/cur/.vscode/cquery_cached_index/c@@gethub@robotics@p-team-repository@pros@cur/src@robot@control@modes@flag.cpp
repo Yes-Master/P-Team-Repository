@@ -19,6 +19,8 @@ namespace Flag{
     Lift::Control::calabrate();
 
     Puncher::Control::charge();
+    Puncher::Control::doubleBack();
+    Puncher::Control::doubleFront();
   }
   void init(){
     Drive::set_inverted(false);

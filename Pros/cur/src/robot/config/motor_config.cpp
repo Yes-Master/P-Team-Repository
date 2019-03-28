@@ -44,8 +44,8 @@
 #include "custom/ramping.hpp"
 // #include "custom/mecanum_drive.hpp"
 namespace Drive{
-  okapi::Motor front_left_motor(9,false,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
-  okapi::Motor front_right_motor(1,true,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
+  okapi::Motor front_left_motor(6,false,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
+  okapi::Motor front_right_motor(3,true,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
   okapi::Motor back_left_motor(7,false,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
   okapi::Motor back_right_motor(10,true,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
   // MecanumDrive Chassis(
@@ -61,13 +61,14 @@ namespace Drive{
   Ramping RightS(2,5,200);
 }
 namespace Puncher{
-  okapi::Motor motor(20,false,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
+  okapi::Motor motor(5,false,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
 }
 namespace Lift{
   okapi::Motor left_mtr(8,false,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
-  okapi::Motor right_mtr(6,true,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
+  okapi::Motor right_mtr(9,true,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
   // std::vector<okapi::Motor> motors = {left_mtr,right_mtr};
   okapi::MotorGroup motor({right_mtr,left_mtr});
+  okapi::ADIButton CapBump(4,false);
 }
 namespace Intake{
   okapi::Motor motor(11,false,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);

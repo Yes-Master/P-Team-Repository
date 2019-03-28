@@ -63,7 +63,7 @@ namespace Lift{
   // extern okapi::Motor motor0;
   // extern okapi::Motor motor1;
   extern okapi::MotorGroup motor;
-  extern Ramping ramp;
+  extern   okapi::ADIButton CapBump;
 }
 
 namespace Intake{

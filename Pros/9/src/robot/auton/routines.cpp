@@ -9,7 +9,6 @@
 namespace Auton{
   namespace Routines{
     void doubleShotFront(void* test){
-
       Puncher::Auton::charge(true);
         if(!Puncher::BtnCharge.isPressed())  return;
       Puncher::Auton::fire(true);
@@ -31,5 +30,29 @@ namespace Auton{
         if(!Puncher::BtnCharge.isPressed())  return;
       Lift::set_target(Lift::Down,Lift::VMove,true);
     }
+    void skills(){
+
+    }
+    void defaultSelection(){
+
+    }
+
+    namespace Red{
+      namespace Front{
+        void midBoth(){}
+        void midHold(){}
+        void midTop(){}
+        void midBottom(){}
+      }
+    }
+    namespace Blue{
+      namespace Front{
+        void midBoth(){}
+        void midHold(){}
+        void midTop(){}
+        void midBottom(){}
+      }
+    }
+
   }
 }

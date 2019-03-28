@@ -7,10 +7,11 @@ namespace Drive{
   //vars FUNCTIONS
   // bool get_invert();
   void set_inverted(bool i);
-  void set_brakeMode(okapi::Motor::brakeMode b);
   //methods
-  void execute();
+  okapi::Motor::brakeMode get_brakeMode();
+  void set_brakeMode(okapi::Motor::brakeMode b);
   void set_v(int v1,int v2,int v3,int v4);
+  void execute();
   namespace Control{
     void manual();
     void hold();

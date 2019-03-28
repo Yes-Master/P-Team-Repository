@@ -16,6 +16,7 @@ namespace Intake{
 
   bool PuncBallActual=false;
   bool PuncBall=false;
+  bool OverBallActual=false;
   bool OverBall=false;
   bool FeedBall=false;
   bool Feed2Ball=false;
@@ -145,6 +146,7 @@ namespace Intake{
     bool EnabledWas=false;
 
     bool OverMode=false;
+    bool OverEnabled=true;
     //vars FUNCTIONS
     namespace Balls{
       //vars
@@ -163,6 +165,12 @@ namespace Intake{
       }
       void set_over(bool o){
         OverBall=o;
+      }
+      bool get_overEnabled(){
+        return OverEnabled;
+      }
+      void set_overEnabled(bool e){
+        OverEnabled=e;
       }
       bool get_feedTop(){
         return Feed2Ball;
@@ -195,7 +203,11 @@ namespace Intake{
 
         }
         //FeedBall UpDate
-        if(Over.get_value()<OverBallTal)  OverBall=true;
+        if(Over.get_value()<OverBallTal)  OverBallActual=true;
+        else  OverBallActual=false;
+        if(!get_overEnabled() && OverTimer>4)  set_overEnabled(true);//timer
+        else  OverTimer++;
+        if(get_overEnabled())  OverBall=OverBallActual;//set if enabled
         else  OverBall=false;
 
         if(Bottom.get_value()<Feed1BallTal) Feed1Ball=true;

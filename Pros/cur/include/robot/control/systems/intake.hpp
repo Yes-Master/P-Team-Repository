@@ -39,7 +39,8 @@ namespace Intake {
       bool get_puncher();
       void set_puncher(bool p);
       bool get_over();
-      void set_over(bool o);
+      // void set_over(bool o);
+      void set_overEnabled(bool e);
       bool get_feed();
       //methods
     }

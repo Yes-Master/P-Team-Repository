@@ -22,4 +22,6 @@ namespace Lift{
 }
 namespace Puncher{
   okapi::ControllerButton BtnCharge = master_controller[okapi::ControllerDigital::R1];
+  okapi::ControllerButton BtnDoubleBack = master_controller[okapi::ControllerDigital::left];
+  okapi::ControllerButton BtnDoubleFront = master_controller[okapi::ControllerDigital::right];
 }

@@ -3,11 +3,8 @@
 
 namespace Auton{
   namespace Selection{
-    enum class Autons{RED,BLUE,SKILLS};
-    Autons get_sel();
-    void on_left_btn();
-    void on_center_btn();
-    void on_right_btn();
+    void screenInit();
+    void execute();
   }
 }
 
