@@ -1,6 +1,6 @@
 #ifndef ROUTINES_HPP
 #define ROUTINES_HPP
-namespace Auton{
+namespace auton{
   namespace Routines{
     void doubleShotFront(void* test);
     namespace Red{

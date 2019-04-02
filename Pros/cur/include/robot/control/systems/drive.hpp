@@ -1,22 +1,32 @@
 #ifndef DRIVE_HPP
 #define DRIVE_HPP
 #include "main.h"
-namespace Drive{
+namespace drive{
   //vars
   enum class Controllers{MANUAL,NONE};
   //vars FUNCTIONS
   // bool get_invert();
+  /*
+  * inverts the dirve
+  */
   void set_inverted(bool i);
   //methods
   okapi::Motor::brakeMode get_brakeMode();
   void set_brakeMode(okapi::Motor::brakeMode b);
   void set_v(int v1,int v2,int v3,int v4);
   void execute();
-  namespace Control{
+  namespace feedBack{
+    /*
+    * rumbles the controller when
+    * the drive is not in coast
+    */
+    void rumble();
+  }
+  namespace control{
     void manual();
     void hold();
   }
-  namespace Auton{
+  namespace auton{
     void ramping();//sets drive motors to spin
     bool isSettled();
     void drive(double Dis,int Pct=50,int EndWait=1,int Correction=1);

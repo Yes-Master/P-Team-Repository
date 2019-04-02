@@ -9,21 +9,21 @@ bool inited=false;
 void systemInit(){//custom robot init dont trust the reliability of initialize && competition_initialize
   if(!inited){
     inited=true;
-    Puncher::motor.tarePosition();
+    puncher::motor.tarePosition();
   }
 }
 void initialize(){
-  Auton::Selection::screenInit();
+  auton::Selection::screenInit();
 
-  Lift::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
-  Intake::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
+  lift::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
+  intake::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
 }
 void disabled(void){
   AutonTask.suspend();
-  Auton::set_auton(false);
+  auton::set_auton(false);
 }
 void competition_initialize(void){
   // AutonTask.suspend();
-  // Auton::inAuton=false;
-  // Puncher::motor.tarePosition();
+  // auton::inAuton=false;
+  // puncher::motor.tarePosition();
 }

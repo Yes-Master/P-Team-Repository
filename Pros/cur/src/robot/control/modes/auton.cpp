@@ -7,7 +7,7 @@
 // DriveEndWait=0;
 // TurnEndWait=0;
 // PuncherEndWait=0;
-namespace Auton{
+namespace auton{
   bool inAuton=false;
   void set_auton(bool b){
     inAuton=b;
@@ -16,11 +16,11 @@ namespace Auton{
     std::uint32_t test=pros::millis();//init delay
     while(1){
       if(inAuton){
-        Drive::Auton::ramping();
-        Puncher::execute();
+        drive::auton::ramping();
+        puncher::execute();
 
-        Intake::execute();
-        Lift::execute(80);
+        intake::execute();
+        lift::execute(80);
       }
       pros::delay(5);//delay for 5 millis exact
     }

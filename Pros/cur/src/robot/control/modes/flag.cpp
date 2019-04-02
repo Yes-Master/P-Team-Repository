@@ -8,23 +8,23 @@
 
 namespace Flag{
   void user(){
-    Drive::Control::manual();
-    Drive::Control::hold();
+    drive::control::manual();
+    drive::control::hold();
 
-    Intake::Control::combo();
-    Intake::Control::feedIn();
-    Intake::Control::feedOut();
-    Intake::Control::toggle();
+    intake::control::combo();
+    intake::control::feedIn();
+    intake::control::feedOut();
+    intake::control::toggle();
 
-    Lift::Control::calabrate();
+    lift::control::calabrate();
 
-    Puncher::Control::charge();
-    Puncher::Control::doubleBack();
-    Puncher::Control::doubleFront();
+    puncher::control::charge();
+    puncher::control::doubleBack();
+    puncher::control::doubleFront();
   }
   void init(){
-    Drive::set_inverted(false);
-    Lift::set_target(Lift::Down,Lift::VDown,true);
+    drive::set_inverted(false);
+    lift::set_target(lift::down,lift::vDown,true);
     Flow::set_mode(Flow::Modes::FLAG);
   }
   void deInit(){

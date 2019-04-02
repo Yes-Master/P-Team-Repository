@@ -4,7 +4,7 @@
 #include "robot/auton/routines.hpp"
 #include <string>
 #include <algorithm>
-namespace Auton{
+namespace auton{
   namespace Selection{
     /*forward defs*/
     void StyleInit();

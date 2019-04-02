@@ -1,7 +1,7 @@
 #ifndef INTAKE_HPP
 #define INTAKE_HPP
-#include "main.h"
-namespace Intake {
+// #include "main.h"
+namespace intake {
   //global vars
   extern const int VOut;
   extern const int VStop;
@@ -17,7 +17,7 @@ namespace Intake {
   void set_VSetting(int v);
   //methods
   void execute();//execute motor requests
-  namespace Control{
+  namespace control{
     //vars
     //vars FUNCTIONS
     //methods
@@ -27,12 +27,12 @@ namespace Intake {
     void toggle();
     void execute();
   }
-  namespace Auto{
+  namespace automatic{
     //vars
     enum Modes{FAST,SLOW,OUT,NONE};
     //vars FUNCTIONS
     Modes get_Mode();//return current intake mode
-    namespace Balls{
+    namespace balls {
       //vars
       //vars FUNCTIONS
       bool get_puncherActual();

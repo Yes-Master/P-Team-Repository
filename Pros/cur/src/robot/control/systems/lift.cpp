@@ -1,26 +1,29 @@
 #include "robot/control/systems/lift.hpp"
 
-namespace Lift{
+namespace lift{
   //vars
   Controllers controller=Controllers::NONE;
 
   //position
-  const double Down=37;
-  const double DownPun=110;//back
-  const double UpPun=125;//front
-  const double Up=230;
-  const double MinLimit=Down;
-  const double MaxLimit=410;
-  double P=Down;//position setting
+  const double punFront1=down;//front fisrt
+  const double punFront2=150;//front second
+  const double punBack1=110;//back first
+  const double punBack2=150;//back second
+
+  const double down=37;//at ground
+  const double up=230;//max in 18_ft spec
+  const double limitMin=down;
+  const double limitMax=410;
+  double P=down;//position setting
 
   //velocity
-  const int VMove=100;
-  const int VDown=-VMove;
-  const int VUp=VMove;
-  const int VPos=50;
-  const int VStop=0;
-  const int VCal=-50;
-  int V=VStop;//velocity setting
+  const int vMove=100;
+  const int vStop=0;
+  const int vUp=vMove;
+  const int vDown=-vMove;
+  const int vPos=vMove/2;
+  const int vCal=-vMove/2;
+  int V=vStop;//velocity setting
 
   //calabrate
   int CalabrateTimer=0;
@@ -58,37 +61,39 @@ namespace Lift{
     set_v(v);
     if(p) set_controller(Controllers::POSITION);
   }
-bool get_calabrated(){
-  return Calabrated;
-}
+  bool get_calabrated(){
+    return Calabrated;
+  }
   //methods
-  void PositionChanger(int v=VMove){
+  void positionChanger(int v=vMove){
     set_v(v);
     if(get_controller()==Controllers::MANUAL){
-      set_target(Down,VDown);
+      set_target(down,vDown);
     }
-    else if(get_target()==Up)       set_target(Down,-VPos);
-    else if(get_target()==Down)     set_target(Up,VPos);
-    else if(get_target()==UpPun)    set_target(Up,VPos);
-    else if(get_target()==DownPun)  set_target(Down,-VPos);
+    else if(get_target()==up)       set_target(down,-vPos);
+    else if(get_target()==down)     set_target(up,vPos);
+    else if(get_target()==punFront1)  set_target(down,-vPos);
+    else if(get_target()==punFront2)  set_target(up,vPos);
+    else if(get_target()==punBack1)  set_target(down,-vPos);
+    else if(get_target()==punBack2)  set_target(up,vPos);
     set_controller(Controllers::POSITION);
   }
-  void Calabrate(int timeout=20){//20 loops
+  void calabrate(int timeout=20){//20 loops
     if(CalabrateTimer>timeout){
-      motor.moveVelocity(VStop);
+      motor.moveVelocity(vStop);
       motor.tarePosition();
       Calabrated=true;
-      set_target(Down, VUp, true);
-      motor.setLimitPositons(Lift::MinLimit,Lift::MaxLimit);
+      set_target(down, vUp, true);
+      motor.setLimitPositons(lift::limitMin,lift::limitMax);
     }
     else {
-      motor.moveVelocity(VCal);
+      motor.moveVelocity(vCal);
       CalabrateTimer++;
     }
   }
   void execute(int CalTimOut){
     if(!Calabrated){
-      Calabrate(CalTimOut);
+      calabrate(CalTimOut);
     }
     else{
       switch(get_controller()){
@@ -98,21 +103,33 @@ bool get_calabrated(){
         case Controllers::POSITION:
         motor.moveAbsolute(get_target(), get_v());
         break;
+        case Controllers::CALABRATE:
+        motor.moveVelocity(get_v());
+        break;
         case Controllers::NONE:
-        motor.moveVelocity(VStop);//stop the motor
+        motor.moveVelocity(vStop);//stop the motor
         break;
       };
     }
   }
-  namespace Control{
-    void manual(){
-      if(BtnDown.isPressed()){
-        set_controller(Controllers::MANUAL);
-        set_v(VDown);
+  namespace feedback{
+    void rumble(){
+      if(CapBump.changed()){
+        if(CapBump.isPressed()){
+          controllerMaster.rumble(".");
+        }
       }
-      else if(BtnUp.isPressed()){
+    }
+  }
+  namespace control{
+    void manual(){
+      if(btnDown.isPressed()){
         set_controller(Controllers::MANUAL);
-        set_v(VUp);
+        set_v(vDown);
+      }
+      else if(btnUp.isPressed()){
+        set_controller(Controllers::MANUAL);
+        set_v(vUp);
       }
       else if(get_controller()==Controllers::MANUAL){//deinti
         set_controller(Controllers::NONE);
@@ -120,16 +137,16 @@ bool get_calabrated(){
       }
     }
     void position(){
-      if(BtnPosTog.changed()){
-        if(BtnPosTog.isPressed()){//init
+      if(btnPosTog.changed()){
+        if(btnPosTog.isPressed()){//init
           // set_controller(Controllers::POSITION);
-          PositionChanger();
+          positionChanger();
         }
         else{//deInit
 
         }
       }
-      else if(BtnPosTog.isPressed()){//hold
+      else if(btnPosTog.isPressed()){//hold
 
       }
       else{
@@ -137,19 +154,19 @@ bool get_calabrated(){
       }
     }
     void calabrate(){
-      if(BtnCal.changed()){
-        if(BtnCal.isPressed()){//init
-          set_controller(Controllers::MANUAL);
+      if(btnCal.changed()){
+        if(btnCal.isPressed()){//init
+          set_controller(Controllers::CALABRATE);
           motor.setLimitPositionDisabled();
-          set_v(VCal);
+          set_v(vCal);
         }
         else{//deInit
-          set_v(VStop);
-          motor.setLimitPositionsEnabled();
           motor.tarePosition();
+          motor.setLimitPositionsEnabled();
+          set_target(down,vMove,true);
         }
       }
-      else if(BtnCal.isPressed()){//hold
+      else if(btnCal.isPressed()){//hold
 
       }
       else{
@@ -157,7 +174,7 @@ bool get_calabrated(){
       }
     }
   }
-inline  namespace Auton{
+  inline  namespace auton{
     void wait(int w){
       while(std::abs(motor.getPosition()-get_target())>2){
         pros::delay(5);

@@ -1,7 +1,7 @@
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/modes/flag.hpp"
 
-namespace Intake{
+namespace intake{
   //vars
   Controllers Controller=Controllers::NONE;
 
@@ -37,51 +37,53 @@ namespace Intake{
   }
   //methods
   void execute(){
-    Auto::execute();
-    Control::execute();
+    automatic::execute();
+    control::execute();
     if(get_controller()==Controllers::NONE) motor.moveVelocity(VStop);
   }
-  namespace Control{
+  namespace control{
     int timer=0;
+    okapi::Timer t;
     void combo(){
-      if(BtnCombo.changed()){
-        if(BtnCombo.isPressed()){//init
+      using namespace okapi::literals;
 
+      if(btnCombo.changed()){
+        if(btnCombo.isPressed()){//init
+          //init time; used to measure delta time
+          t.placeMark();//log this time;
         }
         else{//deinit
-          if(timer<=10){
+          if(t.getDtFromMark()<200_ms){//short press
             set_controller(Controllers::AUTO);
-            Auto::toggle();
+            automatic::toggle();
           }
-          else{
+          else{//long press
             set_controller(Controllers::NONE);
             set_v(VStop);
           }
-          timer=0;//reset timer
+          // timer=0;//reset timer; moved to init
         }
       }
-      else if(BtnCombo.isPressed()){//hold
-        if(timer>10){
+      else if(btnCombo.isPressed()){//hold
+        if(t.getDtFromMark()>200_ms){
           set_controller(Controllers::MANUAL);
           set_v(VOut);
         }
-        timer++;//count loops
       }
-      else{//null
+      else{//released
 
       }
-
     }
     void feedOut(){
-      if(BtnOut.changed()){//
-        if(BtnOut.isPressed()){//init
+      if(btnOut.changed()){//
+        if(btnOut.isPressed()){//init
           set_controller(Controllers::MANUAL);
         }
         else{//deint
           set_controller(Controllers::NONE);
         }
       }
-      else if(BtnOut.isPressed()){//hold
+      else if(btnOut.isPressed()){//hold
         set_v(VOut);
       }
       else{//null
@@ -89,15 +91,15 @@ namespace Intake{
       }
     }
     void feedIn(){
-      if(BtnIn.changed()){
-        if(BtnIn.isPressed()){//init
+      if(btnIn.changed()){
+        if(btnIn.isPressed()){//init
           set_controller(Controllers::MANUAL);
         }
         else{//deinit
           set_controller(Controllers::NONE);
         }
       }
-      else if(BtnIn.isPressed()){//hold
+      else if(btnIn.isPressed()){//hold
         set_v(VIn);
       }
       else{//null
@@ -106,17 +108,17 @@ namespace Intake{
 
     }
     void toggle(){
-      if(BtnTog.changed()){
-        if(BtnTog.isPressed()){//init
+      if(btnTog.changed()){
+        if(btnTog.isPressed()){//init
           Flag::init();//go to flag mode
           set_controller(Controllers::AUTO);
-          Auto::toggle();
+          automatic::toggle();
         }
         else{//deinit
 
         }
       }
-      else if(BtnTog.isPressed()){//hold
+      else if(btnTog.isPressed()){//hold
 
       }
       else{//null
@@ -127,7 +129,7 @@ namespace Intake{
       if(get_controller()==Controllers::MANUAL) motor.moveVelocity(get_v());
     }
   }
-  namespace Auto{
+  namespace automatic{
     //vars
     const int PuncBallTimeWait=0;//puncher ball timeout value
 
@@ -148,7 +150,7 @@ namespace Intake{
     bool OverMode=false;
     bool OverEnabled=true;
     //vars FUNCTIONS
-    namespace Balls{
+    namespace balls{
       //vars
       //vars FUNCTIONS
       bool get_puncherActual(){
@@ -187,7 +189,7 @@ namespace Intake{
       //methods
       void updateVars(){
         //Puncher UpDate
-        if(Puncher.get_value()<PuncBallTal){//if there is pysicaly a ball
+        if(puncher.get_value()<PuncBallTal){//if there is pysicaly a ball
           PuncherTimer=0;//reset timer
           PuncBall=PuncBallActual=true;
           ComRum=false;
@@ -263,7 +265,7 @@ namespace Intake{
             }
             else{//!overflow
               if(!Balls::get_feedTop()){
-                if(!Balls::get_feedBottom())  set_v(VIn*7/8);
+                if(!Balls::get_feedBottom())  set_v(VIn);
                 else            set_v(VIn/4);
               }
               else              set_v(VStop);//if punball && !Overball && feed2ball

@@ -3,30 +3,30 @@
 
 #include "okapi/api.hpp"
 
-extern okapi::Controller master_controller;
+extern okapi::Controller controllerMaster;
 
-namespace Flow{
-  extern okapi::ControllerButton BtnTog;
-  extern okapi::ControllerButton BtnToCaps;
+namespace flow{
+  extern okapi::ControllerButton btnTog;
+  extern okapi::ControllerButton btnToCaps;
 }
-namespace Drive{
-  extern okapi::ControllerButton BtnBrake;
+namespace drive{
+  extern okapi::ControllerButton btnBrake;
 }
-namespace Intake{
-  extern okapi::ControllerButton BtnCombo;
-  extern okapi::ControllerButton BtnIn;
-  extern okapi::ControllerButton BtnOut;
-  extern okapi::ControllerButton BtnTog;
+namespace intake{
+  extern okapi::ControllerButton btnCombo;
+  extern okapi::ControllerButton btnIn;
+  extern okapi::ControllerButton btnOut;
+  extern okapi::ControllerButton btnTog;
 }
-namespace Lift{
-  extern okapi::ControllerButton BtnUp;
-  extern okapi::ControllerButton BtnDown;
-  extern okapi::ControllerButton BtnPosTog;
-  extern okapi::ControllerButton BtnCal;
+namespace lift{
+  extern okapi::ControllerButton btnUp;
+  extern okapi::ControllerButton btnDown;
+  extern okapi::ControllerButton btnPosTog;
+  extern okapi::ControllerButton btnCal;
 }
-namespace Puncher{
-  extern okapi::ControllerButton BtnCharge;
-  extern okapi::ControllerButton BtnDoubleBack;
-  extern okapi::ControllerButton BtnDoubleFront;
+namespace puncher{
+  extern okapi::ControllerButton btnCharge;
+  extern okapi::ControllerButton btnDoubleBack;
+  extern okapi::ControllerButton btnDoubleFront;
 }
 #endif /* end of include guard: CONTROLLER_CONFIG_HPP */

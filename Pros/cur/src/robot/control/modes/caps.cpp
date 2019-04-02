@@ -8,25 +8,25 @@
 
 namespace Caps{
   void user(){
-    Drive::Control::manual();
-    Drive::Control::hold();
+    drive::control::manual();
+    drive::control::hold();
 
-    Intake::Control::feedIn();
-    Intake::Control::feedOut();
-    Intake::Control::toggle();
+    intake::control::feedIn();
+    intake::control::feedOut();
+    intake::control::toggle();
 
-    Lift::Control::manual();
-    Lift::Control::position();
-    Lift::Control::calabrate();
+    lift::control::manual();
+    lift::control::position();
+    lift::control::calabrate();
 
-    // Puncher::Control::
+    // puncher::control::
   }
   void init(){
-    Intake::Auto::disable();
-    Lift::set_target(Lift::Down,Lift::VDown,true);
-    Drive::set_inverted(true);
+    intake::automatic::disable();
+    lift::set_target(lift::down,lift::vDown,true);
+    drive::set_inverted(true);
     Flow::set_mode(Flow::Modes::CAPS);
-    Lift::BtnPosTog.changed();
+    lift::BtnPosTog.changed();
   }
   void deInit(){
 

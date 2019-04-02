@@ -1,7 +1,7 @@
 #ifndef PUNCHER_HPP
 #define PUNCHER_HPP
 #include "main.h"
-namespace Puncher{
+namespace puncher{
   //vars
   enum class Controllers{POSITION,NONE};
 
@@ -15,12 +15,12 @@ namespace Puncher{
   namespace OnOffCon{
     bool get_run();
   }
-  namespace Control{
+  namespace control{
     void charge();
     void doubleBack();
     void doubleFront();
   }
-  namespace Auton{
+  namespace auton{
     void wait(int w=0);
     void charge(bool w=false);
     void fire(bool w=true);

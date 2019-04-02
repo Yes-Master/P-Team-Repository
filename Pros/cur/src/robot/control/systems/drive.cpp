@@ -5,7 +5,7 @@ double SGN(double var){
   else if(var<0)  return -1;
   else return 0;
 }
-namespace Drive{
+namespace drive{
   //vars
   Controllers Controller=Controllers::NONE;
   const float WheelCir=4*M_PI;
@@ -57,7 +57,23 @@ namespace Drive{
   void execute(){
 
   }
-  namespace Control{
+  namespace feedback{
+    //vars
+
+    //vars FUNCTIONS
+
+    //methods
+    void rumble(){
+      static okapi::Timer timer;
+      if(get_brakeMode()!=okapi::AbstractMotor::brakeMode::coast){
+        using namespace okapi::literals;
+        if(timer.repeat(250_ms)){
+          master_controller.rumble(".");
+        }
+      }
+    }
+  }
+  namespace control{
     void manual(){
       int LHJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftX)*200;
       int LVJoy=master_controller.getAnalog(okapi::ControllerAnalog::leftY)*200;
@@ -102,7 +118,7 @@ namespace Drive{
         }
       }
     }
-    namespace Auton{
+    namespace auton{
       // namespace Ramp{
       //   void Calc(){
       //     Ya.Calculate();

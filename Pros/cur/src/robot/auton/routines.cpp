@@ -6,16 +6,16 @@
 #include "robot/control/systems/lift.hpp"
 #include "robot/control/systems/puncher.hpp"
 
-namespace Auton{
-  namespace drive=Drive::Auton;
-  namespace intake=Intake::Auto;
-  namespace lift=Lift;
-  namespace puncher=Puncher::Auton;
-  namespace Routines{
+namespace auton{
+  namespace drive=drive::auton;
+  namespace intake=intake::auto;
+  namespace lift=lift;
+  namespace puncher=puncher::auton;
+  namespace routines{
     void doubleShotFront(){
       puncher::fire(true);
       puncher::charge(false);
-      lift::set_target(Lift::UpPun,Lift::VMove,true);
+      lift::set_target(lift::punFront2,lift::vUp,true);
       puncher::wait();
       lift::wait();
       int timer=0;
@@ -26,15 +26,15 @@ namespace Auton{
       // puncher::wait();
       pros::delay(100);
       puncher::fire(true);
-      lift::set_target(lift::Down,lift::VMove,true);
+      lift::set_target(lift::down,lift::vDown,true);
     }
     void doubelShotBack(){
       puncher::charge(false);
-      lift::set_target(Lift::DownPun,Lift::VMove,true);
+      lift::set_target(lift::punBack1,lift::vUp,true);
       lift::wait();
       puncher::fire(true);
       puncher::charge(false);
-      lift::set_target(150,Lift::VMove,true);
+      lift::set_target(lift::punBack2);
       lift::wait();
       int timer=0;
       while(!intake::Balls::get_puncherActual() && timer<40){
@@ -42,10 +42,10 @@ namespace Auton{
         pros::delay(5);
       }
       puncher::wait();
-      pros::delay(100);
+      pros::delay(200);
       puncher::fire(true);
       puncher::wait(50);
-      lift::set_target(lift::Down,lift::VMove,true);
+      lift::set_target(lift::down,lift::vDown,true);
     }
     namespace Red{
       namespace Front{
@@ -73,10 +73,10 @@ namespace Auton{
           drive::turnEnc(-45,100,1);
 
           drive::drive(-23,200,-1);
-          lift::set_target(lift::Up, 200, true);
+          lift::set_target(lift::up, 200, true);
           drive::drive(-5,200,1);
           // lift::wait(200);
-          lift::set_target(lift::Down, 200, true);
+          lift::set_target(lift::down, 200, true);
 
           puncher::charge();
           drive::turnEnc(77, 200, 1);
@@ -140,10 +140,10 @@ namespace Auton{
           drive::turnEnc(45,100,1);
 
           drive::drive(-25,200,-1);
-          lift::set_target(lift::Up, 200, true);
+          lift::set_target(lift::up, 200, true);
           drive::drive(-5,100,1);
           // lift::wait(200);
-          lift::set_target(lift::Down, 200, true);
+          lift::set_target(lift::down, 200, true);
 
           puncher::charge();
           drive::turnEnc(-80, 200, 1);

@@ -4,7 +4,7 @@
 // // FrontRight(((x+y-10*(z*M_PI/180))/WheelCir));
 // // BackRight(((x-y+10*(z*M_PI/180))/WheelCir));
 //
-// MecanumDrive::  MecanumDrive(const okapi::Motor &fl,const okapi::Motor &bl,const okapi::Motor &fr,const okapi::Motor &br,double wheelcir,double width,double length){
+// Mecanumdrive::  MecanumDrive(const okapi::Motor &fl,const okapi::Motor &bl,const okapi::Motor &fr,const okapi::Motor &br,double wheelcir,double width,double length){
 //   FrontLeft=const_cast<okapi::Motor *>(&fl);
 //   BackLeft=const_cast<okapi::Motor *>(&bl);
 //   FrontRight=const_cast<okapi::Motor *>(&fr);
@@ -27,21 +27,21 @@
 //   Width=width;
 //   Length=length;
 // }
-// void MecanumDrive::left(double v){
+// void Mecanumdrive::left(double v){
 //   FrontLeft->moveVelocity(v);
 //   BackLeft->moveVelocity(v);
 // }
-// void MecanumDrive::right(double v){
+// void Mecanumdrive::right(double v){
 //   FrontRight->moveVelocity(v);
 //   BackRight->moveVelocity(v);
 // }
-// void MecanumDrive::tank(double left, double right, double strafe){
+// void Mecanumdrive::tank(double left, double right, double strafe){
 //   FrontLeft->moveVelocity(left+strafe);
 //   BackLeft->moveVelocity(left-strafe);
 //   FrontRight->moveVelocity(right-strafe);
 //   BackRight->moveVelocity(right+strafe);
 // }
-// // void MecanumDrive::tank(okapi::Controller con){
+// // void Mecanumdrive::tank(okapi::Controller con){
 // //   int LHJoy=con.getAnalog(okapi::ControllerAnalog::leftX)*200;
 // //   int LVJoy=con.getAnalog(okapi::ControllerAnalog::leftY)*200;
 // //   int RVJoy=con.getAnalog(okapi::ControllerAnalog::rightY)*200;
@@ -67,7 +67,7 @@
 // //     }
 // // }
 //
-// void MecanumDrive::calcDis(double forward, double strafe, double yaw){
+// void Mecanumdrive::calcDis(double forward, double strafe, double yaw){
 //   forwardSum+=forward;
 //   strafeSum+=strafe;
 //   yawSum+=yaw;
@@ -77,7 +77,7 @@
 //   FrontRight->set_target((forward+strafe-((Width+Length)/2)*(yaw*M_PI/180))/WheelCir);
 //   BackRight->set_target((forward-strafe+((Width+Length)/2)*(yaw*M_PI/180))/WheelCir);
 // }
-// void MecanumDrive::calcVelRatio(){
+// void Mecanumdrive::calcVelRatio(){
 //   double maxTargetDelta=std::max(FrontLeft->get_targetDelta(), std::max(BackLeft->get_targetDelta(), std::max(FrontRight->get_targetDelta(), BackRight->get_targetDelta())));
 //
 //   FrontLeft->set_RPM(FrontLeft->get_targetDelta()/maxTargetDelta);
@@ -85,7 +85,7 @@
 //   FrontRight->set_RPM(FrontRight->get_targetDelta()/maxTargetDelta);
 //   BackRight->set_RPM(BackRight->get_targetDelta()/maxTargetDelta);
 // }
-// void MecanumDrive::Absolute(double forward, double strafe, double yaw){
+// void Mecanumdrive::Absolute(double forward, double strafe, double yaw){
 //   calcDis(forward, strafe, yaw);
 //   calcVelRatio();
 //
@@ -94,7 +94,7 @@
 //   FrontRight->moveAbsolute(FrontRight->get_target(),FrontRight->get_RPM());
 //   BackRight->moveAbsolute(BackRight->get_target(),BackRight->get_RPM());
 // }
-// void MecanumDrive::AbsolutelyRelative(double forward, double strafe, double yaw){
+// void Mecanumdrive::AbsolutelyRelative(double forward, double strafe, double yaw){
 //   forward+=forwardSum;
 //   strafe+=strafeSum;
 //   yaw+=yawSum;

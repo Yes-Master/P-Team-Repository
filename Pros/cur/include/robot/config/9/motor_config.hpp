@@ -3,7 +3,7 @@
 //intagrate into systems files
 #include "okapi/api.hpp"
 #include "custom/ramping.hpp"
-namespace Drive{
+namespace drive{
   extern okapi::Motor front_left_motor;
   extern okapi::Motor front_right_motor;
   extern okapi::Motor back_left_motor;
@@ -14,18 +14,18 @@ namespace Drive{
   extern Ramping LeftS;
   extern Ramping RightS;
 }
-namespace Puncher{
+namespace puncher{
   extern okapi::Motor motor;
 }
 
-namespace Lift{
+namespace lift{
   // extern okapi::Motor motor0;
   extern okapi::Motor motor;
   // extern okapi::MotorGroup motor;
   // extern Ramping ramp;
 }
 
-namespace Intake{
+namespace intake{
   extern okapi::Motor motor;
   namespace Auto{
     namespace Balls{

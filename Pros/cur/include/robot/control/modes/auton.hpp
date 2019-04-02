@@ -1,6 +1,6 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
-namespace Auton{
+namespace auton{
   extern const int DriveEndWait;
   extern const int TurnEndWait;
   extern const int PuncherEndWait;
