@@ -13,13 +13,13 @@ void systemInit(){//custom robot init dont trust the reliability of initialize &
   }
 }
 void initialize(){
-  auton::Selection::screenInit();
+  auton::selection::screenInit();
 
   lift::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
   intake::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
 }
 void disabled(void){
-  AutonTask.suspend();
+  autonTask.suspend();
   auton::set_auton(false);
 }
 void competition_initialize(void){

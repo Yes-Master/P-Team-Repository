@@ -3,27 +3,27 @@
 
 class Ramping{
 protected:
-  double ChangeVal=1;    //the amout of Val change per loop
-  int ChangeMsec=5;   //the amount of time inbetween loops
+  double changeVal=1;    //the amout of Val change per loop
+  int changeMsec=5;   //the amount of time inbetween loops
 
-  double ValRequested=0; //used to request value
-  double ValOutput=0;    //val output
-  double MaxVal=100;     //the max val output
-  double MinVal=0;       //the min val output
+  double valRequested=0; //used to request value
+  double valOutput=0;    //val output
+  double maxVal=100;     //the max val output
+  double minVal=0;       //the min val output
 
 
 public:
-  bool Enabled=false;
+  bool enabled=false;
   //need to move to prvotected
 
   Ramping(double CV,double CM,double maxV=100,double minV=0);
 
-  double Calculate();
-  double Calculate(double cv);
-  void Request(int val);
-  void Instant(int val);
+  double calculate();
+  double calculate(double cv);
+  void request(int val);
+  void instant(int val);
 
-  double Output();
+  double output();
 
   double get_requested();
   int get_changeMsec();

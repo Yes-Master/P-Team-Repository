@@ -1,54 +1,54 @@
 #include "custom/ramping.hpp"
 
 Ramping::Ramping(double CV,double CM,double maxV,double minV){
-  ChangeVal=CV;
-  ChangeMsec=CM;
-  MaxVal=maxV;
-  MinVal=minV;
+  changeVal=CV;
+  changeMsec=CM;
+  maxVal=maxV;
+  minVal=minV;
 }
 
-double Ramping::Calculate(){
-  if(ValRequested>ValOutput)      ValOutput+=ChangeVal;
-  else if(ValRequested<ValOutput) ValOutput-=ChangeVal;
+double Ramping::calculate(){
+  if(valRequested>valOutput)      valOutput+=changeVal;
+  else if(valRequested<valOutput) valOutput-=changeVal;
   //limit Val
-  if(ValOutput>MaxVal)	ValOutput=MaxVal;
-  if(ValOutput<-MaxVal)	ValOutput=-MaxVal;
-  if(ValOutput>0 && ValOutput<MinVal) ValOutput=MinVal;
-  if(ValOutput<0 && ValOutput>MinVal) ValOutput=-MinVal;
+  if(valOutput>maxVal)	valOutput=maxVal;
+  if(valOutput<-maxVal)	valOutput=-maxVal;
+  if(valOutput>0 && valOutput<minVal) valOutput=minVal;
+  if(valOutput<0 && valOutput>minVal) valOutput=-minVal;
 
-  return ValOutput;
+  return valOutput;
 }
-double Ramping::Calculate(double cv){
-  ChangeVal=cv;
-  return Calculate();
-}
-
-void Ramping::Request(int val){
-  ValRequested=val;
-}
-void Ramping::Instant(int val){
-  Request(val);
-  ValOutput=val;
+double Ramping::calculate(double cv){
+  changeVal=cv;
+  return calculate();
 }
 
-double Ramping::Output(){
-  return ValOutput;
+void Ramping::request(int val){
+  valRequested=val;
+}
+void Ramping::instant(int val){
+  request(val);
+  valOutput=val;
+}
+
+double Ramping::output(){
+  return valOutput;
 }
 
 double Ramping::get_requested(){
-  return ValRequested;
+  return valRequested;
 }
 int Ramping::get_changeMsec(){
-  return ChangeMsec;
+  return changeMsec;
 }
 
 double Ramping::get_max(){
-  return MaxVal;
+  return maxVal;
 }
 double Ramping::get_min(){
-  return MinVal;
+  return minVal;
 }
 void Ramping::set_limits(double max,double min){
-  MaxVal=max;
-  MinVal=min;
+  maxVal=max;
+  minVal=min;
 }

@@ -3,6 +3,6 @@
 #include "robot/control/modes/auton.hpp"
 #include "robot/auton/selection.hpp"
 #include "api.h"
-extern pros::Task AutonTask;
+extern pros::Task autonTask;
 
 #endif /* end of include guard: AUTO_HPP */

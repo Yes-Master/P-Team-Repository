@@ -125,11 +125,11 @@ namespace drive{
       //     Xa.Calculate();
       //     Za.Calculate();
       //
-      //     Yv.Calculate(Ya.Output());//ramp yv by ya's output
-      //     Xv.Calculate(Xv.Output());
-      //     Zv.Calculate(Za.Output());
+      //     Yv.Calculate(Ya.output());//ramp yv by ya's output
+      //     Xv.Calculate(Xv.output());
+      //     Zv.Calculate(Za.output());
       //
-      //     arcade(Yv.Output(), Xa.Output(), Zv.Output());//output velocitys to motor
+      //     arcade(Yv.output(), Xa.output(), Zv.output());//output velocitys to motor
       //   }
       //   void move(double y,double x,int maxV=200){//y=forward distance inches,x=forward distance inches,z=yaw=turnRight degrees
       //     int yMaxV=y*maxV/(std::abs(y)+std::abs(x));//relitive y max velocity to hit target at the same time
@@ -167,43 +167,52 @@ namespace drive{
         return true;
       }
       void ramping(){//sets drive motors to spin
-        LeftN.Calculate();
-        RightN.Calculate();
-        LeftS.Calculate();
-        RightS.Calculate();
-        set_v(LeftN.Output()+LeftS.Output(),RightN.Output()-LeftS.Output(),LeftN.Output()-RightS.Output(),RightN.Output()+RightS.Output());
+        LeftN.calculate();
+        RightN.calculate();
+        LeftS.calculate();
+        RightS.calculate();
+        set_v(LeftN.output()+LeftS.output(),RightN.output()-LeftS.output(),LeftN.output()-RightS.output(),RightN.output()+RightS.output());
       }
       void DRN(int l,int r){//update the drive ramping requested values
-        LeftN.Request(l);
-        RightN.Request(r);
+        LeftN.request(l);
+        RightN.request(r);
       }
       void DIN(int l,int r){//drive instentaniouly
-        LeftN.Instant(l);
-        RightN.Instant(r);
-        set_v(LeftN.Output()+LeftS.Output(),RightN.Output()-LeftS.Output(),LeftN.Output()-RightS.Output(),RightN.Output()+RightS.Output());
+        LeftN.instant(l);
+        RightN.instant(r);
+        set_v(LeftN.output()+LeftS.output(),RightN.output()-LeftS.output(),LeftN.output()-RightS.output(),RightN.output()+RightS.output());
       }
       void DRS(int l,int r){//update the drive ramping requested values
-        LeftS.Request(l);
-        RightS.Request(r);
+        LeftS.request(l);
+        RightS.request(r);
       }
       void DIS(int l,int r){//drive instentaniouly
-        LeftS.Instant(l);
-        RightS.Instant(r);
-        set_v(LeftN.Output()+LeftS.Output(),RightN.Output()-LeftS.Output(),LeftN.Output()-RightS.Output(),RightN.Output()+RightS.Output());
+        LeftS.instant(l);
+        RightS.instant(r);
+        set_v(LeftN.output()+LeftS.output(),RightN.output()-LeftS.output(),LeftN.output()-RightS.output(),RightN.output()+RightS.output());
       }
-      void drive(double Dis,int Pct,int EndWait,int Correction){
-        double Dir=SGN(Dis);
-        double Deg=std::abs(Dis)*360/WheelCir;
-        int Pct1=0;
-        int Pct2=0;
+      void drive(double tar,int vel,int EndWait,int Correction){//assumes velocity start = end = 0
+        double direction=SGN(tar);
+        double totalDeg=std::abs(tar)*360/WheelCir;
+        int velocity=std::abs(vel)*direction;
+
         front_left_motor.tarePosition();
 
-        while(std::abs(front_left_motor.getPosition())<std::abs(Deg)){
-          Pct1=Pct*Dir;
-          Pct2=Pct*Dir;
-          DRN(Pct1,Pct2);
-          pros::delay(5);
+        double rampDeg=0;//the distance travled during ramping; the delay of geting to reuested velocity target;
+        bool ramped=false;//has it finished ramping to target velocity
+        while(std::abs(front_left_motor.getPosition())<std::abs(totalDeg-rampDeg)){//max error is 1/30 of an inch;
+          DRN(velocity,velocity);
+          pros::delay(5);//wait for the ramp task to execute, free up PU,wait for distance to be travled;
+          //need to sync with ramping task
+          if(std::abs(LeftN.output())==std::abs(velocity)){//if it is ramped1 to target velocity
+            ramped=true;
+          }
+          else ramped=false;
+          if(!ramped){
+            rampDeg=front_left_motor.getPosition();//log relative distance travled during ramp in degrees
+          }
         }
+
         if(EndWait==-1){//                                                          Junction
           //only use if another drive command fallows
         }
@@ -227,19 +236,28 @@ namespace drive{
         else if(EndWait==0){
         }
       }
-      void driveS(double Dis,int Pct,int EndWait,int Correction){
-        double Dir=SGN(Dis);
-        double Deg=std::abs(Dis)*360/WheelCir;
-        int Pct1=0;
-        int Pct2=0;
+      void driveS(double tar,int vel,int EndWait,int Correction){//assumes velocity start = end = 0
+        double direction=SGN(tar);
+        double totalDeg=std::abs(tar)*360/WheelCir;
+        int velocity=std::abs(vel)*direction;
+
         front_right_motor.tarePosition();
 
-        while(std::abs(front_right_motor.getPosition())<std::abs(Deg)){
-          Pct1=Pct*Dir;
-          Pct2=Pct*Dir;
-          DRS(Pct1,Pct2);
-          pros::delay(5);
+        double rampDeg=0;//the distance travled during ramping; the delay of geting to reuested velocity target;
+        bool ramped=false;//has it finished ramping to target velocity
+        while(std::abs(front_right_motor.getPosition())<std::abs(totalDeg-rampDeg)){//max error is 1/30 of an inch;
+          DRS(velocity,velocity);
+          pros::delay(5);//wait for the ramp task to execute, free up PU,wait for distance to be travled;
+          //need to sync with ramping task
+          if(std::abs(LeftN.output())==std::abs(velocity)){//if it is ramped1 to target velocity
+            ramped=true;
+          }
+          else ramped=false;
+          if(!ramped){
+            rampDeg=front_left_motor.getPosition();//log relative distance travled during ramp in degrees
+          }
         }
+
         if(EndWait==-1){//                                                          Junction
           //only use if another drive command fallows
         }
