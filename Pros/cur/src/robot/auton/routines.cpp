@@ -8,7 +8,7 @@
 
 namespace auton{
   namespace drive=drive::auton;
-  namespace intake=intake::auto;
+  namespace intake=intake::automatic;
   namespace lift=lift;
   namespace puncher=puncher::auton;
   namespace routines{
@@ -19,7 +19,7 @@ namespace auton{
       puncher::wait();
       lift::wait();
       int timer=0;
-      while(!intake::Balls::get_puncherActual() && timer<40){
+      while(!intake::balls::get_puncherActual() && timer<40){
         timer++;
         pros::delay(5);
       }
@@ -37,7 +37,7 @@ namespace auton{
       lift::set_target(lift::punBack2);
       lift::wait();
       int timer=0;
-      while(!intake::Balls::get_puncherActual() && timer<40){
+      while(!intake::balls::get_puncherActual() && timer<40){
         timer++;
         pros::delay(5);
       }
@@ -47,9 +47,9 @@ namespace auton{
       puncher::wait(50);
       lift::set_target(lift::down,lift::vDown,true);
     }
-    namespace Red{
-      namespace Front{
-        void NorMid(int flag=2){//-2=hold,0=bot,1=top,2=both
+    namespace red{
+      namespace front{
+        void norMid(int flag=2){//-2=hold,0=bot,1=top,2=both
           drive::drive(28,200,-1);
           drive::drive(10,50,1);
 
@@ -83,12 +83,12 @@ namespace auton{
 
           doubleShotFront();
         }
-        void midBoth()  { NorMid(2);  }
-        void midHold()  { NorMid(-2); }
-        void midTop()   { NorMid(1);  }
-        void midBottom(){ NorMid(0);  }
+        void midBoth()  { norMid(2);  }
+        void midHold()  { norMid(-2); }
+        void midTop()   { norMid(1);  }
+        void midBottom(){ norMid(0);  }
       }
-      namespace Back{
+      namespace back{
         void farPark(){
           // while(!lift::get_calabrated()){
           //   pros::delay(5);
@@ -114,8 +114,8 @@ namespace auton{
         }
       }
     }
-    namespace Blue{
-      namespace Front{
+    namespace blue{
+      namespace front{
         void NorMid(int flag=2){//-2=hold,0=bot,1=top,2=both//add to a game defs file
           drive::drive(28,200,-1);
           drive::drive(10,50,1);
@@ -155,7 +155,7 @@ namespace auton{
         void midTop()   { NorMid(1);  }
         void midBottom(){ NorMid(0);  }
       }
-      namespace Back{
+      namespace back{
         void farPark(){
 
         }
@@ -235,6 +235,6 @@ namespace auton{
     void testB(){
 
     }
-    void defaultSelection(){  Red::Back::farPark();  }
+    void defaultSelection(){  red::back::farPark();  }
   }
 }

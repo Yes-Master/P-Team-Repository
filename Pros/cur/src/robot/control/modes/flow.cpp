@@ -3,36 +3,37 @@
 #include "robot/control/modes/caps.hpp"
 
 #include "robot/api/auto.hpp"
+// #include "robot/config/controller_config.hpp"
 
 #include "robot/control/systems/drive.hpp"
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/systems/lift.hpp"
 #include "robot/control/systems/puncher.hpp"
 
-namespace Flow{
+namespace flow{
   //vars
-  Modes Mode=Modes::NONE;
+  Modes mode=Modes::NONE;
   //vars FUNCTIONS
   Modes get_mode(){
-    return Mode;
+    return mode;
   }
   void set_mode(Modes m){
-    Mode=m;
+    mode=m;
   }
   //methods
   namespace control{
     void modeTog(){
-      if(BtnTog.changed()){
-        if(BtnTog.isPressed()){
+      if(btnTog.changed()){
+        if(btnTog.isPressed()){
           switch (get_mode()) {
             case Modes::FLAG:
-              Caps::init();
+              caps::init();
             break;
             case Modes::CAPS:
-              Flag::init();
+              flag::init();
             break;
             case Modes::DEBUG:
-              Flag::init();
+              flag::init();
             break;
             case Modes::NONE:
             break;
@@ -42,23 +43,23 @@ namespace Flow{
 
         }
       }
-      else if(BtnTog.isPressed()){
+      else if(btnTog.isPressed()){
 
       }
       else{
 
       }
     }
-    void toCapsTog(){
-      if(BtnToCaps.changed()){
-        if(BtnToCaps.isPressed()){
-          Caps::init();
+    void tocapsTog(){
+      if(btnToCaps.changed()){
+        if(btnToCaps.isPressed()){
+          caps::init();
         }
         else{
 
         }
       }
-      else if(BtnToCaps.isPressed()){
+      else if(btnToCaps.isPressed()){
 
       }
       else{
@@ -67,8 +68,8 @@ namespace Flow{
     }
   }
   void init(){
-    Flag::init();
-    AutonTask.suspend();
+    flag::init();
+    autonTask.suspend();
     drive::set_brakeMode(okapi::Motor::brakeMode::coast);
   }
   void execute(){
@@ -81,11 +82,11 @@ namespace Flow{
     control::modeTog();
     switch (get_mode()) {
       case Modes::FLAG:
-        control::toCapsTog();
-        Flag::user();
+        control::tocapsTog();
+        flag::user();
       break;
       case Modes::CAPS:
-        Caps::user();
+        caps::user();
       break;
       case Modes::DEBUG:
         //debug

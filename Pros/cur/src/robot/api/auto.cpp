@@ -10,15 +10,15 @@
 #include "robot/auton/routines.hpp"
 #include "main.h"
 
-pros::Task AutonTask (::auton::Task,(void*)"test", TASK_PRIORITY_DEFAULT,TASK_STACK_DEPTH_DEFAULT, "AutonTask");
+pros::Task autonTask (::auton::Task,(void*)"test", TASK_PRIORITY_DEFAULT,TASK_STACK_DEPTH_DEFAULT, "AutonTask");
 
 void autonomous(){
   // puncher::motor.tarePosition();
   systemInit();
   auton::set_auton(true);
-  AutonTask.resume();
+  autonTask.resume();
 
   drive::set_brakeMode(okapi::Motor::brakeMode::hold);
   intake::automatic::enable();
-  auton::Selection::execute();
+  auton::selection::execute();
 }

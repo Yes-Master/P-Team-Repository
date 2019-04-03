@@ -6,7 +6,7 @@
 #include "robot/control/systems/lift.hpp"
 #include "robot/control/systems/puncher.hpp"
 
-namespace Flag{
+namespace flag{
   void user(){
     drive::control::manual();
     drive::control::hold();
@@ -25,7 +25,7 @@ namespace Flag{
   void init(){
     drive::set_inverted(false);
     lift::set_target(lift::down,lift::vDown,true);
-    Flow::set_mode(Flow::Modes::FLAG);
+    flow::set_mode(flow::Modes::FLAG);
   }
   void deInit(){
 
