@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+#.vscode folders
+cquery_cached_index/
+ipch/
