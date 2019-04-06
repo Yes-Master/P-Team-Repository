@@ -1,3 +1,4 @@
 #.vsfolders
-**/.vscode/*
+**/.vscode/**
 #Pros/cur/.vscode/ipch/*/*/*/*
+#Pros/cur/.vscode/ipch/**
