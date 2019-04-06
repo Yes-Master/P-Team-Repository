@@ -46,7 +46,7 @@ namespace auton{
     lv_style_t style_red;
     lv_style_t style_blue;
     lv_style_t style_config;
-    lv_style_t style_btn;
+    // lv_style_t style_btn;
 
     int row;//if nothing is selected run this
     int col;//if nothing is selected run this
@@ -142,7 +142,7 @@ namespace auton{
       lv_style_copy(&style_config, &lv_style_plain);
       style_config.text.color = LV_COLOR_HEX(0x00FF00);
 
-      style_btn.body.main_color = LV_COLOR_MAKE(100, 100, 100);
+      // lv_style_copy(&style_btn, &lv_style_plain);
     }
     void BtnInit(lv_obj_t * btn,lv_style_t * sty,int row,int col){
       lv_obj_t * label;
@@ -152,7 +152,7 @@ namespace auton{
       lv_obj_set_pos(btn,x,y);
       lv_obj_set_size(btn,465/5,240/4);
       lv_btn_set_action(btn, LV_BTN_ACTION_CLICK,On_Click);
-      lv_obj_set_style(btn,&style_btn);
+      // lv_obj_set_style(btn,&style_btn);
 
       label = lv_label_create(btn, NULL);
       lv_obj_set_style(label,sty);
@@ -179,26 +179,26 @@ namespace auton{
       else  controllerMaster.setText(0, 0, ConHeaders[row]+" "+RoutsToString(row,col)+"            ");
     }
     static lv_res_t On_Click(_lv_obj_t * btn){
-      if(btn==Btn1_1){  row=0;  col=0;  } else lv_btn_set_state(Btn1_1, LV_BTN_STATE_REL);
-      if(btn==Btn1_2){  row=0;  col=1;  } else lv_btn_set_state(Btn1_2, LV_BTN_STATE_REL);
-      if(btn==Btn1_3){  row=0;  col=2;  } else lv_btn_set_state(Btn1_3, LV_BTN_STATE_REL);
-      if(btn==Btn1_4){  row=0;  col=3;  } else lv_btn_set_state(Btn1_4, LV_BTN_STATE_REL);
-      if(btn==Btn1_5){  row=0;  col=4;  } else lv_btn_set_state(Btn1_5, LV_BTN_STATE_REL);
-      if(btn==Btn2_1){  row=1;  col=0;  } else lv_btn_set_state(Btn2_1, LV_BTN_STATE_REL);
-      if(btn==Btn2_2){  row=1;  col=1;  } else lv_btn_set_state(Btn2_2, LV_BTN_STATE_REL);
-      if(btn==Btn2_3){  row=1;  col=2;  } else lv_btn_set_state(Btn2_3, LV_BTN_STATE_REL);
-      if(btn==Btn2_4){  row=1;  col=3;  } else lv_btn_set_state(Btn2_4, LV_BTN_STATE_REL);
-      if(btn==Btn2_5){  row=1;  col=4;  } else lv_btn_set_state(Btn2_5, LV_BTN_STATE_REL);
-      if(btn==Btn3_1){  row=2;  col=0;  } else lv_btn_set_state(Btn3_1, LV_BTN_STATE_REL);
-      if(btn==Btn3_2){  row=2;  col=1;  } else lv_btn_set_state(Btn3_2, LV_BTN_STATE_REL);
-      if(btn==Btn3_3){  row=2;  col=2;  } else lv_btn_set_state(Btn3_3, LV_BTN_STATE_REL);
-      if(btn==Btn3_4){  row=2;  col=3;  } else lv_btn_set_state(Btn3_4, LV_BTN_STATE_REL);
-      if(btn==Btn3_5){  row=2;  col=4;  } else lv_btn_set_state(Btn3_5, LV_BTN_STATE_REL);
-      if(btn==Btn4_1){  row=3;  col=0;  } else lv_btn_set_state(Btn4_1, LV_BTN_STATE_REL);
-      if(btn==Btn4_2){  row=3;  col=1;  } else lv_btn_set_state(Btn4_2, LV_BTN_STATE_REL);
-      if(btn==Btn4_3){  row=3;  col=2;  } else lv_btn_set_state(Btn4_3, LV_BTN_STATE_REL);
-      if(btn==Btn4_4){  row=3;  col=3;  } else lv_btn_set_state(Btn4_4, LV_BTN_STATE_REL);
-      if(btn==Btn4_5){  row=3;  col=4;  } else lv_btn_set_state(Btn4_5, LV_BTN_STATE_REL);
+      if(btn==Btn1_1){  row=0;  col=0;  } else {  lv_btn_set_state(Btn1_1, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_1,&style_btn);*/  }
+      if(btn==Btn1_2){  row=0;  col=1;  } else {  lv_btn_set_state(Btn1_2, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_2,&style_btn);*/  }
+      if(btn==Btn1_3){  row=0;  col=2;  } else {  lv_btn_set_state(Btn1_3, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_3,&style_btn);*/  }
+      if(btn==Btn1_4){  row=0;  col=3;  } else {  lv_btn_set_state(Btn1_4, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_4,&style_btn);*/  }
+      if(btn==Btn1_5){  row=0;  col=4;  } else {  lv_btn_set_state(Btn1_5, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_5,&style_btn);*/  }
+      if(btn==Btn2_1){  row=1;  col=0;  } else {  lv_btn_set_state(Btn2_1, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn2_1,&style_btn);*/  }
+      if(btn==Btn2_2){  row=1;  col=1;  } else {  lv_btn_set_state(Btn2_2, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn2_2,&style_btn);*/  }
+      if(btn==Btn2_3){  row=1;  col=2;  } else {  lv_btn_set_state(Btn2_3, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn2_3,&style_btn);*/  }
+      if(btn==Btn2_4){  row=1;  col=3;  } else {  lv_btn_set_state(Btn2_4, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn2_4,&style_btn);*/  }
+      if(btn==Btn2_5){  row=1;  col=4;  } else {  lv_btn_set_state(Btn2_5, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn2_5,&style_btn);*/  }
+      if(btn==Btn3_1){  row=2;  col=0;  } else {  lv_btn_set_state(Btn3_1, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn3_1,&style_btn);*/  }
+      if(btn==Btn3_2){  row=2;  col=1;  } else {  lv_btn_set_state(Btn3_2, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn3_2,&style_btn);*/  }
+      if(btn==Btn3_3){  row=2;  col=2;  } else {  lv_btn_set_state(Btn3_3, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn3_3,&style_btn);*/  }
+      if(btn==Btn3_4){  row=2;  col=3;  } else {  lv_btn_set_state(Btn3_4, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn3_4,&style_btn);*/  }
+      if(btn==Btn3_5){  row=2;  col=4;  } else {  lv_btn_set_state(Btn3_5, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn3_5,&style_btn);*/  }
+      if(btn==Btn4_1){  row=3;  col=0;  } else {  lv_btn_set_state(Btn4_1, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn4_1,&style_btn);*/  }
+      if(btn==Btn4_2){  row=3;  col=1;  } else {  lv_btn_set_state(Btn4_2, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn4_2,&style_btn);*/  }
+      if(btn==Btn4_3){  row=3;  col=2;  } else {  lv_btn_set_state(Btn4_3, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn4_3,&style_btn);*/  }
+      if(btn==Btn4_4){  row=3;  col=3;  } else {  lv_btn_set_state(Btn4_4, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn4_4,&style_btn);*/  }
+      if(btn==Btn4_5){  row=3;  col=4;  } else {  lv_btn_set_state(Btn4_5, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn4_5,&style_btn);*/  }
       std::cout <<"row: "<<row<<" col: "<<col<<std::endl;
       ControllerScreen();
       return LV_RES_OK;
