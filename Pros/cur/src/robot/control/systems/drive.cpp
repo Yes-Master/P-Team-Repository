@@ -42,6 +42,7 @@ namespace drive{
     back_left_motor.moveVelocity(v3);
     back_right_motor.moveVelocity(v4);
   }
+  
   void tank(int j1,int j2,int j3,int j4){
     int LF=j1;//left
     int RF=j2;//right
@@ -107,7 +108,7 @@ namespace drive{
             else set_brakeMode(okapi::Motor::brakeMode::coast);
           }
           else{//deinti
-
+            
           }
         }
         else if(btnBrake.isPressed()){//hold

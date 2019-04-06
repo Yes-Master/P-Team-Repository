@@ -10,7 +10,7 @@
             "group": "build",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.
-                "reveal": "always"
+                "reveal": "silent"
             },
             // Use the standard MS compiler pattern to detect errors, warnings and infos
             "problemMatcher": "$msCompile"
@@ -18,11 +18,11 @@
         {
             "label": "upload",
             "type": "shell",
-            "command": "prosv5 upload",
+            "command": "prosv5 upload --slot 3 --name 3_here",
             "group": "build",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.
-                "reveal": "always"
+                "reveal": "silent"
             },
             // Use the standard MS compiler pattern to detect errors, warnings and infos
             "problemMatcher": "$msCompile"
@@ -38,7 +38,19 @@
             },
             // Use the standard MS compiler pattern to detect errors, warnings and infos
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "all",
+            "type": "shell",
+            "command": "prosv5 upload --execute",
+            "group": "build",
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "reveal": "silent"
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": "$msCompile",
+            "dependsOn": "make"
         }
-
     ]
 }
