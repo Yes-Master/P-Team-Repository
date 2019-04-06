@@ -33,3 +33,4 @@
 
 #.vscode folders
 *ipch/
+*cquery_cached_index/
