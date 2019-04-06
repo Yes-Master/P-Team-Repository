@@ -46,6 +46,7 @@ namespace auton{
     lv_style_t style_red;
     lv_style_t style_blue;
     lv_style_t style_config;
+    lv_style_t style_btn;
 
     int row;//if nothing is selected run this
     int col;//if nothing is selected run this
@@ -133,22 +134,25 @@ namespace auton{
     }
     void StyleInit(){
       lv_style_copy(&style_red, &lv_style_plain);
-      style_red.text.color = LV_COLOR_HEX(0xFF0000);;
+      style_red.text.color = LV_COLOR_HEX(0xFF0000);
+
       lv_style_copy(&style_blue, &lv_style_plain);
       style_blue.text.color = LV_COLOR_HEX(0x0000FF);
+
       lv_style_copy(&style_config, &lv_style_plain);
       style_config.text.color = LV_COLOR_HEX(0x00FF00);
 
+      style_btn.body.main_color = LV_COLOR_MAKE(100, 100, 100);
     }
     void BtnInit(lv_obj_t * btn,lv_style_t * sty,int row,int col){
-      static lv_obj_t * label;
+      lv_obj_t * label;
       int x=465/5*col+480-465;
       int y=240/4*row;
       lv_btn_set_toggle(btn, true);
       lv_obj_set_pos(btn,x,y);
       lv_obj_set_size(btn,465/5,240/4);
       lv_btn_set_action(btn, LV_BTN_ACTION_CLICK,On_Click);
-      lv_obj_set_style(label,sty);
+      lv_obj_set_style(btn,&style_btn);
 
       label = lv_label_create(btn, NULL);
       lv_obj_set_style(label,sty);
