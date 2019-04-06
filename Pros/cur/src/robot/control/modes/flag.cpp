@@ -25,6 +25,7 @@ namespace flag{
   void init(){
     drive::set_inverted(false);
     lift::set_target(lift::down,lift::vDown,true);
+    controllerMaster.setText(1,5,"FLAG");
     flow::set_mode(flow::Modes::FLAG);
   }
   void deInit(){

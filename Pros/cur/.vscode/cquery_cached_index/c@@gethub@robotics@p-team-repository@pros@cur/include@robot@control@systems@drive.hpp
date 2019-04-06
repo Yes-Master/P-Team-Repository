@@ -15,7 +15,7 @@ namespace drive{
   void set_brakeMode(okapi::Motor::brakeMode b);
   void set_v(int v1,int v2,int v3,int v4);
   void execute();
-  namespace feedBack{
+  namespace feedback{
     /*
     * rumbles the controller when
     * the drive is not in coast
@@ -27,11 +27,14 @@ namespace drive{
     void hold();
   }
   namespace auton{
+    void DIN(int l,int r);//drive instentaniouly
+    void DIS(int l,int r);//drive instentaniouly
+
     void ramping();//sets drive motors to spin
     bool isSettled();
-    void drive(double Dis,int Pct=50,int EndWait=1,int Correction=1);
+    void drive(double tar,int vel=200,int EndWait=1,int Correction=1);
     void driveRecon(int Pct,int Wait,int EndWait=250);
-    void driveS(double Dis,int Pct=50,int EndWait=1,int Correction=1);
+    void driveS(double tar,int vel=200,int EndWait=1,int Correction=1);
     void driveReconS(int Pct,int Wait,int EndWait=1);
     void turnEnc(double deg,int v,int endwait);
 

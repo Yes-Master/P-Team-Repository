@@ -62,9 +62,9 @@
 //     //Control
 //     //Positions
 //         int PuncherPosPosSetting=0;
-//         int PucherPosPos[4]={0,5,30,75};
+        // int PucherPosPos[4]={0,5,30,75};
 //     //Pct
-//         int PuncherPosPctSetting=0;
+        // int PuncherPosPctSetting=0;
 //     //SpinTo
 //         //Auton
 //
@@ -76,4 +76,4 @@
 // //FlowControl
 //     //Screens
 //         //con
-//             int BrainBatWas=Brain.Battery.capacity();
+            // int BrainBatWas=Brain.Battery.capacity();

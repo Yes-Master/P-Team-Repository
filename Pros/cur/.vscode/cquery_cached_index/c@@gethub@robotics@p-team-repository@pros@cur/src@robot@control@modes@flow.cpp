@@ -79,7 +79,10 @@ namespace flow{
     puncher::execute();
   }
   void user(){
+    drive::feedback::rumble();
+    lift::feedback::rumble();
     control::modeTog();
+
     switch (get_mode()) {
       case Modes::FLAG:
         control::tocapsTog();

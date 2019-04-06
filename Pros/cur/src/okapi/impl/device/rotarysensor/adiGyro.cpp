@@ -18,15 +18,15 @@ double ADIGyro::get() const {
   return gyro.get_value();
 }
 
-double ADIGyro::getRemapped(const double iupperBound, const double ilowerBound) const {
-  const auto value = get();
+// double ADIGyro::getRemapped(const double iupperBound, const double ilowerBound) const {
+//   const auto value = get();
 
-  if (value == PROS_ERR) {
-    return value;
-  }
+//   if (value == PROS_ERR) {
+//     return value;
+//   }
 
-  return remapRange(value, -3600, 3600, ilowerBound, iupperBound);
-}
+//   return remapRange(value, -3600, 3600, ilowerBound, iupperBound);
+// }
 
 std::int32_t ADIGyro::reset() {
   return gyro.reset();

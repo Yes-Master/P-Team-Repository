@@ -198,19 +198,10 @@ namespace drive{
 
         front_left_motor.tarePosition();
 
-        double rampDeg=0;//the distance travled during ramping; the delay of geting to reuested velocity target;
-        bool ramped=false;//has it finished ramping to target velocity
-        while(std::abs(front_left_motor.getPosition())<std::abs(totalDeg-rampDeg)){//max error is 1/30 of an inch;
+        while(std::abs(front_left_motor.getPosition())<std::abs(totalDeg)){//max error is 1/30 of an inch;
           DRN(velocity,velocity);
           pros::delay(5);//wait for the ramp task to execute, free up PU,wait for distance to be travled;
           //need to sync with ramping task
-          if(std::abs(LeftN.output())==std::abs(velocity)){//if it is ramped1 to target velocity
-            ramped=true;
-          }
-          else ramped=false;
-          if(!ramped){
-            rampDeg=front_left_motor.getPosition();//log relative distance travled during ramp in degrees
-          }
         }
 
         if(EndWait==-1){//                                                          Junction
@@ -234,6 +225,7 @@ namespace drive{
           while(!isSettled()){pros::delay(5);}
         }
         else if(EndWait==0){
+          DRN(0,0);
         }
       }
       void driveS(double tar,int vel,int EndWait,int Correction){//assumes velocity start = end = 0
@@ -243,19 +235,10 @@ namespace drive{
 
         front_right_motor.tarePosition();
 
-        double rampDeg=0;//the distance travled during ramping; the delay of geting to reuested velocity target;
-        bool ramped=false;//has it finished ramping to target velocity
-        while(std::abs(front_right_motor.getPosition())<std::abs(totalDeg-rampDeg)){//max error is 1/30 of an inch;
+        while(std::abs(front_right_motor.getPosition())<std::abs(totalDeg)){//max error is 1/30 of an inch;
           DRS(velocity,velocity);
           pros::delay(5);//wait for the ramp task to execute, free up PU,wait for distance to be travled;
           //need to sync with ramping task
-          if(std::abs(LeftN.output())==std::abs(velocity)){//if it is ramped1 to target velocity
-            ramped=true;
-          }
-          else ramped=false;
-          if(!ramped){
-            rampDeg=front_left_motor.getPosition();//log relative distance travled during ramp in degrees
-          }
         }
 
         if(EndWait==-1){//                                                          Junction
@@ -279,6 +262,7 @@ namespace drive{
           while(!isSettled()){pros::delay(5);}
         }
         else if(EndWait==0){
+          DRS(0,0);
         }
       }
       void turnEnc(double deg,int v,int endwait){

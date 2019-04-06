@@ -133,7 +133,7 @@ namespace auton{
     }
     void StyleInit(){
       lv_style_copy(&style_red, &lv_style_plain);
-      style_red.text.color = LV_COLOR_HEX(0xFF0000);
+      style_red.text.color = LV_COLOR_HEX(0xFF0000);;
       lv_style_copy(&style_blue, &lv_style_plain);
       style_blue.text.color = LV_COLOR_HEX(0x0000FF);
       lv_style_copy(&style_config, &lv_style_plain);
@@ -148,9 +148,10 @@ namespace auton{
       lv_obj_set_pos(btn,x,y);
       lv_obj_set_size(btn,465/5,240/4);
       lv_btn_set_action(btn, LV_BTN_ACTION_CLICK,On_Click);
+      lv_obj_set_style(label,sty);
+
       label = lv_label_create(btn, NULL);
       lv_obj_set_style(label,sty);
-      lv_obj_set_style(label, sty);
       lv_label_set_text(label, routines[row][col].c_str());
 
       std::cout <<"Btn on row "<< row <<" and col "<< col <<" Inited";

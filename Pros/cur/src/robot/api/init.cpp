@@ -10,6 +10,9 @@ void systemInit(){//custom robot init dont trust the reliability of initialize &
   if(!inited){
     inited=true;
     puncher::motor.tarePosition();
+    controllerMaster.setText(1,0,"Mode:");
+    controllerMaster.setText(1,10,"BP");
+    controllerMaster.setText(2,10,"RP");
   }
 }
 void initialize(){
@@ -21,6 +24,13 @@ void initialize(){
 void disabled(void){
   autonTask.suspend();
   auton::set_auton(false);
+  drive::front_left_motor.moveVelocity(0);
+  drive::front_right_motor.moveVelocity(0);
+  drive::back_left_motor.moveVelocity(0);
+  drive::back_right_motor.moveVelocity(0);
+  puncher::motor.moveVelocity(0);
+  lift::motor.moveVelocity(0);
+  intake::motor.moveVelocity(0);
 }
 void competition_initialize(void){
   // AutonTask.suspend();

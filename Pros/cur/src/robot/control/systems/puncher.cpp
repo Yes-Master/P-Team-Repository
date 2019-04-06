@@ -120,32 +120,57 @@ namespace puncher{
       return delta;
     }
 
+    // void doubleShotFront(void* why){
+    //   puncher::auton::charge(true);
+    //   if(!get_doubleShot())  return;
+    //   puncher::auton::fire(true);
+    //   if(!get_doubleShot())  return;
+    //   puncher::auton::charge(false);
+    //   lift::set_target(lift::punFront1,lift::vMove,true);
+    //   if(!get_doubleShot())  return;
+    //
+    //   lift::auton::wait();//wait for the lift
+    //   int timerInit=pros::millis();
+    //   while(!intake::automatic::balls::get_puncherActual() && timeDelta(timerInit)<500){
+    //     pros::delay(5);
+    //   }
+    //   pros::delay(150);
+    //   puncher::auton::wait();//wait for the puncher
+    //
+    //   if(!get_doubleShot())  return;
+    //   puncher::auton::fire(true);
+    //   if(!get_doubleShot())  return;
+    //   lift::set_target(lift::down,lift::vDown,true);
+    //
+    //   set_doubleShot(false);
+    //   drive::set_brakeMode(initBrakeMode);
+    //   lift::set_target(lift::down,lift::vDown);
+    // }
     void doubleShotFront(void* why){
-      puncher::auton::charge(true);
+      puncher::auton::charge(false);
+      lift::set_target(lift::punFront1,lift::vMove,true);
+      lift::wait();
+      puncher::auton::wait();
       if(!get_doubleShot())  return;
       puncher::auton::fire(true);
       if(!get_doubleShot())  return;
       puncher::auton::charge(false);
-      lift::set_target(lift::punFront1,lift::vMove,true);
-      if(!get_doubleShot())  return;
-
-      lift::auton::wait();//wait for the lift
+      lift::set_target(lift::punFront2);
+      lift::wait();//wait for the lift
       int timerInit=pros::millis();
       while(!intake::automatic::balls::get_puncherActual() && timeDelta(timerInit)<500){
         pros::delay(5);
       }
-      pros::delay(150);
-      puncher::auton::wait();//wait for the puncher
-
+      pros::delay(200);//ball wait
       if(!get_doubleShot())  return;
       puncher::auton::fire(true);
       if(!get_doubleShot())  return;
-      lift::set_target(lift::down,lift::vDown,true);
+      //deinit
+      pros::delay(50);//just in case
+      lift::set_target(lift::down);
 
-      set_doubleShot(false);
       drive::set_brakeMode(initBrakeMode);
-      lift::set_target(lift::down,lift::vDown);
-
+      set_doubleShot(false);
     }
 
     void doubleShotBack(void* why){
