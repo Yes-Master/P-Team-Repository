@@ -14,7 +14,7 @@ namespace Lift{
   double P=Down;//position setting
 
   //velocity
-  const int VMove=100;
+  const int VMove = 100;
   const int VDown=-VMove;
   const int VUp=VMove;
   const int VStop=0;
