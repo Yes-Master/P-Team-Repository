@@ -124,8 +124,8 @@ namespace intake{
     //vars
     const int feed1BallTal=2500;//sensor tollerance values
     const int feed2BallTal=2500;//sensor tollerance values
-    const int overBallTal=0;//sensor tollerance values
-    const int puncBallTal=1500;//sensor tollerance values
+    const int overBallTal=2500;//sensor tollerance values
+    const int puncBallTal=2500;//sensor tollerance values
 
     // const int ComRumTime=10;//100 loops
     // int puncherTimer=0;

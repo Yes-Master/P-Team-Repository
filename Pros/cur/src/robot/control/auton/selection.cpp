@@ -1,7 +1,7 @@
-#include "robot/auton/selection.hpp"
+#include "robot/control/auton/selection.hpp"
 #include "display/lvgl.h"
 #include "robot/config/controller_config.hpp"
-#include "robot/auton/routines.hpp"
+#include "robot/control/auton/routines.hpp"
 #include <string>
 #include <algorithm>
 namespace auton{
@@ -178,7 +178,7 @@ namespace auton{
       if(col==4)  controllerMaster.setText(0, 0, RoutsToString(row,col)+"            ");
       else  controllerMaster.setText(0, 0, ConHeaders[row]+" "+RoutsToString(row,col)+"            ");
     }
-    static lv_res_t On_Click(_lv_obj_t * btn){
+       static lv_res_t On_Click(_lv_obj_t * btn){
       if(btn==Btn1_1){  row=0;  col=0;  } else {  lv_btn_set_state(Btn1_1, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_1,&style_btn);*/  }
       if(btn==Btn1_2){  row=0;  col=1;  } else {  lv_btn_set_state(Btn1_2, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_2,&style_btn);*/  }
       if(btn==Btn1_3){  row=0;  col=2;  } else {  lv_btn_set_state(Btn1_3, LV_BTN_STATE_REL);  /*lv_obj_set_style(Btn1_3,&style_btn);*/  }

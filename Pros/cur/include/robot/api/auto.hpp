@@ -1,8 +1,7 @@
-#ifndef AUTO_HPP
-#define AUTO_HPP
-#include "robot/control/modes/auton.hpp"
-#include "robot/auton/selection.hpp"
-#include "api.h"
-extern pros::Task autonTask;
+#pragma once
 
-#endif /* end of include guard: AUTO_HPP */
+#include "api.h"
+
+namespace auton {
+  extern pros::Task autonTask;
+}  // namespace auton

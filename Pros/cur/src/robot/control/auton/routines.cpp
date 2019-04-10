@@ -1,5 +1,5 @@
-#include "robot/auton/routines.hpp"
-#include "robot/auton/selection.hpp"
+#include "robot/control/auton/routines.hpp"
+#include "robot/control/auton/selection.hpp"
 
 #include "robot/control/systems/drive.hpp"
 #include "robot/control/systems/intake.hpp"
@@ -28,7 +28,7 @@ namespace auton{
       Puncher::fire(true);
       Lift::set_target(Lift::down,Lift::vDown,true);
     }
-    void doubelShotBack(double pos1=Lift::punBack1,double pos2=Lift::punBack2,int timeDelay=350){
+    void doubelShotBack(double pos1=Lift::punBack1,double pos2=Lift::punBack2,int timeDelay=250){
       Puncher::charge(false);
       Lift::set_target(pos1,Lift::vUp,true);
       Lift::wait();
@@ -87,9 +87,98 @@ namespace auton{
         void midHold()  { norMid(-2); }
         void midTop()   { norMid(1);  }
         void midBottom(){ norMid(0);  }
+        void cloFar(){
+          Drive::drive(32,200,0);
+
+          Drive::drive(-18,200,1);
+
+          Puncher::charge(false);
+          Drive::turnEnc(-93,150,0);
+          // Drive::turnEnc(2,50,1)
+
+          // Drive::drive(2,100,0);
+
+          doubleShotFront();
+
+          // Drive::driveS(-2,50,1);
+          // Drive::turnEnc(-1, 100, 1);
+
+          Drive::drive(30,200,0);
+          pros::delay(25);
+          Drive::drive(-10, 200, 1);
+
+          Drive::turnEnc(-150,100,1);
+
+          Drive::drive(-10, 50, 1);
+
+        }
       }
       namespace back{
         void farPark(){
+          Drive::drive(32,200,1);
+          
+          Drive::drive(-15,200,1);
+
+          Puncher::charge();
+          Drive::turnEnc(-76, 100, 0);
+
+          doubelShotBack(75);
+
+          Drive::turnEnc(-45, 150, 0);
+
+          Drive::drive(-14.25,200,1);
+
+          Drive::turnEnc(-65, 150, 0);
+
+          Drive::drive(-12,100,-1);
+          Drive::drive(-6,50,1);
+
+          Intake::disable();
+          Lift::set_target(Lift::up+25,50,true);
+          Lift::wait(500);
+
+          Drive::driveReconS(-150,350);
+
+          Intake::enable();
+          Drive::driveS(8,200,0);
+
+          Drive::turnEnc(133,150,0);
+
+          Puncher::charge(false);
+          Lift::set_target(75,Lift::vPos,true);
+          Lift::wait(250);
+          doubelShotBack(75,125);
+
+          // Drive::driveS(5.5,200,1);
+
+          // Lift::wait();
+
+          // // if(Lift::CapBump.isPressed()){//cap
+          // Drive::drive(31,200,-1);
+          // Intake::disable();
+          // Drive::driveRecon(100,250,1);
+          // Lift::set_target(Lift::limitMax-5,Lift::vMove,true);
+          // Lift::wait(250);
+
+          // Intake::enable();
+          // Drive::drive(-3,200,-1);
+          // Lift::set_target(Lift::down,Lift::vMove,true);
+          // // Drive::drive(-2,200,-1);
+          // Drive::turnEnc(90,200,1);
+
+
+          // // }
+          // // else{//park
+
+          // // }
+          // // Drive::drive(-5,200,1);
+          // //
+          // // Drive::turnEnc(-80,75,0);
+          // //
+          // // Drive::drive(-5,200,1);
+
+        }
+        void farCap(){
           Drive::drive(31,200,1);
           // Drive::drive(12,50,1);
           Drive::DIS(-50,-50);
@@ -148,10 +237,6 @@ namespace auton{
           // Drive::turnEnc(-80,75,0);
           //
           // Drive::drive(-5,200,1);
-
-        }
-        void farCap(){
-
         }
         void farAll(){
 
@@ -282,6 +367,6 @@ namespace auton{
     void testB(){
 
     }
-    void defaultSelection(){  red::back::farPark();  }
+    void defaultSelection(){  red::front::cloFar();  }
   }
 }

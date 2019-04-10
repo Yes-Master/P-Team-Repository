@@ -69,7 +69,7 @@ namespace flow{
   }
   void init(){
     flag::init();
-    autonTask.suspend();
+    auton::autonTask.suspend();
     drive::set_brakeMode(okapi::Motor::brakeMode::coast);
   }
   void execute(){

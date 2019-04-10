@@ -11,7 +11,6 @@ protected:
   double maxVal=100;     //the max val output
   double minVal=0;       //the min val output
 
-
 public:
   bool enabled=false;
   //need to move to prvotected
