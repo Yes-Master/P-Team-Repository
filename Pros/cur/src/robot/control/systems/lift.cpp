@@ -11,7 +11,7 @@ namespace lift{
   const double punBack2=160;//back second
 
   const double down=37;//at ground
-  const double up=240;//max in 18_ft spec
+  const double up=250;//max in 18_ft spec
   const double limitMin=down;
   const double limitMax=405;
   double P=down;//position setting
@@ -21,7 +21,8 @@ namespace lift{
   const int vStop=0;
   const int vUp=vMove;
   const int vDown=-vMove;
-  const int vPos=vMove*3/4;
+  const int vPos=vMove/2;
+  const int vScoop=vMove/2;//50
   const int vCal=-vMove/2;
   int V=vStop;//velocity setting
 

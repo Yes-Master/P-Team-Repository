@@ -12,6 +12,10 @@ void systemInit() {  // custom robot init dont trust the reliability of
   if (!inited) {
     inited = true;
     puncher::motor.tarePosition();
+    drive::LeftN.set_limits(drive::LeftN.get_changeMsec(),-drive::LeftN.get_changeMsec(),0,0);
+    drive::RightN.set_limits(drive::RightN.get_changeMsec(),-drive::RightN.get_changeMsec(),0,0);
+    drive::LeftS.set_limits(drive::LeftS.get_changeMsec(),-drive::LeftS.get_changeMsec(),0,0);
+    drive::RightS.set_limits(drive::RightS.get_changeMsec(),-drive::RightS.get_changeMsec(),0,0);
   }
 }
 void initialize() {

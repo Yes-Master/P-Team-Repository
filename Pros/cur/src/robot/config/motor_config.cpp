@@ -54,11 +54,10 @@ namespace drive{
   //   front_right_motor,
   //   back_right_motor,
   //   4*M_PI,11.5,8);
-
-  Ramping LeftN (2,5,200);
-  Ramping RightN(2,5,200);
-  Ramping LeftS (2,5,200);
-  Ramping RightS(2,5,200);
+  Ramping LeftN (1.75,5,200,-200);
+  Ramping RightN(1.75,5,200,-200);
+  Ramping LeftS (1.75,5,200,-200);
+  Ramping RightS(1.75,5,200,-200);
 }
 namespace puncher{
   okapi::Motor motor(5,false,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);

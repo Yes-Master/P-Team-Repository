@@ -18,7 +18,7 @@
         {
             "label": "upload",
             "type": "shell",
-            "command": "prosv5 upload --slot 3 --name 3_here",
+            "command": "prosv5 upload --slot 1 --name cur",
             "group": "build",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.

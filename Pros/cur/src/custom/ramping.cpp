@@ -1,20 +1,20 @@
 #include "custom/ramping.hpp"
 
-Ramping::Ramping(double CV,double CM,double maxV,double minV){
+Ramping::Ramping(double CV,double CM,double max,double min){
   changeVal=CV;
   changeMsec=CM;
-  maxVal=maxV;
-  minVal=minV;
+  Max=max;
+  Min=min;
 }
 
 double Ramping::calculate(){
   if(valRequested>valOutput)      valOutput+=changeVal;
   else if(valRequested<valOutput) valOutput-=changeVal;
   //limit Val
-  if(valOutput>maxVal)	valOutput=maxVal;
-  if(valOutput<-maxVal)	valOutput=-maxVal;
-  if(valOutput>0 && valOutput<minVal) valOutput=minVal;
-  if(valOutput<0 && valOutput>minVal) valOutput=-minVal;
+  if(valOutput>Max)	valOutput=Max;
+  if(valOutput<Min)	valOutput=Min;
+  if(valOutput>0 && valOutput<gMin) valOutput=vMin;
+  if(valOutput<0 && valOutput>gMax) valOutput=vMax;
 
   return valOutput;
 }
@@ -43,12 +43,14 @@ int Ramping::get_changeMsec(){
 }
 
 double Ramping::get_max(){
-  return maxVal;
+  return Max;
 }
 double Ramping::get_min(){
-  return minVal;
+  return Min;
 }
-void Ramping::set_limits(double max,double min){
-  maxVal=max;
-  minVal=min;
+void Ramping::set_limits(double maxGate,double minGate,double maxVal,double minVal){
+  gMax=maxGate;
+  gMin=minGate;
+  vMax=maxGate;
+  vMin=minGate;
 }

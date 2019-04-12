@@ -4,6 +4,7 @@
 #include "okapi/api.hpp"
 
 extern okapi::Controller controllerMaster;
+extern pros::Controller controllerSlave;
 
 namespace flow{
   extern okapi::ControllerButton btnTog;
@@ -17,6 +18,8 @@ namespace intake{
   extern okapi::ControllerButton btnIn;
   extern okapi::ControllerButton btnOut;
   extern okapi::ControllerButton btnTog;
+
+  extern okapi::ControllerButton btnOut2;
 }
 namespace lift{
   extern okapi::ControllerButton btnUp;

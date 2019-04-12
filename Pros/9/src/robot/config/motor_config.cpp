@@ -13,28 +13,28 @@ namespace Drive{
   //   back_right_motor,
   //   4*M_PI,11.5,8);
 
-  Ramping LeftN (2,5,200);
-  Ramping RightN(2,5,200);
-  Ramping LeftS (2,5,200);
-  Ramping RightS(2,5,200);
+Ramping LeftN(1,5,200);
+Ramping RightN(1,5,200);
+Ramping LeftS(1,5,200);
+Ramping RightS(1,5,200);
 }
-namespace Puncher{
-  okapi::Motor motor(17,false,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
-}
-namespace Lift{
-  okapi::Motor motor(16,true,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
-  // okapi::Motor right_mtr(6,true,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
-  // // std::vector<okapi::Motor> motors = {left_mtr,right_mtr};
-  // okapi::MotorGroup motor({right_mtr,left_mtr});
-}
-namespace Intake{
-  okapi::Motor motor(18,true,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
-  namespace Auto{
-    namespace Balls{
-      pros::ADIAnalogIn Puncher(1);
-      pros::ADIAnalogIn Over(2);
-      pros::ADIAnalogIn Top(3);
-      pros::ADIAnalogIn Bottom(4);
+  namespace Puncher{
+    okapi::Motor motor(17,false,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
+  }
+  namespace Lift{
+    okapi::Motor motor(16,true,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
+    // okapi::Motor right_mtr(6,true,okapi::AbstractMotor::gearset::red,okapi::AbstractMotor::encoderUnits::degrees);
+    // // std::vector<okapi::Motor> motors = {left_mtr,right_mtr};
+    // okapi::MotorGroup motor({right_mtr,left_mtr});
+  }
+  namespace Intake{
+    okapi::Motor motor(18,false,okapi::AbstractMotor::gearset::green,okapi::AbstractMotor::encoderUnits::degrees);
+    namespace Auto{
+      namespace Balls{
+        pros::ADIAnalogIn Puncher(1);
+        pros::ADIAnalogIn Over(2);
+        pros::ADIAnalogIn Top(3);
+        pros::ADIAnalogIn Bottom(4);
+      }
     }
   }
-}

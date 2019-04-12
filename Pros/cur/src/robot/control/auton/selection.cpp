@@ -53,10 +53,10 @@ namespace auton{
     std::string ConHeaders[4]={"RF","RB","BB","BF"};
     std::string RowHeaders[4]={"F","B","B","F"};
     std::string routines[4][5]={
-      {"Both Flags","Top","Bottom","!Mid Flags","TestR"}, /*first is over written by header*//*both->RF*/
-      {"FarPark","FarCap","MidAll","MidCap","Skills"}, /*first is over written by header*//*both->RB*/
-      {"FarPark","FarCap","FarAll","MidCap","Default"}, /*first is over written by header*//*both->BB*/
-      {"Both Flags","Top","Bottom","!Mid Flags","TestB"}, /*first is over written by header*//*both->RF*/
+      {"Simple","","","","TestR"}, /*first is over written by header*//*both->RF*/
+      {"FarPar","","","","Skills"}, /*first is over written by header*//*both->RB*/
+      {"FarPar","","","","Default"}, /*first is over written by header*//*both->BB*/
+      {"Simple","","","","TestB"}, /*first is over written by header*//*both->RF*/
     };
     void execute(){
       std::clamp(row, -1, 3);
@@ -69,31 +69,31 @@ namespace auton{
       //   else if(col==4) {}
       // }
       if(row==0){
-        if(col==0)      routines::red::front::midBoth();
-        else if(col==1) routines::red::front::midTop();
-        else if(col==2) routines::red::front::midBottom();
-        else if(col==3) routines::red::front::midHold();
+        if(col==0)      routines::red::front::cloFar();
+        else if(col==1) {}
+        else if(col==2) {}
+        else if(col==3) {}
         else if(col==4) routines::testR();
       }
       else if(row==1){
         if(col==0)      routines::red::back::farPark();
-        else if(col==1) routines::red::back::farCap();
-        else if(col==2) routines::red::back::farAll();
-        else if(col==3) routines::red::back::midCap();
+        else if(col==1) {}
+        else if(col==2) {}
+        else if(col==3) {}
         else if(col==4) routines::skills();
       }
       else if(row==2){
         if(col==0)      routines::blue::back::farPark();
-        else if(col==1) routines::blue::back::farCap();
-        else if(col==2) routines::blue::back::farAll();
-        else if(col==3) routines::blue::back::midCap();
+        else if(col==1) {}
+        else if(col==2) {}
+        else if(col==3) {}
         else if(col==4) routines::defaultSelection();
       }
       else if(row==3){
-        if(col==0)      routines::blue::front::midBoth();
-        else if(col==1) routines::blue::front::midTop();
-        else if(col==2) routines::blue::front::midBottom();
-        else if(col==3) routines::blue::front::midHold();
+        if(col==0)      routines::blue::front::cloFar();
+        else if(col==1) {}
+        else if(col==2) {}
+        else if(col==3) {}
         else if(col==4) routines::testB();
       }
     }

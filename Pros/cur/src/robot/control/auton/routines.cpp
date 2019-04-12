@@ -14,17 +14,18 @@ namespace auton{
   namespace routines{
     void doubleShotFront(){
       Puncher::fire(true);
-      Puncher::charge(false);
       Lift::set_target(Lift::punFront2,Lift::vUp,true);
-      Puncher::wait();
-      Lift::wait();
       int timer=0;
-      while(!Intake::balls::get_puncherActual() && timer<40){
+      while(!Intake::balls::get_puncherActual() && timer<50){
         timer++;
         pros::delay(5);
       }
+      Puncher::charge(false);
+      Puncher::wait();
+      lift::wait();
+
       // Puncher::wait();
-      pros::delay(350);
+      // pros::delay(350);
       Puncher::fire(true);
       Lift::set_target(Lift::down,Lift::vDown,true);
     }
@@ -33,18 +34,16 @@ namespace auton{
       Lift::set_target(pos1,Lift::vUp,true);
       Lift::wait();
       Puncher::fire(true);
-      Puncher::charge(false);
       Lift::set_target(pos2);
-      Lift::wait();
       int timer=0;
-      while(!Intake::balls::get_puncherActual() && timer<40){
+      while(!Intake::balls::get_puncherActual() && timer<50){
         timer++;
         pros::delay(5);
       }
-      Puncher::wait();
-      pros::delay(timeDelay);
+      Puncher::charge(true);
+      Lift::wait(timeDelay);
       Puncher::fire(true);
-      Puncher::wait(50);
+      Puncher::wait(50); //wait for the ball to fully exit the ride
       Lift::set_target(Lift::down,Lift::vDown,true);
     }
     namespace red{
@@ -88,32 +87,61 @@ namespace auton{
         void midTop()   { norMid(1);  }
         void midBottom(){ norMid(0);  }
         void cloFar(){
-          Drive::drive(32,200,0);
+          // Drive::drive(32,200,0);
+          // pros::delay(100);
+          // Drive::drive(18,200,1,true);
 
-          Drive::drive(-18,200,1);
+          Drive::drive(32,200,1);
+          Drive::drive(-27,200,1);
 
           Puncher::charge(false);
-          Drive::turnEnc(-93,150,0);
+          Drive::turnEnc(-95,100,0);
           // Drive::turnEnc(2,50,1)
 
           // Drive::drive(2,100,0);
 
           doubleShotFront();
 
+          Intake::disable();
           // Drive::driveS(-2,50,1);
           // Drive::turnEnc(-1, 100, 1);
 
-          Drive::drive(30,200,0);
-          pros::delay(25);
-          Drive::drive(-10, 200, 1);
+          // Drive::drive(32,200,1);
+          // Drive::drive(-29, 200, 1);
 
-          Drive::turnEnc(-150,100,1);
+          Drive::turnEnc(-160,100,1);
+          // Drive::driveS(1.4,100,1);
 
+          Drive::drive(-9,200,0);
           Drive::drive(-10, 50, 1);
 
+          // Intake::disable();
+          Lift::set_target(lift::up,lift::vScoop,true);
+          intake::set_VSetting(-75,true);
+          Lift::wait(250);
+
+          Drive::turnEnc(-176,75,0);
+                    
+          Intake::enable();
+          // Drive::driveS(-1,50,1);
+          Lift::set_target(lift::down,lift::vDown,true);
+          Lift::wait();
+
+          doubelShotBack(96,lift::up,true);
         }
       }
       namespace back{
+        void mid(){
+          Drive::drive(32,200,1);
+          // Drive::drive(-27,200,1);
+
+          Drive::turnEnc(-95,25,2000);
+          Puncher::charge(false);
+
+          Drive::driveRecon(100,500);
+
+          doubelShotBack();
+        }
         void farPark(){
           Drive::drive(32,200,1);
           
@@ -130,7 +158,7 @@ namespace auton{
 
           Drive::turnEnc(-65, 150, 0);
 
-          Drive::drive(-12,100,-1);
+          Drive::drive(-12,100,1);
           Drive::drive(-6,50,1);
 
           Intake::disable();
@@ -286,6 +314,25 @@ namespace auton{
         void midHold()  { NorMid(-2); }
         void midTop()   { NorMid(1);  }
         void midBottom(){ NorMid(0);  }
+        void cloFar(){
+                    // Drive::drive(32,200,0);
+          // pros::delay(100);
+          // Drive::drive(18,200,1,true);
+
+          Drive::drive(32,200,1);
+          Drive::drive(-27,200,1);
+
+          Puncher::charge(false);
+          Drive::turnEnc(97,25,5000);
+          // Drive::turnEnc(2,50,1)
+
+          // Drive::drive(2,100,0);
+
+          doubleShotFront();
+
+          Intake::disable();
+
+        }
       }
       namespace back{
         void farPark(){
@@ -367,6 +414,6 @@ namespace auton{
     void testB(){
 
     }
-    void defaultSelection(){  red::front::cloFar();  }
+    void defaultSelection(){  red::back::mid();  }
   }
 }

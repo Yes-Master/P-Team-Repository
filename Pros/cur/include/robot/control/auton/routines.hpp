@@ -9,6 +9,7 @@ namespace auton{
         void midHold();
         void midTop();
         void midBottom();
+        void cloFar();
       }
       namespace back{
         void farPark();
@@ -23,6 +24,7 @@ namespace auton{
         void midHold();
         void midTop();
         void midBottom();
+        void cloFar();
       }
       namespace back{
         void farPark();

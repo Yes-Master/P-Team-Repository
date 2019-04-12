@@ -23,6 +23,7 @@ namespace lift{
   extern const int vUp;
   extern const int vDown;
   extern const int vPos;
+  extern const int vScoop;
   extern const int vCal;
 
   //vars FUNCTIONS

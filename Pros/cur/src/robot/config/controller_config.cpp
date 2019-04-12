@@ -1,6 +1,7 @@
 #include "robot/config/controller_config.hpp"
 
 okapi::Controller controllerMaster(okapi::ControllerId::master);
+pros::Controller controllerSlave(pros::controller_id_e_t::E_CONTROLLER_PARTNER);
 namespace flow{
   okapi::ControllerButton btnTog = controllerMaster[okapi::ControllerDigital::up];
   okapi::ControllerButton btnToCaps = controllerMaster[okapi::ControllerDigital::L1];

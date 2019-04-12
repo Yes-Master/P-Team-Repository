@@ -225,26 +225,44 @@ namespace drive {
       else {  //>=0,!=-1; set stop dont wait; Stop
         DRN(0, 0);
       }
-
-
-
-
     }
-    void drive(double tar, int vel, int EndWait,int Correction) {  // assumes velocity start = end = 0
-      const double direction = SGN(tar);
-      const double totalDeg = std::abs(tar) * 360 / WheelCir;
-      const int velocity = std::abs(vel) * direction;
+    void drive(double tar, int vel, int EndWait,bool abs) {  // assumes velocity start = end = 0
+      double direction;
+      double totalDeg = tar * 360 / WheelCir;
 
-      while(back_left_motor.getPosition()!=0){
+      if(abs){
+        direction = SGN(tar-back_left_motor.getPosition());
+        int velocity = std::abs(vel) * direction;
+        if(direction>0){
+          while (back_left_motor.getPosition() < totalDeg) {  // max error is 1/30 of an inch;
+            DRN(velocity, velocity);
+            pros::delay(5);  // wait for the ramp task to execute, free up PU,wait
+                            // for distance to be travled;
+            // need to sync with ramping task
+          }
+        }
+        else{
+          while (back_left_motor.getPosition() > totalDeg) {  // max error is 1/30 of an inch;
+            DRN(velocity, velocity);
+            pros::delay(5);  // wait for the ramp task to execute, free up PU,wait
+                            // for distance to be travled;
+            // need to sync with ramping task
+          }
+        }
+      }
+      else{//normal
+        direction = SGN(tar);
+        const int velocity = std::abs(vel) * direction;
         back_left_motor.tarePosition();
-        pros::delay(1);
+        while (std::abs(back_left_motor.getPosition()) < std::abs(totalDeg)) {  // max error is 1/30 of an inch;
+          DRN(velocity, velocity);
+          pros::delay(5);  // wait for the ramp task to execute, free up PU,wait
+                          // for distance to be travled;
+          // need to sync with ramping task
+        }
       }
-      while (std::abs(back_left_motor.getPosition()) < std::abs(totalDeg)) {  // max error is 1/30 of an inch;
-        DRN(velocity, velocity);
-        pros::delay(5);  // wait for the ramp task to execute, free up PU,wait
-                         // for distance to be travled;
-        // need to sync with ramping task
-      }
+
+
 
       if (EndWait > 0) {  // default; set stop, wait for stop, wait for
                                 // endwait;    StopWait
@@ -348,20 +366,20 @@ namespace drive {
       DIN(0, 0);
       pros::delay(endwait);
     }
-          using namespace okapi::literals;
+          // using namespace okapi::literals;
 
-    void wait(int endWait,okapi::QTime timeOut=-1_ms){
-      okapi::Timer timeout;
-      timeout.placeMark();
-      timeout.getDtFromMark();
-      using namespace okapi;
-      okapi::QTime(timeOut);
+    // void wait(int endWait,okapi::QTime timeOut=-1_ms){
+    //   okapi::Timer timeout;
+    //   timeout.placeMark();
+    //   timeout.getDtFromMark();
+    //   using namespace okapi;
+    //   okapi::QTime(timeOut);
       
-      while (!isSettled() && ((timeOut>0_ms) ? timeout.getDtFromMark() < timeOut : true)) {
-          pros::delay(5);
-        }
-        pros::delay(endWait);
-    }
+    //   while (!isSettled() && ((timeOut>0_ms) ? timeout.getDtFromMark() < timeOut : true)) {
+    //       pros::delay(5);
+    //     }
+    //     pros::delay(endWait);
+    // }
     // namespace good{
     //   void calcDis(double forward, double strafe, double yaw){
     //     forwardSum+=forward;

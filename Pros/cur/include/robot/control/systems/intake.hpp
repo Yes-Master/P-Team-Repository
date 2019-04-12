@@ -15,6 +15,8 @@ extern const int vOver;
   // void set_controller(Controllers c);
   int get_VSetting();
   void set_VSetting(int v);
+  void set_VSetting(int v,bool m);
+
   //methods
   void execute();//execute motor requests
   namespace control{
@@ -31,7 +33,7 @@ extern const int vOver;
     //vars
     enum Modes{FAST,SLOW,OUT,NONE};
     //vars FUNCTIONS
-    Modes get_Mode();//return current intake mode
+    Modes get_mode();//return current intake mode
     namespace balls {
       //vars
       //vars FUNCTIONS
