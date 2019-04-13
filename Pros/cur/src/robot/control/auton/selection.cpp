@@ -53,10 +53,10 @@ namespace auton{
     std::string ConHeaders[4]={"RF","RB","BB","BF"};
     std::string RowHeaders[4]={"F","B","B","F"};
     std::string routines[4][5]={
-      {"Simple","","","","TestR"}, /*first is over written by header*//*both->RF*/
+      {"Simple","norMid","","","TestR"}, /*first is over written by header*//*both->RF*/
       {"FarPar","","","","Skills"}, /*first is over written by header*//*both->RB*/
       {"FarPar","","","","Default"}, /*first is over written by header*//*both->BB*/
-      {"Simple","","","","TestB"}, /*first is over written by header*//*both->RF*/
+      {"Simple","norMid","","","TestB"}, /*first is over written by header*//*both->RF*/
     };
     void execute(){
       std::clamp(row, -1, 3);
@@ -70,7 +70,7 @@ namespace auton{
       // }
       if(row==0){
         if(col==0)      routines::red::front::cloFar();
-        else if(col==1) {}
+        else if(col==1) routines::red::front::midBoth();
         else if(col==2) {}
         else if(col==3) {}
         else if(col==4) routines::testR();
@@ -91,7 +91,7 @@ namespace auton{
       }
       else if(row==3){
         if(col==0)      routines::blue::front::cloFar();
-        else if(col==1) {}
+        else if(col==1) routines::blue::front::midBoth();
         else if(col==2) {}
         else if(col==3) {}
         else if(col==4) routines::testB();

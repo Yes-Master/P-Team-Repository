@@ -1,1 +1,1 @@
-    {IndentWidth: 8, UseTab: Always, BreakBeforeBraces: Never, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false }"
+    "{BasedOnStyle: Google, IndentWidth: 1, UseTab: Always, BreakBeforeBraces: Never, AllowShortIfStatementsOnASingleLine: true, IndentCaseLabels: true }"
