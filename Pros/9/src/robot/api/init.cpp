@@ -11,7 +11,5 @@ void initialize(){
   Lift::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
   Intake::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
   okapi::Timer timer;
-  if (timer.repeat(100_s)) {
-    master_controller.rumble(".");
-  }
+  std::cout << "inited" << std::endl;
 }

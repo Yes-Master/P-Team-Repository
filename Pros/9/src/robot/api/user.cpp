@@ -7,5 +7,8 @@ void opcontrol(){
   while(1){
     Flow::user();
     pros::delay(20);
+    static int count;
+    count++;
+    std::cout << count << std::endl;
   }
 }

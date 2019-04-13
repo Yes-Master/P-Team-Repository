@@ -70,20 +70,42 @@ namespace Lift{
     else if(get_target()==DownPun)  set_target(Down,VDown);
     set_controller(Controllers::POSITION);
   }
-  void Calabrate(int timeout=20){
-    motor.moveVelocity(VCal);
-    if(motor.getTorque()>100 || CalabrateTimer>timeout){
+  // void Calabrate(int timeout=20){
+  //   if(CalabrateTimer>timeout){
+  //     std::cout <<"done caled "<< Calabrated << std::endl;
+
+  //     motor.moveVelocity(VStop);
+  //     motor.tarePosition();
+  //     Calabrated=true;
+  //     set_target(Down, VUp, true);
+  //     motor.setPositonLimits(Lift::MinLimit,Lift::MaxLimit);
+  //   }
+  //   else {
+  //     motor.moveVelocity(VCal);
+  //     CalabrateTimer++;
+  //   }
+
+  // }
+  bool caled=false;
+  void cal(){
+    const static int startTime = pros::millis();
+    std::cout <<"starttime: "<< startTime << std::endl;
+    if(pros::millis()>startTime+250){
       motor.moveVelocity(VStop);
       motor.tarePosition();
-      Calabrated=true;
+      caled=true;
       set_target(Down, VUp, true);
       motor.setPositonLimits(Lift::MinLimit,Lift::MaxLimit);
     }
-    else CalabrateTimer++;
+    else{
+      motor.moveVelocity(VCal);
+    }
+    
   }
   void execute(){
-    if(!Calabrated){
-      Calabrate();
+    if(!caled){
+      // Calabrate(20);
+      // cal();
     }
     else{
       switch(get_controller()){

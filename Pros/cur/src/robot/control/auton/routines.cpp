@@ -141,7 +141,7 @@ namespace auton{
 
           Drive::turnEnc(-68,50,1500);
 
-          doubelShotBack();
+          doubelShotBack(110,150);
 
           Drive::drive(-5,200,1);
 
@@ -316,6 +316,6 @@ namespace auton{
     void testB(){
 
     }
-    void defaultSelection(){  red::front::midBoth();  }
+    void defaultSelection(){  blue::back::farPark();  }
   }
 }

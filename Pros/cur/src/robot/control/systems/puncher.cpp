@@ -181,7 +181,7 @@ namespace puncher{
       puncher::auton::fire(true);
       if(!get_doubleShot())  return;
       puncher::auton::charge(false);
-      lift::set_target(lift::punBack2+35,50);
+      lift::set_target(lift::punBack2+60,50);
       lift::wait();//wait for the lift
       int timerInit=pros::millis();
       while(!intake::automatic::balls::get_puncherActual() && timeDelta(timerInit)<500){
