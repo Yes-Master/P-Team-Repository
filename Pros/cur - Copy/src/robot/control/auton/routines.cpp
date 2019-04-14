@@ -139,13 +139,13 @@ namespace auton{
           Drive::driveReconS(-100,350,1);
           Drive::driveS(5,50,1);
 
-          Drive::turnEnc(-65,50,1500);
+          Drive::turnEnc(-70,50,1500);
 
           doubelShotBack(110,150);
 
           Drive::drive(-5,200,1);
 
-          Drive::turnEnc(155,150,1);
+          Drive::turnEnc(150,150,1);
 
           Intake::disable();
           Lift::set_target(lift::up+50,lift::vUp,true);
@@ -158,7 +158,7 @@ namespace auton{
 
         }
         void midCap(){
-
+          
         }
       }
     }
