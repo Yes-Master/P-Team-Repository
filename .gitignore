@@ -1,5 +1,6 @@
 #.vsfolders
 **/.vscode/**
 
+!**/tasks.json
 #pros
 **/bin/*
