@@ -79,22 +79,37 @@ namespace lift{
     else if(get_target()==punBack2)  set_target(up,vPos);
     set_controller(Controllers::POSITION);
   }
-  void calabrate(int timeout=20){//20 loops
-    if(CalabrateTimer>timeout){
-      motor.moveVelocity(vStop);
+  void calabrate(){
+    const static int start=pros::millis();//get cur time
+    if(pros::millis()>start+400){
+      motor.moveVelocity(0);
       motor.tarePosition();
       Calabrated=true;
-      set_target(down, vUp, true);
-      motor.setLimitPositons(lift::limitMin,lift::limitMax);
+      motor.moveAbsolute(down,vMove);
+      motor.setLimitPositons(limitMin,limitMax);
     }
     else {
       motor.moveVelocity(vCal);
-      CalabrateTimer++;
     }
   }
+
+
+  // void calabrate(int timeout=20){//20 loops
+  //   if(CalabrateTimer>timeout){
+  //     motor.moveVelocity(vStop);
+  //     motor.tarePosition();
+  //     Calabrated=true;
+  //     set_target(down, vUp, true);
+  //     motor.setLimitPositons(lift::limitMin,lift::limitMax);
+  //   }
+  //   else {
+  //     motor.moveVelocity(vCal);
+  //     CalabrateTimer++;
+  //   }
+  // }
   void execute(int CalTimOut){
     if(!Calabrated){
-      calabrate(CalTimOut);
+      calabrate();
     }
     else{
       switch(get_controller()){
