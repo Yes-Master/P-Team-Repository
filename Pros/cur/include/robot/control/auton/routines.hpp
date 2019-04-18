@@ -9,13 +9,10 @@ namespace auton{
         void midHold();
         void midTop();
         void midBottom();
-        void cloFar();
       }
       namespace back{
+        void midPark();
         void farPark();
-        void farCap();
-        void farAll();
-        void midCap();
       }
     }
     namespace blue{
@@ -28,9 +25,7 @@ namespace auton{
       }
       namespace back{
         void farPark();
-        void farCap();
-        void farAll();
-        void midCap();
+        void midPark();
       }
     }
     void skills();

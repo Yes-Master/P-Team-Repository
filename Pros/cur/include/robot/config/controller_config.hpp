@@ -30,6 +30,7 @@ namespace lift{
 namespace puncher{
   extern okapi::ControllerButton btnCharge;
   extern okapi::ControllerButton btnDoubleBack;
-  extern okapi::ControllerButton btnDoubleFront;
+  extern okapi::ControllerButton btnBackTop;
+  extern okapi::ControllerButton btnBackMid;
 }
 #endif /* end of include guard: CONTROLLER_CONFIG_HPP */

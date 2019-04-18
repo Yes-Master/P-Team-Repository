@@ -71,6 +71,7 @@ namespace flow{
     flag::init();
     auton::autonTask.suspend();
     drive::set_brakeMode(okapi::Motor::brakeMode::coast);
+    intake::automatic::enable();
   }
   void execute(){
     drive::execute();

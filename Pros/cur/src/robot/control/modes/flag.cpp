@@ -6,8 +6,8 @@
 #include "robot/control/systems/lift.hpp"
 #include "robot/control/systems/puncher.hpp"
 
-namespace flag{
-  void user(){
+namespace flag {
+  void user() {
     drive::control::manual();
     drive::control::hold();
 
@@ -20,15 +20,15 @@ namespace flag{
 
     puncher::control::charge();
     puncher::control::doubleBack();
-    puncher::control::doubleFront();
+    puncher::control::backTop();
+    puncher::control::backMid();
   }
-  void init(){
+  void init() {
     drive::set_inverted(false);
-    lift::set_target(lift::down,lift::vDown,true);
-    controllerMaster.setText(1,5,"FLAG");
+    lift::set_target(lift::down, lift::vDown, true);
+    controllerMaster.setText(1, 5, "FLAG");
     flow::set_mode(flow::Modes::FLAG);
   }
-  void deInit(){
-
+  void deInit() {
   }
-}
+}  // namespace flag

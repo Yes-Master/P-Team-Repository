@@ -7,6 +7,7 @@
 void opcontrol() {
   systemInit();
   flow::init();
+  
   while (1) {
     flow::user();
     pros::delay(20);

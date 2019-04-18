@@ -69,7 +69,7 @@ namespace auton{
       //   else if(col==4) {}
       // }
       if(row==0){
-        if(col==0)      routines::red::front::cloFar();
+        if(col==0)      {}
         else if(col==1) routines::red::front::midBoth();
         else if(col==2) {}
         else if(col==3) {}
@@ -90,7 +90,7 @@ namespace auton{
         else if(col==4) routines::defaultSelection();
       }
       else if(row==3){
-        if(col==0)      routines::blue::front::cloFar();
+        if(col==0)      {}
         else if(col==1) routines::blue::front::midBoth();
         else if(col==2) {}
         else if(col==3) {}
