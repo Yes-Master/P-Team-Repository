@@ -174,18 +174,11 @@ namespace auton {
     }   // namespace red
     namespace blue {
       namespace front {
-<<<<<<< HEAD
-        void Start() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
-<<<<<<< HEAD
-          Drive::drive(32, 200);
-=======
         void Nor() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
           Drive::drive(32, 200, 1);
->>>>>>> parent of c3b3980... nor to start
-=======
-          Drive::drive(32, 200, 1);
->>>>>>> parent of ef05f6d... new controller
 
+          Drive::drive(32, 200, 1);
+          
           Drive::drive(-27, 200, 1);
 
           Puncher::charge(false);
