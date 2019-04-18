@@ -25,6 +25,7 @@ namespace drive {
   namespace control {
     void manual();
     void hold();
+    void dir();
   } // namespace control
   namespace auton {
     //add to namespace ramping

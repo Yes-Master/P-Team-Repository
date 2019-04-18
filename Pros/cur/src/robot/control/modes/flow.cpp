@@ -98,6 +98,7 @@ namespace flow{
 
     drive::control::manual();
     drive::control::hold();
+    drive::control::dir();
     // switch (get_mode()) {
     //   case Modes::FLAG:
     //     control::tocapsTog();

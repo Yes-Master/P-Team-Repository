@@ -124,6 +124,19 @@ namespace drive {
       } else {
       }
     }
+    void dir() {
+      if (btnDirTog.changed()) {
+        if (btnDirTog.isPressed()) { // init
+          if (get_inverted() == true)
+            set_inverted(false);
+          else
+            set_inverted(true);
+        } else { // deinit
+        }
+      } else if (btnDirTog.isPressed()) { // hold
+      } else {
+      }
+    }
   } // namespace control
   namespace auton {
     void ramping() { // sets drive motors to spin

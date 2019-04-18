@@ -8,6 +8,7 @@ namespace flow{
 }
 namespace drive{
   okapi::ControllerButton btnBrake = controllerMaster[okapi::ControllerDigital::down];
+  okapi::ControllerButton btnDirTog = controllerMaster[okapi::ControllerDigital::right];
 }
 namespace intake{
   // okapi::ControllerButton btnCombo = controllerMaster[okapi::ControllerDigital::R2];
@@ -18,7 +19,7 @@ namespace intake{
 namespace lift{
   okapi::ControllerButton btnUp = controllerMaster[okapi::ControllerDigital::L1];
   okapi::ControllerButton btnDown = controllerMaster[okapi::ControllerDigital::L2];
-  okapi::ControllerButton btnPosTog = controllerMaster[okapi::ControllerDigital::right];
+  okapi::ControllerButton btnPosTog = controllerMaster[okapi::ControllerDigital::left];
   okapi::ControllerButton btnCal = controllerMaster[okapi::ControllerDigital::up];
 }
 namespace puncher{
