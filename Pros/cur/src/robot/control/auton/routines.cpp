@@ -329,8 +329,8 @@ namespace auton {
       // Drive::drive(90,200,1);
     }
     void testR() {
-      Drive::drive(12, 200, 0, false);
-      Drive::drive(5, 200, 1, true);
+      Drive::drive(24, 200, -1);
+      Drive::driveAbs(20, 200, 0);
     }
     void testB() {
     }

@@ -173,6 +173,7 @@ namespace drive {
     void wait(int endWait, double vSettled, int timeout) {
       if (endWait >= 0) { // default; set stop, wait for stop, wait for endwait;
         DRN(0, 0);
+        DRS(0, 0);
         int tStart = pros::millis();
         while (!isSettled(vSettled) && pros::millis() < tStart + timeout) { //wait for the actual velocity to be acceptiable with in the time out window
           pros::delay(5);
