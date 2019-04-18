@@ -130,14 +130,14 @@ namespace auton {
         }
       } // namespace front
       namespace back {
-        void Nor(double dis = 3) {
+        void Start(double dis = 3) {
           Drive::drive(32, 200, 500);
 
           Drive::driveReconS(-100, 350, 1);
           Drive::driveS(dis, 100, 1);
         }
         void midPark() {
-          Nor();
+          Start();
 
           Drive::turnEnc(-90, 50, 1500);
 
@@ -154,7 +154,7 @@ namespace auton {
           Lift::set_target(lift::down, lift::vUp, true);
         }
         void farPark() {
-          Nor(2.5);
+          Start(2.5);
 
           Drive::turnEnc(-67, 50, 1500);
 
@@ -174,7 +174,7 @@ namespace auton {
     }   // namespace red
     namespace blue {
       namespace front {
-        void Nor() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
+        void Start() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
           Drive::drive(32, 200, 1);
 
           Drive::drive(-27, 200, 1);
@@ -208,7 +208,7 @@ namespace auton {
           // doubleShotFront();
         }
         void NorMid(int flag) { //flag|0=mid,1=top,2=both,-2=hold
-          Nor();
+          Start();
           Puncher::charge();
           Drive::turnEnc(-105, 150, 1);
           // Drive::drive(-2,200,1);
@@ -219,7 +219,7 @@ namespace auton {
         void midTop() { NorMid(1); }
         void midBottom() { NorMid(0); }
         void NorFar(int flag) { //
-          Nor();
+          Start();
           Puncher::charge();
           Drive::turnEnc(-105, 150, 1);
           // Drive::drive(-2,200,1);
@@ -227,14 +227,14 @@ namespace auton {
         }
       } // namespace front
       namespace back {
-        void Nor() {
+        void Start() {
           Drive::drive(32, 200, 500);
 
           Drive::driveReconS(100, 350, 1);
           Drive::driveS(-3, 100, 1);
         }
         void midPark() {
-          Nor();
+          Start();
 
           Drive::turnEnc(90, 50, 1500);
 
@@ -251,7 +251,7 @@ namespace auton {
           Lift::set_target(lift::down, lift::vUp, true);
         }
         void farPark() {
-          Nor();
+          Start();
 
           Drive::turnEnc(68, 50, 1500);
 
