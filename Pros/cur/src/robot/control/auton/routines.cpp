@@ -125,14 +125,14 @@ namespace auton {
         }
       } // namespace front
       namespace back {
-        void Start(double dis = 3) {
+        void Nor(double dis = 3) {
           Drive::drive(32, 200, 500);
 
           Drive::driveReconS(-100, 300);
           Drive::driveS(dis, 100);
         }
         void midPark() {
-          Start();
+          Nor();
 
           Drive::drive(-10, 200, 0, 5, 50000);
 
@@ -151,7 +151,7 @@ namespace auton {
           Lift::set_target(lift::down, lift::vUp, true);
         }
         void farPark() {
-          Start(2.5);
+          Nor(2.5);
 
           Drive::turnEnc(-67, 50, 1500);
 
@@ -171,8 +171,13 @@ namespace auton {
     }   // namespace red
     namespace blue {
       namespace front {
+<<<<<<< HEAD
         void Start() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
           Drive::drive(32, 200);
+=======
+        void Nor() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
+          Drive::drive(32, 200, 1);
+>>>>>>> parent of c3b3980... nor to start
 
           Drive::drive(-27, 200);
 
@@ -205,7 +210,7 @@ namespace auton {
           // doubleShotFront();
         }
         void NorMid(int flag) { //flag|0=mid,1=top,2=both,-2=hold
-          Start();
+          Nor();
           Puncher::charge();
           Drive::turnEnc(-105, 150);
           // Drive::drive(-2,200,1);
@@ -216,7 +221,7 @@ namespace auton {
         void midTop() { NorMid(1); }
         void midBottom() { NorMid(0); }
         void NorFar(int flag) { //
-          Start();
+          Nor();
           Puncher::charge();
           Drive::turnEnc(-105, 150);
           // Drive::drive(-2,200,1);
@@ -224,14 +229,14 @@ namespace auton {
         }
       } // namespace front
       namespace back {
-        void Start() {
+        void Nor() {
           Drive::drive(32, 200, 500);
 
           Drive::driveReconS(100, 350);
           Drive::driveS(-3, 100);
         }
         void midPark() {
-          Start();
+          Nor();
 
           Drive::turnEnc(90, 50, 1500);
 
@@ -248,7 +253,7 @@ namespace auton {
           Lift::set_target(lift::down, lift::vUp, true);
         }
         void farPark() {
-          Start();
+          Nor();
 
           Drive::turnEnc(68, 50, 1500);
 
