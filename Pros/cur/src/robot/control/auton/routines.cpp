@@ -12,7 +12,7 @@ namespace auton {
   namespace Lift = lift;
   namespace Puncher = puncher::auton;
   namespace routines {
-    void doubleShotFront() {
+    void doubleShotFront() { //remove
       Puncher::fire(true);
       Lift::set_target(Lift::punFront2, Lift::vUp, true);
       int timer = 0;
@@ -29,7 +29,7 @@ namespace auton {
       Puncher::fire(true);
       Lift::set_target(Lift::down, Lift::vDown, true);
     }
-    void doubelShotBack(double pos1 = 110, double pos2 = Lift::punBack2, int timeDelay = 250) {
+    void doubelShotBack(double pos1 = 110, double pos2 = Lift::punBack2, int timeDelay = 150) {
       Puncher::charge(false);
       Lift::set_target(pos1, Lift::vUp, true);
       Lift::wait();
@@ -49,23 +49,18 @@ namespace auton {
     namespace red {
       namespace front {
         void norMid(int flag = 2) { //-2=hold,0=bot,1=top,2=both
-          Drive::drive(32, 200, 1);
-
-          Drive::drive(-27, 200, 1);
+          Drive::drive(32, 200, -1);
+          Drive::driveAbs(15, 200, 1);
 
           Puncher::charge(false);
-
           Drive::turnEnc(-96, 100, 1);
 
-          doubleShotFront();
+          doubelShotBack(lift::punFront1, lift::punFront2, 150);
 
-          // Intake::disable();
+          Drive::turnEnc(-2, 50);
 
-          // Drive::driveS(-2,50,1);
-          Drive::turnEnc(-2, 50, 1);
-
-          Drive::drive(33, 200, 1);
-          Drive::drive(-3, 150, 1);
+          Drive::drive(33, 200);
+          Drive::drive(-5, 150);
 
           Drive::turnEnc(-55, 100, 1);
 
@@ -77,7 +72,7 @@ namespace auton {
           Lift::set_target(Lift::down, 200, true);
 
           Puncher::charge();
-          Drive::turnEnc(85, 150, 1);
+          Drive::turnEnc(90, 150, 1);
           Drive::drive(-2, 200, 1);
           doubleShotFront();
         }
@@ -133,23 +128,25 @@ namespace auton {
         void Start(double dis = 3) {
           Drive::drive(32, 200, 500);
 
-          Drive::driveReconS(-100, 350, 1);
-          Drive::driveS(dis, 100, 1);
+          Drive::driveReconS(-100, 300);
+          Drive::driveS(dis, 100);
         }
         void midPark() {
           Start();
 
-          Drive::turnEnc(-90, 50, 1500);
+          Drive::drive(-10, 200, 0, 5, 50000);
 
-          doubelShotBack();
+          Drive::turnEnc(-80, 100);
 
-          Drive::drive(-6, 200, 1);
+          doubelShotBack(90);
 
-          Drive::turnEnc(170, 150, 1);
+          Drive::driveS(9, 200);
+
+          Drive::turnEnc(180, 200, 0, 1);
 
           Intake::disable();
           Lift::set_target(lift::up, lift::vUp, true);
-          Drive::drive(-42, 200, 1);
+          Drive::drive(-32, 200);
 
           Lift::set_target(lift::down, lift::vUp, true);
         }
@@ -158,15 +155,15 @@ namespace auton {
 
           Drive::turnEnc(-67, 50, 1500);
 
-          doubelShotBack(100);
+          doubelShotBack(90);
 
-          Drive::drive(-5.5, 200, 1);
+          Drive::drive(-5.5, 200);
 
-          Drive::turnEnc(165, 150, 1);
+          Drive::turnEnc(165, 150);
 
           Intake::disable();
           Lift::set_target(lift::up, lift::vUp, true);
-          Drive::drive(-42, 200, 1);
+          Drive::drive(-42, 200);
 
           Lift::set_target(lift::down, lift::vUp, true);
         }
@@ -175,30 +172,30 @@ namespace auton {
     namespace blue {
       namespace front {
         void Start() { //-2=hold,0=bot,1=top,2=both//add to a game defs file
-          Drive::drive(32, 200, 1);
+          Drive::drive(32, 200);
 
-          Drive::drive(-27, 200, 1);
+          Drive::drive(-27, 200);
 
           Puncher::charge(false);
 
-          Drive::turnEnc(96, 100, 1);
+          Drive::turnEnc(96, 100);
 
           doubleShotFront();
 
           // Intake::disable();
 
           // Drive::driveS(-2,50,1);
-          Drive::turnEnc(2, 50, 1);
+          Drive::turnEnc(2, 50);
 
-          Drive::drive(33, 200, 1);
-          Drive::drive(-3, 150, 1);
+          Drive::drive(33, 200);
+          Drive::drive(-3, 150);
 
-          Drive::turnEnc(60, 100, 1);
+          Drive::turnEnc(60, 100);
 
           Lift::set_target(Lift::down + 15, 100, true);
-          Drive::drive(-14, 150, -1);
+          Drive::drive(-14, 150, -1); //lift dis; end dis is not dependent on this dis
           Lift::set_target(150, 200, true);
-          Drive::drive(-5, 150, 1);
+          Drive::driveAbs(-20, 150, 1); //ending dis
           // Lift::wait(100);
           Lift::set_target(Lift::down, 200, true);
 
@@ -210,7 +207,7 @@ namespace auton {
         void NorMid(int flag) { //flag|0=mid,1=top,2=both,-2=hold
           Start();
           Puncher::charge();
-          Drive::turnEnc(-105, 150, 1);
+          Drive::turnEnc(-105, 150);
           // Drive::drive(-2,200,1);
           doubleShotFront();
         }
@@ -221,7 +218,7 @@ namespace auton {
         void NorFar(int flag) { //
           Start();
           Puncher::charge();
-          Drive::turnEnc(-105, 150, 1);
+          Drive::turnEnc(-105, 150);
           // Drive::drive(-2,200,1);
           doubleShotFront();
         }
@@ -230,8 +227,8 @@ namespace auton {
         void Start() {
           Drive::drive(32, 200, 500);
 
-          Drive::driveReconS(100, 350, 1);
-          Drive::driveS(-3, 100, 1);
+          Drive::driveReconS(100, 350);
+          Drive::driveS(-3, 100);
         }
         void midPark() {
           Start();
@@ -240,13 +237,13 @@ namespace auton {
 
           doubelShotBack();
 
-          Drive::drive(-6, 200, 1);
+          Drive::drive(-6, 200);
 
-          Drive::turnEnc(-170, 150, 1);
+          Drive::turnEnc(-170, 150);
 
           Intake::disable();
           Lift::set_target(lift::up, lift::vUp, true);
-          Drive::drive(-42, 200, 1);
+          Drive::drive(-42, 200);
 
           Lift::set_target(lift::down, lift::vUp, true);
         }
@@ -257,83 +254,83 @@ namespace auton {
 
           doubelShotBack(100);
 
-          Drive::drive(-6, 200, 1);
+          Drive::drive(-6, 200);
 
-          Drive::turnEnc(-170, 150, 1);
+          Drive::turnEnc(-170, 150);
 
           Intake::disable();
           Lift::set_target(lift::up, lift::vUp, true);
-          Drive::drive(-42, 200, 1);
+          Drive::drive(-42, 200);
 
           Lift::set_target(lift::down, lift::vUp, true);
         }
       } // namespace back
     }   // namespace blue
     void skills() {
-      Drive::drive(28, 200, -1);
-      Drive::drive(10, 50, 1);
+      // Drive::drive(28, 200, -1);
+      // Drive::drive(10, 50, 1);
 
-      Drive::drive(-24, 200, -1);
-      Drive::drive(-10, 50, 1);
+      // Drive::drive(-24, 200, -1);
+      // Drive::drive(-10, 50, 1);
 
-      Drive::turnEnc(-85, 100, 1);
+      // Drive::turnEnc(-85, 100, 1);
 
-      Drive::drive(35, 200, -1);
-      Puncher::charge(false);
-      Drive::drive(10, 100, 1);
+      // Drive::drive(35, 200, -1);
+      // Puncher::charge(false);
+      // Drive::drive(10, 100, 1);
 
-      doubleShotFront();
+      // doubleShotFront();
 
-      Drive::turnEnc(-3, 50, 1);
+      // Drive::turnEnc(-3, 50, 1);
 
-      Drive::drive(35, 200, -1);
-      Drive::drive(-20, 200, 1);
+      // Drive::drive(35, 200, -1);
+      // Drive::drive(-20, 200, 1);
 
-      Drive::driveReconS(-200, 750);
+      // Drive::driveReconS(-200, 750);
 
-      Drive::driveS(3, 100, 1);
+      // Drive::driveS(3, 100, 1);
 
-      Drive::turnEnc(85, 100, 1);
+      // Drive::turnEnc(85, 100, 1);
 
-      Drive::drive(40, 200, -1);
-      Intake::disable();
-      Drive::drive(20, 50, -1);
-      Intake::enable();
-      Drive::drive(-5, 100, 1);
+      // Drive::drive(40, 200, -1);
+      // Intake::disable();
+      // Drive::drive(20, 50, -1);
+      // Intake::enable();
+      // Drive::drive(-5, 100, 1);
 
-      Drive::driveReconS(200, 500);
+      // Drive::driveReconS(200, 500);
 
-      Drive::driveS(-5, 100);
+      // Drive::driveS(-5, 100);
 
-      Drive::turnEnc(-85, 100, 1);
+      // Drive::turnEnc(-85, 100, 1);
 
-      Puncher::charge(false);
-      // Drive::drive(10,100,1);
+      // Puncher::charge(false);
+      // // Drive::drive(10,100,1);
 
-      doubleShotFront();
+      // doubleShotFront();
 
-      Drive::turnEnc(85, 100, 1);
+      // Drive::turnEnc(85, 100, 1);
 
-      Drive::driveReconS(200, 500);
+      // Drive::driveReconS(200, 500);
 
-      Drive::driveS(-2, 100);
+      // Drive::driveS(-2, 100);
 
-      Drive::drive(-25, 200, 1);
+      // Drive::drive(-25, 200, 1);
 
-      Drive::driveS(13, 200, 1);
-      //
-      Drive::driveRecon(200, 2250);
-      //
-      // Drive::drive(-10,100,1);
-      //
-      // Drive::drive(90,200,1);
+      // Drive::driveS(13, 200, 1);
+      // //
+      // Drive::driveRecon(200, 2250);
+      // //
+      // // Drive::drive(-10,100,1);
+      // //
+      // // Drive::drive(90,200,1);
     }
     void testR() {
       Drive::drive(24, 200, -1);
-      Drive::driveAbs(20, 200, 0);
+      Drive::driveAbs(24, 200, 0);
     }
     void testB() {
     }
-    void defaultSelection() { red::back::farPark(); }
+    void defaultSelection() { red::front::midBoth(); }
   } // namespace routines
 } // namespace auton

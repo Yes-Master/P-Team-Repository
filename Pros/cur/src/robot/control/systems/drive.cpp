@@ -187,17 +187,12 @@ namespace drive {
     void driveAbs(int tar, int vel, int endWait, double vSettled, int timeout) { //absolute used to move smothly after normal move not
       double direction;
       double totalDeg = tar * 360 / WheelCir;
-
-      //sum of mChange*(rpm/dis per rot)
-      double sumRPM = LeftN.output() * LeftN.output() / 2;
-      // double deltaTarDeg = LeftN.get_changeMsec() * (sumRPM * 360 / 60 / 1000);
       direction = SGN(tar - back_left_motor.getPosition());
       int velocity = std::abs(vel) * direction;
       if (direction > 0) {
-        while (back_left_motor.getPosition() < totalDeg) { // max error is 1/30 of an inch;
+        while (back_left_motor.getPosition() < totalDeg) { // max error is 1/30 of an inch;//needs to recalc error
           DRN(velocity, velocity);
-          pros::delay(5); // wait for the ramp task to execute, free up PU,wait
-                          // for distance to be travled;
+          pros::delay(5); // wait for the ramp task to execute, free up PU,wait for distance to be travled;
           // need to sync with ramping task
         }
       } else {

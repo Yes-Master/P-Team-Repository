@@ -3,27 +3,27 @@
 okapi::Controller controllerMaster(okapi::ControllerId::master);
 pros::Controller controllerSlave(pros::controller_id_e_t::E_CONTROLLER_PARTNER);
 namespace flow{
-  okapi::ControllerButton btnTog = controllerMaster[okapi::ControllerDigital::up];
-  okapi::ControllerButton btnToCaps = controllerMaster[okapi::ControllerDigital::L1];
+  // okapi::ControllerButton btnTog = controllerMaster[okapi::ControllerDigital::down];
+  // okapi::ControllerButton btnToCaps = controllerMaster[okapi::ControllerDigital::right];
 }
 namespace drive{
-  okapi::ControllerButton btnBrake = controllerMaster[okapi::ControllerDigital::L2];
+  okapi::ControllerButton btnBrake = controllerMaster[okapi::ControllerDigital::down];
 }
 namespace intake{
-  okapi::ControllerButton btnCombo = controllerMaster[okapi::ControllerDigital::R2];
-  okapi::ControllerButton btnIn = controllerMaster[okapi::ControllerDigital::X];
-  okapi::ControllerButton btnOut = controllerMaster[okapi::ControllerDigital::Y];
-  okapi::ControllerButton btnTog = controllerMaster[okapi::ControllerDigital::A];
+  // okapi::ControllerButton btnCombo = controllerMaster[okapi::ControllerDigital::R2];
+  okapi::ControllerButton btnIn = controllerMaster[okapi::ControllerDigital::R1];
+  okapi::ControllerButton btnOut = controllerMaster[okapi::ControllerDigital::R2];
+  okapi::ControllerButton btnTog = controllerMaster[okapi::ControllerDigital::Y];
 }
 namespace lift{
-  okapi::ControllerButton btnUp = controllerMaster[okapi::ControllerDigital::R1];
-  okapi::ControllerButton btnDown = controllerMaster[okapi::ControllerDigital::R2];
-  okapi::ControllerButton btnPosTog = controllerMaster[okapi::ControllerDigital::L1];
-  okapi::ControllerButton btnCal = controllerMaster[okapi::ControllerDigital::B];
+  okapi::ControllerButton btnUp = controllerMaster[okapi::ControllerDigital::L1];
+  okapi::ControllerButton btnDown = controllerMaster[okapi::ControllerDigital::L2];
+  okapi::ControllerButton btnPosTog = controllerMaster[okapi::ControllerDigital::right];
+  okapi::ControllerButton btnCal = controllerMaster[okapi::ControllerDigital::up];
 }
 namespace puncher{
-  okapi::ControllerButton btnCharge = controllerMaster[okapi::ControllerDigital::R1];
-  okapi::ControllerButton btnDoubleBack = controllerMaster[okapi::ControllerDigital::left];
-  okapi::ControllerButton btnBackTop = controllerMaster[okapi::ControllerDigital::right];
-  okapi::ControllerButton btnBackMid = controllerMaster[okapi::ControllerDigital::down];
+  okapi::ControllerButton btnCharge = controllerMaster[okapi::ControllerDigital::B];
+  // okapi::ControllerButton btnDoubleBack = controllerMaster[okapi::ControllerDigital::left];
+  okapi::ControllerButton btnBackTop = controllerMaster[okapi::ControllerDigital::X];
+  okapi::ControllerButton btnBackMid = controllerMaster[okapi::ControllerDigital::A];
 }

@@ -82,23 +82,37 @@ namespace flow{
   void user(){
     drive::feedback::rumble();
     lift::feedback::rumble();
-    control::modeTog();
+    // control::modeTog();
 
-    switch (get_mode()) {
-      case Modes::FLAG:
-        control::tocapsTog();
-        flag::user();
-      break;
-      case Modes::CAPS:
-        caps::user();
-      break;
-      case Modes::DEBUG:
-        //debug
-      break;
-      case Modes::NONE:
-        //nothing is going on here
-      break;
-    }
+    lift::control::calabrate();
+    lift::control::manual();
+    lift::control::position();
+
+    puncher::control::charge();
+    puncher::control::backMid();
+    puncher::control::backTop();
+
+    intake::control::feedIn();
+    intake::control::feedOut();
+    intake::control::toggle();
+
+    drive::control::manual();
+    drive::control::hold();
+    // switch (get_mode()) {
+    //   case Modes::FLAG:
+    //     control::tocapsTog();
+    //     flag::user();
+    //   break;
+    //   case Modes::CAPS:
+    //     caps::user();
+    //   break;
+    //   case Modes::DEBUG:
+    //     //debug
+    //   break;
+    //   case Modes::NONE:
+    //     //nothing is going on here
+    //   break;
+    // }
     execute();
   }
 }

@@ -18,7 +18,7 @@
         {
             "label": "upload",
             "type": "shell",
-            "command": "prosv5 upload --slot 1 --name cur",
+            "command": "prosv5 upload --slot 2 --name new_Btns",
             "group": "build",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.
