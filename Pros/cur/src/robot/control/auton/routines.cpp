@@ -29,7 +29,7 @@ namespace auton {
       Puncher::fire(true);
       Lift::set_target(Lift::down, Lift::vDown, true);
     }
-    void doubleShotBack(double pos1 = 110, double pos2 = Lift::punBack2, int timeDelay = 150) {
+    void doubelShotBack(double pos1 = 110, double pos2 = Lift::punBack2, int timeDelay = 150) {
       Puncher::charge(false);
       Lift::set_target(pos1, Lift::vUp, true);
       Lift::wait();

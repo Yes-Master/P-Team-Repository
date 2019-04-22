@@ -2565,7 +2565,7 @@
             "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/include-fixed",
             "-isystemc:\\program files\\pros\\toolchain\\usr\\bin\\../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/include",
             "-iquote./include",
-            "-iquote./include/robot/control/modes/",
+            "-iquote./include/robot/control/systems/",
             "-mcpu=cortex-a9",
             "-mfpu=neon-fp16",
             "-mfloat-abi=softfp",
@@ -2582,7 +2582,7 @@
             "src\\robot\\control\\modes\\flag.cpp"
         ],
         "directory": "C:\\GetHub\\Robotics\\P-Team-Repository\\Pros\\cur",
-        "file": "src\\robot\\control\\modes\\flag.cpp"
+        "file": "src\\robot\\control\\systems\\intake.cpp"
     },
     {
         "arguments": [
