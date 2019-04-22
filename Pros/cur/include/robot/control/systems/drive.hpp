@@ -51,9 +51,9 @@ namespace drive {
     * abs mode needs to be moved to new function
     */
     void drive(double tar, int vel, int endWait = 0, double vSettled = 0, int timeout = 250);
-    void driveRecon(int Pct, int Wait, int endWait = 1, double vSettled = 0, int timeout = 250);
-    void driveS(double tar, int vel, int EndWait = 1, double vSettled = 0, int timeout = 250);
-    void driveReconS(int Pct, int Wait, int EndWait = 1, double vSettled = 0, int timeout = 250);
+    void driveRecon(int Pct, int Wait, int endWait = 0, double vSettled = 0, int timeout = 250);
+    void driveS(double tar, int vel, int EndWait = 0, double vSettled = 0, int timeout = 250);
+    void driveReconS(int Pct, int Wait, int EndWait = 0, double vSettled = 0, int timeout = 250);
     void turnEnc(double deg, int v, int endWait = 0, double vSettled = 0, int timeout = 250);
   } // namespace auton
 } // namespace drive
