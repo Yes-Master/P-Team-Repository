@@ -8,7 +8,7 @@ namespace drive {
     NONE
   };
   // vars FUNCTIONS
-  // bool get_invert();
+  bool get_inverted();
   void set_inverted(bool i);
   // methods
   okapi::Motor::brakeMode get_brakeMode();
@@ -25,6 +25,7 @@ namespace drive {
   namespace control {
     void manual();
     void hold();
+    void dir();
   } // namespace control
   namespace auton {
     //add to namespace ramping
