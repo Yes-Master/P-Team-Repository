@@ -131,7 +131,7 @@ namespace auton {
             // Lift::wait(100);
             // Lift::set_target(Lift::down, 200, true);
 
-            if (f != selection::Flags::NONE) { Puncher::charge(); }
+            if (f != selection::Flags::NONE) { Puncher::charge(); } //if not shooting any flags dont charge
             Drive::turnEnc(117, 150, 1);
             // Drive::drive(-2, 200, 1);
             switch (o) { //par
@@ -158,49 +158,6 @@ namespace auton {
             break;
           };
         }
-        void cloFar() {
-          // Drive::drive(32,200,0);
-          // pros::delay(100);
-          // Drive::drive(18,200,1,true);
-
-          Drive::drive(32, 200, 1);
-          Drive::drive(-27, 200, 1);
-
-          Puncher::charge(false);
-          Drive::turnEnc(-95, 100, 0);
-          // Drive::turnEnc(2,50,1)
-
-          // Drive::drive(2,100,0);
-
-          doubleShotFront();
-
-          Intake::disable();
-          // Drive::driveS(-2,50,1);
-          // Drive::turnEnc(-1, 100, 1);
-
-          // Drive::drive(32,200,1);
-          // Drive::drive(-29, 200, 1);
-
-          Drive::turnEnc(-160, 100, 1);
-          // Drive::driveS(1.4,100,1);
-
-          Drive::drive(-9, 200, 0);
-          Drive::drive(-10, 50, 1);
-
-          // Intake::disable();
-          Lift::set_target(lift::up, lift::vScoop, true);
-          intake::set_VSetting(-75, true);
-          Lift::wait(250);
-
-          Drive::turnEnc(-176, 75, 0);
-
-          Intake::enable();
-          // Drive::driveS(-1,50,1);
-          Lift::set_target(lift::down, lift::vDown, true);
-          Lift::wait();
-
-          doubelShotBack(96, lift::up, true);
-        }
         void all(selection::Shoots s, selection::Flags f, selection::Options o) {
           start(s, f, o);
           endShoots(s, f, o);
@@ -220,7 +177,7 @@ namespace auton {
 
             switch (o) {
             case selection::Options::PARK:
-              doubelShotBack(125, 220);
+              multiFlagSelect(125, 220, 150, f);
 
               Drive::drive(-4, 200);
 
@@ -234,7 +191,7 @@ namespace auton {
               break;
             case selection::Options::NPARK:
               pros::delay(2500);
-              doubelShotBack(125, 220);
+              multiFlagSelect(125, 220, 150, f);
               break;
             case selection::Options::NONE:
               break;
