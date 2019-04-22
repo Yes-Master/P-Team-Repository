@@ -12,7 +12,7 @@ namespace auton {
   namespace Lift = lift;
   namespace Puncher = puncher::auton;
   namespace routines {
-    void doubleShotFront() { //remove
+    void doubleShotFront() {
       Puncher::fire(true);
       Lift::set_target(Lift::punFront2, Lift::vUp, true);
       int timer = 0;
@@ -29,7 +29,7 @@ namespace auton {
       Puncher::fire(true);
       Lift::set_target(Lift::down, Lift::vDown, true);
     }
-    void doubelShotBack(double pos1 = 110, double pos2 = Lift::punBack2, int timeDelay = 150) {
+    void doubelShotBack(double pos1 = 110, double pos2 = Lift::punBack2, int timeDelay = 250) {
       Puncher::charge(false);
       Lift::set_target(pos1, Lift::vUp, true);
       Lift::wait();
@@ -458,10 +458,11 @@ namespace auton {
       } // namespace back
     }   // namespace blue
     void skills() {
+
     }
     void testR() {
       Drive::drive(24, 200, -1);
-      Drive::driveAbs(24, 200, 0);
+      Drive::driveAbs(20, 200, 0);
     }
     void testB() {
     }

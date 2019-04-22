@@ -2,10 +2,10 @@
 #include "display/lvgl.h"
 #include "robot/config/controller_config.hpp"
 #include "robot/control/auton/routines.hpp"
-#include <algorithm>
 #include <string>
-namespace auton {
-  namespace selection {
+#include <algorithm>
+namespace auton{
+  namespace selection{
     /*forward defs*/
     void StyleInit();
     void BtnInit(lv_obj_t *btn, lv_style_t *sty, int row, int col);
@@ -69,7 +69,7 @@ namespace auton {
         break;
       }
     }
-    void screenInit() {
+    void screenInit(){
       StyleInit();
 
       BtnInit(Btn0_0, &style_red, 0, 0);
@@ -121,7 +121,7 @@ namespace auton {
       // testBtnOpt(Btn3_1, Btn3_1, Options::PARK);
       std::cout << "pos: " << static_cast<int>(positon) << " sho: " << static_cast<int>(shoot) << " fla: " << static_cast<int>(flag) << " opt: " << static_cast<int>(option) << std::endl;
     }
-    void StyleInit() {
+    void StyleInit(){
       lv_style_copy(&style_red, &lv_style_plain);
       style_red.text.color = LV_COLOR_HEX(0xFF0000);
 
@@ -146,11 +146,9 @@ namespace auton {
       lv_obj_set_style(label, sty);
       lv_label_set_text(label, screenText[row][col].c_str());
 
-      std::cout << "Btn on row " << row << " and col " << col << " Inited";
-      if (sty == &style_red)
-        std::cout << "red" << std::endl;
-      else
-        std::cout << "blue" << std::endl;
+      std::cout <<"Btn on row "<< row <<" and col "<< col <<" Inited";
+      if(sty==&style_red) std::cout<<"red"<<std::endl;
+      else  std::cout<<"blue"<<std::endl;
     }
     std::string RoutsToString(int one, int two) {
       return screenText[one][two];
@@ -263,9 +261,10 @@ namespace auton {
     }
     static lv_res_t OnClickOpt(_lv_obj_t *pressedBtn) {
       testBtnOpt(pressedBtn, Btn3_1, Options::PARK);
+
       ControllerScreen();
       std::cout << "pos: " << static_cast<int>(positon) << " sho: " << static_cast<int>(shoot) << " fla: " << static_cast<int>(flag) << " opt: " << static_cast<int>(option) << std::endl;
       return LV_RES_OK;
     }
-  } // namespace selection
-} // namespace auton
+  }
+}

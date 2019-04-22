@@ -72,7 +72,7 @@ namespace flow {
   void user() {
     drive::feedback::rumble();
     lift::feedback::rumble();
-    // control::modeTog();
+    control::modeTog();
 
     lift::control::calabrate();
     lift::control::manual();
@@ -104,6 +104,7 @@ namespace flow {
     //     //nothing is going on here
     //   break;
     // }
+
     execute();
   }
 } // namespace flow
