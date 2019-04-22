@@ -100,24 +100,26 @@ namespace auton {
 
       //only activate one line per group and update the last line per group
 
-      // lv_btn_set_state(Btn0_0, LV_BTN_STATE_PR); //fr
-      // lv_btn_set_state(Btn1_0, LV_BTN_STATE_PR);//br
-      // lv_btn_set_state(Btn2_0, LV_BTN_STATE_PR);//bb
-      lv_btn_set_state(Btn3_0, LV_BTN_STATE_PR);//fb
-      testBtnPos(Btn3_0, Btn3_0, Positons::FB);
+      // lv_btn_set_state(Btn0_0, LV_BTN_STATE_TGL_PR); //fr
+      // lv_btn_set_state(Btn1_0, LV_BTN_STATE_TGL_PR);//br
+      // lv_btn_set_state(Btn2_0, LV_BTN_STATE_TGL_PR);//bb
+      lv_btn_set_state(Btn3_0, LV_BTN_STATE_TGL_PR);//fb
+      testBtnPos(Btn0_0, Btn0_0, Positons::FB);
 
-      lv_btn_set_state(Btn0_1, LV_BTN_STATE_PR); //mid
-      // lv_btn_set_state(Btn0_2, LV_BTN_STATE_PR);//far
+      lv_btn_set_state(Btn0_1, LV_BTN_STATE_TGL_PR); //mid
+      // lv_btn_set_state(Btn0_2, LV_BTN_STATE_TGL_PR); //far
       testBtnSho(Btn0_1, Btn0_1, Shoots::MID);
 
-      lv_btn_set_state(Btn1_1, LV_BTN_STATE_PR); //top
-      lv_btn_set_state(Btn2_1, LV_BTN_STATE_PR); //mid
+      lv_btn_set_state(Btn1_1, LV_BTN_STATE_TGL_PR); //top
+      lv_btn_set_state(Btn2_1, LV_BTN_STATE_TGL_PR); //mid
       testBtnFla(Btn1_1, Btn1_1, Flags::TOP);
       testBtnFla(Btn2_1, Btn2_1, Flags::MID);
 
-      // lv_btn_set_state(Btn3_1, LV_BTN_STATE_PR); //park
-                                                 lv_btn_set_state(Btn3_1, LV_BTN_STATE_REL);//Npark
-      // testBtnOpt(Btn0_0, Btn0_0, Options::PARK);
+      lv_btn_set_state(Btn3_1, LV_BTN_STATE_TGL_PR); //park
+      // lv_btn_set_state(Btn3_1, LV_BTN_STATE_TGL_REL); //Npark
+      testBtnOpt(Btn3_1, Btn3_1, Options::PARK);
+      // testBtnOpt(Btn3_1, Btn3_1, Options::PARK);
+      std::cout << "pos: " << static_cast<int>(positon) << " sho: " << static_cast<int>(shoot) << " fla: " << static_cast<int>(flag) << " opt: " << static_cast<int>(option) << std::endl;
     }
     void StyleInit() {
       lv_style_copy(&style_red, &lv_style_plain);
@@ -232,7 +234,6 @@ namespace auton {
           option = Options::PARK;
           break;
         }
-        option = Option;
       } else {
         lv_btn_set_state(Btn, LV_BTN_STATE_REL);
       }
