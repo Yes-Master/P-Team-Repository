@@ -6,12 +6,12 @@ namespace lift{
 
   //position
   const double punFront1=down;//front fisrt
-  const double punFront2=150;//front second
-  const double punBack1=78;//back first//110
-  const double punBack2=160;//back second
+  const double punFront2=140;//front second
+  const double punBack1=110;//back first//110
+  const double punBack2=170;//back second
 
-  const double down=37;//at ground
-  const double up=240;//max in 18_ft spec
+  const double down=38;//at ground
+  const double up=230;//max in 18_ft spec
   const double limitMin=down;
   const double limitMax=405;
   double P=down;//position setting
@@ -68,9 +68,8 @@ namespace lift{
   //methods
   void positionChanger(int v=vMove){
     set_v(v);
-    if(get_controller()==Controllers::MANUAL){
-      set_target(down,vDown);
-    }
+    if(get_controller()==Controllers::MANUAL && motor.getPosition()<175) set_target(down,vDown);
+    else if (get_controller()==Controllers::MANUAL && motor.getPosition()>=175)  set_target(up,vUp);
     else if(get_target()==up)       set_target(down,-vPos);
     else if(get_target()==down)     set_target(up,vPos);
     else if(get_target()==punFront1)  set_target(down,-vPos);

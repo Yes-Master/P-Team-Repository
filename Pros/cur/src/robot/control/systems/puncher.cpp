@@ -197,7 +197,7 @@ namespace puncher {
     }
     void backTop(void* why) {
       puncher::auton::charge(false);
-      lift::set_target(lift::punBack1, 50, true);
+      lift::set_target(lift::punBack1+2, 40, true);
       lift::wait();
       puncher::auton::fire(false);
       puncher::auton::wait(50);
@@ -205,7 +205,7 @@ namespace puncher {
     }
     void backMid(void* why) {
       puncher::auton::charge(false);
-      lift::set_target(lift::punBack2, 50, true);
+      lift::set_target(lift::punBack2+2, 40, true);
       lift::wait();
       puncher::auton::fire(false);
       puncher::auton::wait(50);
