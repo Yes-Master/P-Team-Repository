@@ -9,6 +9,7 @@ namespace auton {
     /*forward defs*/
     void StyleInit();
     void BtnInit(lv_obj_t *btn, lv_style_t *sty, int row, int col);
+    void BtnShow();
 
     std::string RoutsToString(int one, int two);
     void ControllerScreen();
@@ -98,27 +99,7 @@ namespace auton {
       BtnInit(Btn2_2, &style_config, 2, 2);
       BtnInit(Btn3_2, &style_config, 3, 2);
 
-      //only activate one line per group and update the last line per group
-
-      // lv_btn_set_state(Btn0_0, LV_BTN_STATE_TGL_PR); //fr
-      // lv_btn_set_state(Btn1_0, LV_BTN_STATE_TGL_PR);//br
-      // lv_btn_set_state(Btn2_0, LV_BTN_STATE_TGL_PR);//bb
-      lv_btn_set_state(Btn3_0, LV_BTN_STATE_TGL_PR);//fb
-      testBtnPos(Btn0_0, Btn0_0, Positons::FB);
-
-      lv_btn_set_state(Btn0_1, LV_BTN_STATE_TGL_PR); //mid
-      // lv_btn_set_state(Btn0_2, LV_BTN_STATE_TGL_PR); //far
-      testBtnSho(Btn0_1, Btn0_1, Shoots::MID);
-
-      lv_btn_set_state(Btn1_1, LV_BTN_STATE_TGL_PR); //top
-      lv_btn_set_state(Btn2_1, LV_BTN_STATE_TGL_PR); //mid
-      testBtnFla(Btn1_1, Btn1_1, Flags::TOP);
-      testBtnFla(Btn2_1, Btn2_1, Flags::MID);
-
-      lv_btn_set_state(Btn3_1, LV_BTN_STATE_TGL_PR); //park
-      // lv_btn_set_state(Btn3_1, LV_BTN_STATE_TGL_REL); //Npark
-      testBtnOpt(Btn3_1, Btn3_1, Options::PARK);
-      // testBtnOpt(Btn3_1, Btn3_1, Options::PARK);
+      BtnShow();
       std::cout << "pos: " << static_cast<int>(positon) << " sho: " << static_cast<int>(shoot) << " fla: " << static_cast<int>(flag) << " opt: " << static_cast<int>(option) << std::endl;
     }
     void StyleInit() {
@@ -266,6 +247,50 @@ namespace auton {
       ControllerScreen();
       std::cout << "pos: " << static_cast<int>(positon) << " sho: " << static_cast<int>(shoot) << " fla: " << static_cast<int>(flag) << " opt: " << static_cast<int>(option) << std::endl;
       return LV_RES_OK;
+    }
+
+    void BtnShow() {
+      switch (positon) {
+      case Positons::FR:
+        lv_btn_set_state(Btn0_0, LV_BTN_STATE_TGL_PR); //fr
+        break;
+      case Positons::BR:
+        lv_btn_set_state(Btn1_0, LV_BTN_STATE_TGL_PR); //br
+        break;
+      case Positons::BB:
+        lv_btn_set_state(Btn2_0, LV_BTN_STATE_TGL_PR); //bb
+        break;
+      case Positons::FB:
+        lv_btn_set_state(Btn3_0, LV_BTN_STATE_TGL_PR); //fb
+        break;
+      };
+      switch (shoot) {
+      case Shoots::FAR:
+        lv_btn_set_state(Btn0_2, LV_BTN_STATE_TGL_PR); //far
+        break;
+      case Shoots::MID:
+        lv_btn_set_state(Btn0_1, LV_BTN_STATE_TGL_PR); //mid
+        break;
+      }
+      switch (flag) {
+      case Flags::BOTH:
+        lv_btn_set_state(Btn1_1, LV_BTN_STATE_TGL_PR); //top
+        lv_btn_set_state(Btn2_1, LV_BTN_STATE_TGL_PR); //mid
+        break;
+      case Flags::TOP:
+        lv_btn_set_state(Btn1_1, LV_BTN_STATE_TGL_PR); //top
+        break;
+      case Flags::MID:
+        lv_btn_set_state(Btn2_1, LV_BTN_STATE_TGL_PR); //mid
+        break;
+      }
+      switch (option) {
+      case Options::PARK:
+        lv_btn_set_state(Btn3_1, LV_BTN_STATE_TGL_PR); //park
+        break;
+      case Options::NPARK:
+        break;
+      };
     }
   } // namespace selection
 } // namespace auton
