@@ -1,4 +1,5 @@
 #include "robot/control/systems/lift.hpp"
+#include "robot/control/systems/intake.hpp"
 
 namespace lift{
   //vars
@@ -7,7 +8,7 @@ namespace lift{
   //position
   const double punFront1=down;//front fisrt
   const double punFront2=140;//front second
-  const double punBack1=110;//back first//110
+  const double punBack1=90;//back first//110
   const double punBack2=170;//back second
 
   const double down=38;//at ground
@@ -67,6 +68,7 @@ namespace lift{
   }
   //methods
   void positionChanger(int v=vMove){
+    intake::automatic::disable();
     set_v(v);
     if(get_controller()==Controllers::MANUAL && motor.getPosition()<175) set_target(down,vDown);
     else if (get_controller()==Controllers::MANUAL && motor.getPosition()>=175)  set_target(up,vUp);

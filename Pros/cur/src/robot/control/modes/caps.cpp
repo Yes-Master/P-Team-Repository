@@ -6,8 +6,8 @@
 #include "robot/control/systems/lift.hpp"
 #include "robot/control/systems/puncher.hpp"
 
-namespace caps{
-  void user(){
+namespace caps {
+  void user() {
     drive::control::manual();
     drive::control::hold();
 
@@ -18,18 +18,15 @@ namespace caps{
     lift::control::manual();
     lift::control::position();
     lift::control::calabrate();
-
-    // puncher::control::
   }
-  void init(){
+  void init() {
     intake::automatic::disable();
-    lift::set_target(lift::down,lift::vDown,true);
+    lift::set_target(lift::down, lift::vDown, true);
     drive::set_inverted(true);
-    controllerMaster.setText(1,5,"CAPS");
+    controllerMaster.setText(1, 5, "CAPS");
     flow::set_mode(flow::Modes::CAPS);
     lift::btnPosTog.changed();
   }
-  void deInit(){
-
+  void deInit() {
   }
-}
+} // namespace caps
