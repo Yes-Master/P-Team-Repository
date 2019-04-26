@@ -43,10 +43,10 @@ namespace auton {
     lv_style_t style_config;
     // lv_style_t style_btn;
 
-    Positons positon = Positons::BB;
-    Shoots shoot = Shoots::FAR;
+    Positons positon = Positons::FB;
+    Shoots shoot = Shoots::MID;
     Flags flag = Flags::BOTH;
-    Options option = Options::PARK;
+    Options option = Options::NPARK;
 
     std::string screenText[4][3] = {
         {"Front Red", "Mid", "Far"},
