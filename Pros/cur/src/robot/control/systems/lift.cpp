@@ -8,8 +8,8 @@ namespace lift{
   //position
   const double punFront1=down;//front fisrt
   const double punFront2=140;//front second
-  const double punBack1=90;//back first//110
-  const double punBack2=170;//back second
+  const double punBack1=100;//back first//110
+  const double punBack2=180;//back second
 
   const double down=38;//at ground
   const double up=230;//max in 18_ft spec
