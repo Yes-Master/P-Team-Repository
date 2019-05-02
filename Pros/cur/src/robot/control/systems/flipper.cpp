@@ -19,7 +19,7 @@ namespace flipper {
   const int vStop = 0;          //stoping vlocity
   const int vUp = vMove;        //velocity when moving up
   const int vDown = -vMove;     //velocity when moving down
-  const int vPos = vMove;   //velocity when moving via position
+  const int vPos = vMove;       //velocity when moving via position
   const int vScoop = vMove / 2; //velcoity when moving for Scoop
   const int vCal = -vMove / 2;  //velcoity when calibrating
   int V = vStop;                //velocity setting; used for storage and sync
