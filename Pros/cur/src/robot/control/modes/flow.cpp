@@ -8,6 +8,7 @@
 #include "robot/control/systems/drive.hpp"
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/systems/lift.hpp"
+#include "robot/control/systems/flipper.hpp"
 #include "robot/control/systems/puncher.hpp"
 
 namespace flow {
@@ -67,6 +68,7 @@ namespace flow {
     drive::execute();
     intake::execute();
     lift::execute();
+    flipper::execute();
     puncher::execute();
   }
   void user() {
@@ -78,11 +80,13 @@ namespace flow {
     lift::control::manual();
     lift::control::position();
 
+    flipper::control::position();
+
     if (!drive::get_inverted()) { puncher::control::charge(); }
     puncher::control::backMid();
     puncher::control::backTop();
 
-    intake::control::feedIn();
+    // intake::control::feedIn();
     intake::control::feedOut();
     intake::control::toggle();
 

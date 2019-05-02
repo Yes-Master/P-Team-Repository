@@ -15,7 +15,7 @@ namespace drive {
 
 namespace intake {
   // okapi::ControllerButton btnCombo = controllerMaster[okapi::ControllerDigital::R2];
-  okapi::ControllerButton btnIn = controllerMaster[okapi::ControllerDigital::L1];
+  // okapi::ControllerButton btnIn = controllerMaster[okapi::ControllerDigital::L1];
   okapi::ControllerButton btnOut = controllerMaster[okapi::ControllerDigital::L2];
   okapi::ControllerButton btnTog = controllerMaster[okapi::ControllerDigital::right];
 } // namespace intake
@@ -30,7 +30,7 @@ namespace lift {
 namespace flipper {
   //  okapi::ControllerButton btnUp = controllerMaster[okapi::ControllerDigital::R1];
   // okapi::ControllerButton btnDown = controllerMaster[okapi::ControllerDigital::R2];
-  okapi::ControllerButton btnPosTog = controllerMaster[okapi::ControllerDigital::Y];
+  okapi::ControllerButton btnPosTog = controllerMaster[okapi::ControllerDigital::L1];
   okapi::ControllerButton btnCal = controllerMaster[okapi::ControllerDigital::left];
 } // namespace flipper
 

@@ -30,7 +30,7 @@ namespace lift {
 } // namespace lift
 
 namespace flipper {
-  okapi::Motor motor(10, false, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
+  okapi::Motor motor(4, true, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
 } // namespace flipper
 
 namespace intake {

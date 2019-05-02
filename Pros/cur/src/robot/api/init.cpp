@@ -22,6 +22,7 @@ void initialize() {
   auton::selection::screenInit();
 
   lift::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
+  flipper::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
   intake::motor.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
 }
 void disabled(void) {

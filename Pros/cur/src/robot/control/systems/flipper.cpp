@@ -5,8 +5,8 @@ namespace flipper {
   Controllers controller = Controllers::NONE;
 
   //position
-  const double down = 100;      //at ground
-  const double up = 5;          //all the way up and in
+  const double down = 170;      //at ground
+  const double up = 20;         //all the way up and in
                                 // NOTE: only stops velocity requests, not built in position or voltage
                                 // limit vars are only relocated here to keep all position configuration in one place;
   const double limitMin = up;   //min pos where motor stops spinning via velocity;
@@ -19,7 +19,7 @@ namespace flipper {
   const int vStop = 0;          //stoping vlocity
   const int vUp = vMove;        //velocity when moving up
   const int vDown = -vMove;     //velocity when moving down
-  const int vPos = vMove / 2;   //velocity when moving via position
+  const int vPos = vMove;   //velocity when moving via position
   const int vScoop = vMove / 2; //velcoity when moving for Scoop
   const int vCal = -vMove / 2;  //velcoity when calibrating
   int V = vStop;                //velocity setting; used for storage and sync
@@ -81,7 +81,7 @@ namespace flipper {
       motor.moveVelocity(0);
       motor.tarePosition();
       Calabrated = true;
-      motor.moveAbsolute(down, vMove);
+      set_target(up, vMove, true);
       motor.setLimitPositons(limitMin, limitMax);
     } else {
       motor.moveVelocity(vCal);
@@ -100,7 +100,7 @@ namespace flipper {
         motor.moveAbsolute(get_target(), get_v());
         break;
       case Controllers::CALABRATE:
-        motor.moveVelocity(get_v());
+        motor.moveVelocity(vCal);
         break;
       case Controllers::NONE:
         motor.moveVelocity(vStop); //stop the motor
