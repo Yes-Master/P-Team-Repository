@@ -4,12 +4,14 @@
 #include "robot/control/systems/drive.hpp"
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/systems/lift.hpp"
+#include "robot/control/systems/flipper.hpp"
 #include "robot/control/systems/puncher.hpp"
 
 namespace auton {
   namespace Drive = drive::auton;
   namespace Intake = intake::automatic;
   namespace Lift = lift;
+  namespace Flipper = flipper;
   namespace Puncher = puncher::auton;
   namespace routines {
     void doubleShotFront() { //remove
@@ -437,6 +439,10 @@ namespace auton {
       Drive::driveAbs(24, 200, 0);
     }
     void testB() {
+      Intake::enable();
+      Flipper::set_target(flipper::pScoop,flipper::vScoop,true);
+      Flipper::wait();
+      Drive::drive(-12,200);
     }
     void defaultSelection() {}
   } // namespace routines

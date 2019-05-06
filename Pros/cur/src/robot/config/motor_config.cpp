@@ -22,15 +22,12 @@ namespace puncher {
 } // namespace puncher
 
 namespace lift {
-  okapi::Motor left_mtr(8, false, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
-  okapi::Motor right_mtr(9, true, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
-  // std::vector<okapi::Motor> motors = {left_mtr,right_mtr};
-  okapi::MotorGroup motor({right_mtr, left_mtr});
+  okapi::Motor motor(8, false, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
   okapi::ADIButton CapBump(4, false);
 } // namespace lift
 
 namespace flipper {
-  okapi::Motor motor(4, true, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
+  okapi::Motor motor(9, true, okapi::AbstractMotor::gearset::red, okapi::AbstractMotor::encoderUnits::degrees);
 } // namespace flipper
 
 namespace intake {

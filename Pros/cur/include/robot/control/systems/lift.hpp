@@ -2,16 +2,19 @@
 #define LIFT_HPP
 #include "main.h"
 
-namespace lift{
+namespace lift {
   //vars
-  enum class Controllers{MANUAL,POSITION,CALABRATE,NONE};
+  enum class Controllers { MANUAL,
+                           POSITION,
+                           CALABRATE,
+                           NONE };
 
   //postition
-  extern const double punFront1;//back first
-  extern const double punFront2;//back second
-  extern const double punBack1;//back first
-  extern const double punBack2;//back second
-
+  extern const double punFront1; //back first
+  extern const double punFront2; //back second
+  extern const double punBack1;  //back first
+  extern const double punBack2;  //back second
+  extern const double pFlipper; //when the lift hits to flipper
   extern const double down;
   extern const double up;
   extern const double limitMin;
@@ -29,26 +32,27 @@ namespace lift{
   //vars FUNCTIONS
   // double get_target();
   void set_target(double t);
-  void set_target(double t,bool p);
-  void set_target(double t,int v,bool p);
+  void set_target(double t, bool p);
+  void set_target(double t, int v, bool p);
   bool get_calabrated();
+  double get_positon();
   //methods
-  void execute(int CalTimOut=20);
-  namespace feedback{
+  void execute(int CalTimOut = 20);
+  namespace feedback {
     /*
     * rumbles master_controller
     * when a cap is first inserted
     */
     void rumble();
-  }
-  namespace control{
+  } // namespace feedback
+  namespace control {
     void manual();
     void position();
     void calabrate();
+  } // namespace control
+  inline namespace auton {
+    void wait(int w = 0);
   }
-  inline namespace auton{
-    void wait(int w=0);
-  }
-}
+} // namespace lift
 
 #endif /* end of include guard: LIFT_HPP */

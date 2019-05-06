@@ -9,13 +9,9 @@ namespace flipper {
                            NONE };
 
   //postition
-  extern const double punFront1; //back first
-  extern const double punFront2; //back second
-  extern const double punBack1;  //back first
-  extern const double punBack2;  //back second
-
   extern const double down;
   extern const double up;
+  extern const double pScoop;
   extern const double limitMin;
   extern const double limitMax;
 

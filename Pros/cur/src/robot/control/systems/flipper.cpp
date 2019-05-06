@@ -1,12 +1,14 @@
 #include "robot/control/systems/flipper.hpp"
-
+#include "robot/control/systems/lift.hpp"
 namespace flipper {
   //vars
   Controllers controller = Controllers::NONE;
 
   //position
-  const double down = 170;      //at ground
-  const double up = 20;         //all the way up and in
+  const double up = 65;         //all the way up and in
+  const double pLift = 130;     //positon for when the lift is up
+  const double pScoop = 200;    //position to scoop the balls off a cap
+  const double down = 500;      //at ground
                                 // NOTE: only stops velocity requests, not built in position or voltage
                                 // limit vars are only relocated here to keep all position configuration in one place;
   const double limitMin = up;   //min pos where motor stops spinning via velocity;
@@ -69,10 +71,12 @@ namespace flipper {
       set_target(down, -vPos);
     } else if (get_target() == down) {
       set_target(up, vPos);
+    } else if (get_target() == pLift) {
+      set_target(down, vMove);
     } else {
       set_target(up, vUp);
     }
-    set_controller(Controllers::POSITION);
+    set_controller(Controllers::POSITION); // instead of true at the end of each set_target
   }
 
   void calabrate() {
@@ -92,6 +96,11 @@ namespace flipper {
     if (!Calabrated) {
       calabrate();
     } else {
+      if (get_target() == up && lift::get_positon() > lift::pFlipper+5) {//tol of 5 total tol of +- 10 deg
+        set_target(pLift, vMove, true);
+      } else if (get_target() == pLift && lift::get_positon() < lift::pFlipper-5) {
+        set_target(up, vMove, true);
+      }
       switch (get_controller()) {
       case Controllers::MANUAL:
         motor.moveVelocity(get_v());

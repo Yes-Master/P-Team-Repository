@@ -20,9 +20,7 @@ namespace puncher {
 } // namespace puncher
 
 namespace lift {
-  // extern okapi::Motor motor0;
-  // extern okapi::Motor motor1;
-  extern okapi::MotorGroup motor;
+  extern okapi::Motor motor;
   extern okapi::ADIButton CapBump;
 } // namespace lift
 
