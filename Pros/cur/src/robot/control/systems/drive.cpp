@@ -27,15 +27,6 @@ namespace drive {
   okapi::Motor::brakeMode get_brakeMode() {
     return front_left_motor.getBrakeMode();
   }
-  int test(int var) {
-    if (var > 0)
-      return 1;
-    else {
-      //test
-    }
-
-    while (1) pros::delay(1);
-  }
   void set_brakeMode(okapi::Motor::brakeMode b) {
     front_left_motor.setBrakeMode(b);
     front_right_motor.setBrakeMode(b);
