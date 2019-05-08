@@ -17,7 +17,10 @@ namespace intake {
   bool doubleShotTaskEnabled = false;
   // vars FUNCTIONS
   Controllers get_controller() { return controller; }
-  void set_controller(Controllers c) { controller = c; }
+  void set_controller(Controllers c) {
+    if (c == Controllers::MANUAL) automatic::disable();
+    controller = c;
+  }
   int get_v() { return V; }
   void set_v(int v) { V = v; }
   void set_VSetting(int v) { set_v(v); }
@@ -35,8 +38,8 @@ namespace intake {
       motor.moveVelocity(vStop);
   }
   namespace control {
-    okapi::Timer t;
     void combo() {
+      static okapi::Timer t;
       using namespace okapi::literals;
 
       if (btnCombo.changed()) {
@@ -62,17 +65,15 @@ namespace intake {
     }
     void feedOut() {
       static bool pressedWas;
-      if (btnOut.changed()) {     //
-        if (btnOut.isPressed()) { // init
-          set_controller(Controllers::MANUAL);
-        } else { // deint
+      if (btnOut.changed()) {
+        if (btnOut.isPressed()) {              // init
+          set_controller(Controllers::MANUAL); //
+        } else {                               // deint
           set_controller(Controllers::NONE);
         }
-      } else if (btnOut.isPressed()) { // hold
-        set_v(vOut);
-      } else if (controllerSlave.get_digital(
-                     pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_R2) ==
-                 1) { // pressed
+      } else if (btnOut.isPressed()) {                                                                      // hold
+        set_v(vOut);                                                                                        //
+      } else if (controllerSlave.get_digital(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_R2) == 1) { // pressed
         pressedWas = true;
         set_controller(Controllers::MANUAL);
         set_v(vOut);
@@ -293,7 +294,6 @@ namespace intake {
         motor.moveVelocity(get_v());
       }
     }
-
     // void User_Control(){//not needed here combine all inside of the controlmodes
     //   Toggle_Control();
     // }

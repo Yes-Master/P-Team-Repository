@@ -10,12 +10,14 @@ namespace lift {
   const double punFront2 = 140;  //front second
   const double punBack1 = 100;   //back first//110
   const double punBack2 = 180;   //back second
-  const double pFlipper = 375;   //when the lift conflicts with the flipper
-  const double down = 50;        //at ground
-  const double up = 230;         //max in 18_ft spec
-  const double limitMin = down;
-  const double limitMax = 1000;
-  double P = down; //position setting
+                                 //
+  const double pFlipper = 350;   //when the lift conflicts with the flipper
+  const double pPosTal = 150;    //where the pos is assumed up vs down
+  const double down = 32;        //at ground
+  const double up = 275;         //max in 18_ft spec
+  const double limitMin = down;  //absolute min
+  const double limitMax = 590;   //absolute max
+  double P = down;               //position setting
 
   //velocity
   const int vMove = 100;
@@ -73,11 +75,15 @@ namespace lift {
   void positionChanger(int v = vMove) {
     intake::automatic::disable();
     set_v(v);
-    if (get_controller() == Controllers::MANUAL && motor.getPosition() < 175)
-      set_target(down, vDown);
-    else if (get_controller() == Controllers::MANUAL && motor.getPosition() >= 175)
-      set_target(up, vUp);
-    else if (get_target() == up)
+
+    if (get_controller() == Controllers::MANUAL || get_controller() == Controllers::NONE) {
+      if (motor.getPosition() < pPosTal) {
+        set_target(down);
+      } else if (motor.getPosition() >= pPosTal) {
+        set_target(up, vUp);
+      }
+    }
+    if (get_target() == up)
       set_target(down, -vPos);
     else if (get_target() == down)
       set_target(up, vPos);
@@ -103,20 +109,6 @@ namespace lift {
       motor.moveVelocity(vCal);
     }
   }
-
-  // void calabrate(int timeout=20){//20 loops
-  //   if(CalabrateTimer>timeout){
-  //     motor.moveVelocity(vStop);
-  //     motor.tarePosition();
-  //     Calabrated=true;
-  //     set_target(down, vUp, true);
-  //     motor.setLimitPositons(lift::limitMin,lift::limitMax);
-  //   }
-  //   else {
-  //     motor.moveVelocity(vCal);
-  //     CalabrateTimer++;
-  //   }
-  // }
   void execute(int CalTimOut) {
     if (!Calabrated) {
       calabrate();

@@ -7,8 +7,8 @@ namespace flipper {
   //position
   const double up = 65;         //all the way up and in
   const double pLift = 130;     //positon for when the lift is up
-  const double pScoop = 200;    //position to scoop the balls off a cap
-  const double down = 500;      //at ground
+  const double pScoop = 305;    //position to scoop the balls off a cap
+  const double down = 375;      //at ground//375
                                 // NOTE: only stops velocity requests, not built in position or voltage
                                 // limit vars are only relocated here to keep all position configuration in one place;
   const double limitMin = up;   //min pos where motor stops spinning via velocity;
@@ -21,8 +21,8 @@ namespace flipper {
   const int vStop = 0;          //stoping vlocity
   const int vUp = vMove;        //velocity when moving up
   const int vDown = -vMove;     //velocity when moving down
-  const int vPos = vMove;       //velocity when moving via position
-  const int vScoop = vMove / 2; //velcoity when moving for Scoop
+  const int vPos = vMove / 2;   //velocity when moving via position
+  const int vScoop = vMove / 4; //velcoity when moving for Scoop
   const int vCal = -vMove / 2;  //velcoity when calibrating
   int V = vStop;                //velocity setting; used for storage and sync
 
@@ -68,15 +68,14 @@ namespace flipper {
   //methods
   void positionChanger(int v = vMove) {
     if (get_target() == up) {
-      set_target(down, -vPos);
+      set_target(down, -vPos, true);
     } else if (get_target() == down) {
-      set_target(up, vPos);
+      set_target(up, vPos, true);
     } else if (get_target() == pLift) {
-      set_target(down, vMove);
+      set_target(down, vMove, true);
     } else {
-      set_target(up, vUp);
+      set_target(up, vUp, true);
     }
-    set_controller(Controllers::POSITION); // instead of true at the end of each set_target
   }
 
   void calabrate() {
@@ -96,9 +95,9 @@ namespace flipper {
     if (!Calabrated) {
       calabrate();
     } else {
-      if (get_target() == up && lift::get_positon() > lift::pFlipper+5) {//tol of 5 total tol of +- 10 deg
+      if (get_target() == up && lift::get_positon() > lift::pFlipper + 5) { //tol of 5 total tol of +- 10 deg
         set_target(pLift, vMove, true);
-      } else if (get_target() == pLift && lift::get_positon() < lift::pFlipper-5) {
+      } else if (get_target() == pLift && lift::get_positon() < lift::pFlipper - 5) {
         set_target(up, vMove, true);
       }
       switch (get_controller()) {
