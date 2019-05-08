@@ -2893,11 +2893,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/robot/control/systems/flipper.cpp.o",
-            "src\\robot\\control\\systems\\flipper.cpp"
+            "bin/robot/control/systems/lift.cpp.o",
+            "src\\robot\\control\\systems\\lift.cpp"
         ],
         "directory": "C:\\GetHub\\Robotics\\P-Team-Repository\\Pros\\cur",
-        "file": "src\\robot\\control\\systems\\flipper.cpp"
+        "file": "src\\robot\\control\\systems\\lift.cpp"
     },
     {
         "arguments": [
@@ -2928,10 +2928,10 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/robot/control/systems/lift.cpp.o",
-            "src\\robot\\control\\systems\\lift.cpp"
+            "bin/robot/control/systems/flipper.cpp.o",
+            "src\\robot\\control\\systems\\flipper.cpp"
         ],
         "directory": "C:\\GetHub\\Robotics\\P-Team-Repository\\Pros\\cur",
-        "file": "src\\robot\\control\\systems\\lift.cpp"
+        "file": "src\\robot\\control\\systems\\flipper.cpp"
     }
 ]

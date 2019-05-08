@@ -5,7 +5,7 @@ namespace flipper {
   Controllers controller = Controllers::NONE;
 
   //position
-  const double up = 65;         //all the way up and in
+  const double up = 70;         //all the way up and in
   const double pLift = 130;     //positon for when the lift is up
   const double pScoop = 305;    //position to scoop the balls off a cap
   const double down = 375;      //at ground//375

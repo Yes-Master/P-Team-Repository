@@ -13,8 +13,8 @@ namespace lift {
                                  //
   const double pFlipper = 350;   //when the lift conflicts with the flipper
   const double pPosTal = 150;    //where the pos is assumed up vs down
-  const double down = 32;        //at ground
-  const double up = 275;         //max in 18_ft spec
+  const double down = 47;        //at ground
+  const double up = 325;         //max in 18_ft spec
   const double limitMin = down;  //absolute min
   const double limitMax = 590;   //absolute max
   double P = down;               //position setting
