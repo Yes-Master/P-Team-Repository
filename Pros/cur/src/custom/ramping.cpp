@@ -22,10 +22,18 @@ double Ramping::calculate() {
   return valOutput;
 }
 double Ramping::calculate(double cv) {
-  changeVal = cv;
+  request(cv);
   return calculate();
 }
 
+double Ramping::triDistance(double endValue) {
+  double h = output();
+  double b = changeMsec * h / changeVal;
+  return (h * 3 / 500) * b / 2;
+}
+double Ramping::trapDistance(double endValue) {
+  return triDistance(endValue);
+}
 void Ramping::request(int val) {
   valRequested = val;
 }

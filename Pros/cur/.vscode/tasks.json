@@ -18,7 +18,7 @@
         {
             "label": "upload",
             "type": "shell",
-            "command": "prosv5 upload --slot 1 --name new_Btns",
+            "command": "prosv5 upload --slot 2 --name ramping-test-1",
             "group": "build",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.
@@ -42,7 +42,7 @@
         {
             "label": "all",
             "type": "shell",
-            "command": "prosv5 upload --slot 1 --execute ",
+            "command": "prosv5 upload --slot 2 --execute ",
             "group": "build",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.

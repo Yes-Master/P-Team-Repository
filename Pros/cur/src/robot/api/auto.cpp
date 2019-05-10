@@ -11,9 +11,9 @@
 #include "robot/control/systems/puncher.hpp"
 
 #include "main.h"
-namespace auton{
-pros::Task autonTask(::auton::Task, (void*)"test", TASK_PRIORITY_DEFAULT,
-                     TASK_STACK_DEPTH_DEFAULT, "AutonTask");
+namespace auton {
+  pros::Task autonTask(::auton::Task, (void *)"test", TASK_PRIORITY_DEFAULT,
+                       TASK_STACK_DEPTH_DEFAULT, "AutonTask");
 }
 void autonomous() {
   // puncher::motor.tarePosition();
@@ -22,6 +22,11 @@ void autonomous() {
   auton::autonTask.resume();
 
   drive::set_brakeMode(okapi::Motor::brakeMode::hold);
-  intake::automatic::enable();
-  auton::selection::execute();
+  // intake::automatic::enable();
+  // auton::selection::execute();
+
+  intake::automatic::disable();
+
+  drive::auton::driveAbs(12, 200, 1);
+  // drive::auton::driveAbs(0, 200, 0);
 }

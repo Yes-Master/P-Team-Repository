@@ -9,10 +9,10 @@ namespace drive {
   extern okapi::Motor back_left_motor;
   extern okapi::Motor back_right_motor;
 
-  extern Ramping LeftN;
-  extern Ramping RightN;
-  extern Ramping LeftS;
-  extern Ramping RightS;
+  extern Ramping FL;
+  extern Ramping FR;
+  extern Ramping BL;
+  extern Ramping BR;
 } // namespace drive
 
 namespace puncher {

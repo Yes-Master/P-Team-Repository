@@ -16,7 +16,7 @@ namespace auton{
     std::uint32_t test=pros::millis();//init delay
     while(1){
       if(inAuton){
-        drive::auton::ramping();
+        drive::execute();
         puncher::execute();
 
         intake::execute();

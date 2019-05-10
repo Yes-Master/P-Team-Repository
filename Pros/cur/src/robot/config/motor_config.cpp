@@ -11,10 +11,10 @@ namespace drive {
   //   front_right_motor,
   //   back_right_motor,
   //   4*M_PI,11.5,8);
-  Ramping LeftN(1.75, 5, 200, -200);
-  Ramping RightN(1.75, 5, 200, -200);
-  Ramping LeftS(1.75, 5, 200, -200);
-  Ramping RightS(1.75, 5, 200, -200);
+  Ramping FL(1.75, 5, 200, -200);
+  Ramping FR(1.75, 5, 200, -200);
+  Ramping BL(1.75, 5, 200, -200);
+  Ramping BR(1.75, 5, 200, -200);
 } // namespace drive
 
 namespace puncher {

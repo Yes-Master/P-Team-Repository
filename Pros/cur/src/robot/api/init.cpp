@@ -11,11 +11,15 @@ void systemInit() {  // custom robot init dont trust the reliability of
                      // initialize && competition_initialize
   if (!inited) {
     inited = true;
-    puncher::motor.tarePosition();
-    drive::LeftN.set_limits(drive::LeftN.get_changeMsec(),-drive::LeftN.get_changeMsec(),0,0);
-    drive::RightN.set_limits(drive::RightN.get_changeMsec(),-drive::RightN.get_changeMsec(),0,0);
-    drive::LeftS.set_limits(drive::LeftS.get_changeMsec(),-drive::LeftS.get_changeMsec(),0,0);
-    drive::RightS.set_limits(drive::RightS.get_changeMsec(),-drive::RightS.get_changeMsec(),0,0);
+
+    drive::front_left_motor.tarePosition();
+    drive::front_right_motor.tarePosition();
+    drive::back_left_motor.tarePosition();
+    drive::back_right_motor.tarePosition();
+    drive::FL.set_limits(drive::FL.get_changeMsec(),-drive::FL.get_changeMsec(),0,0);
+    drive::FR.set_limits(drive::FR.get_changeMsec(),-drive::FR.get_changeMsec(),0,0);
+    drive::BL.set_limits(drive::BL.get_changeMsec(),-drive::BL.get_changeMsec(),0,0);
+    drive::BR.set_limits(drive::BR.get_changeMsec(),-drive::BR.get_changeMsec(),0,0);
   }
 }
 void initialize() {

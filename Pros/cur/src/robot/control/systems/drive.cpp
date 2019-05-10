@@ -1,5 +1,9 @@
 #include "robot/control/systems/drive.hpp"
 #include "custom/ramping.hpp"
+/*
+* need to fix execute
+* add reltargets to motor class
+*/
 double SGN(double var) {
   if (var > 0)
     return 1;
@@ -53,7 +57,10 @@ namespace drive {
   void arcade(int y, int x, int z) {
     set_v(y + x + z, y - x - z, y - x + z, y + x - z);
   }
-  void execute() {}
+  void execute() {
+    // std::cout << "vset: " << FL.output() << std::endl;
+    set_v(FL.output(), FR.output(), BL.output(), BR.output());
+  }
   namespace feedback {
     // vars
 
@@ -72,14 +79,10 @@ namespace drive {
   } // namespace feedback
   namespace control {
     void manual() {
-      int LHJoy =
-          controllerMaster.getAnalog(okapi::ControllerAnalog::leftX) * 200;
-      int LVJoy =
-          controllerMaster.getAnalog(okapi::ControllerAnalog::leftY) * 200;
-      int RVJoy =
-          controllerMaster.getAnalog(okapi::ControllerAnalog::rightY) * 200;
-      int RHJoy =
-          controllerMaster.getAnalog(okapi::ControllerAnalog::rightX) * 200;
+      int LHJoy = controllerMaster.getAnalog(okapi::ControllerAnalog::leftX) * 200;
+      int LVJoy = controllerMaster.getAnalog(okapi::ControllerAnalog::leftY) * 200;
+      int RVJoy = controllerMaster.getAnalog(okapi::ControllerAnalog::rightY) * 200;
+      int RHJoy = controllerMaster.getAnalog(okapi::ControllerAnalog::rightX) * 200;
 
       if (std::abs(LVJoy) < 5)
         LVJoy = 0;
@@ -130,37 +133,34 @@ namespace drive {
     }
   } // namespace control
   namespace auton {
-    void ramping() { // sets drive motors to spin
-      LeftN.calculate();
-      RightN.calculate();
-      LeftS.calculate();
-      RightS.calculate();
-      set_v(LeftN.output() + LeftS.output(), RightN.output() - LeftS.output(),
-            LeftN.output() - RightS.output(),
-            RightN.output() + RightS.output());
-    }
+    // void ramping() { // sets drive motors to spin
+    //   FL.calculate();
+    //   FR.calculate();
+    //   BL.calculate();
+    //   BR.calculate();
+    // }
     void DRN(int l, int r) { // update the drive ramping requested values
-      LeftN.request(l);
-      RightN.request(r);
+      // LeftN.request(l);
+      // RightN.request(r);
     }
     void DIN(int l, int r) { // drive instentaniouly
-      LeftN.instant(l);
-      RightN.instant(r);
-      set_v(LeftN.output() + LeftS.output(), RightN.output() - LeftS.output(),
-            LeftN.output() - RightS.output(),
-            RightN.output() + RightS.output());
+      // LeftN.instant(l);
+      // RightN.instant(r);
+      // set_v(LeftN.output() + LeftS.output(), RightN.output() - LeftS.output(),
+      //       LeftN.output() - RightS.output(),
+      //       RightN.output() + RightS.output());
     }
     void DRS(int l,
              int r) { // update the drive ramping requested valuesttttttt
-      LeftS.request(l);
-      RightS.request(r);
+      // LeftS.request(l);
+      // RightS.request(r);
     }
     void DIS(int l, int r) { // drive instentaniouly
-      LeftS.instant(l);
-      RightS.instant(r);
-      set_v(LeftN.output() + LeftS.output(), RightN.output() - LeftS.output(),
-            LeftN.output() - RightS.output(),
-            RightN.output() + RightS.output());
+      // LeftS.instant(l);
+      // RightS.instant(r);
+      // set_v(LeftN.output() + LeftS.output(), RightN.output() - LeftS.output(),
+      //       LeftN.output() - RightS.output(),
+      //       RightN.output() + RightS.output());
     }
 
     bool isSettled(double v) {
@@ -178,9 +178,15 @@ namespace drive {
       if (endWait >= 0) { // default; set stop, wait for stop, wait for endwait;
         DRN(0, 0);
         DRS(0, 0);
-        int tStart = pros::millis();
+        std::uint32_t tStart = pros::millis();
         while (!isSettled(vSettled) && pros::millis() < tStart + timeout) { //wait for the actual velocity to be acceptiable with in the time out window
-          pros::delay(5);
+          FL.calculate(0);
+          FR.calculate(0);
+          BL.calculate(0);
+          BR.calculate(0);
+          pros::Task::delay_until(&tStart, FL.get_changeMsec());
+          std::cout << "FL: " << FL.output() << std::endl;
+          std::cout << "error: " << back_right_motor.getPosition() - 343.775 << std::endl;
         }
         pros::delay(endWait);
       } else { //stop no wait; junction
@@ -190,21 +196,34 @@ namespace drive {
 
     void driveAbs(int tar, int vel, int endWait, double vSettled, int timeout) { //absolute used to move smothly after normal move not
       double direction;
-      double totalDeg = tar * 360 / WheelCir;
-      direction = SGN(tar - back_left_motor.getPosition());
+      const double totalDeg = tar * 360 / WheelCir;
+      direction = SGN(tar - back_right_motor.getPosition());
       int velocity = std::abs(vel) * direction;
+
+      std::uint32_t loopStartTime = pros::millis();
+      double slowDis = 0;
       if (direction > 0) {
-        while (back_left_motor.getPosition() < totalDeg) { // max error is 1/30 of an inch;//needs to recalc error
-          DRN(velocity, velocity);
-          pros::delay(5); // wait for the ramp task to execute, free up PU,wait for distance to be travled;
-          // need to sync with ramping task
+        int loop = 0;
+        while (back_right_motor.getPosition() < totalDeg - slowDis-70) {
+          FL.calculate(velocity);
+          FR.calculate(velocity);
+          BL.calculate(velocity);
+          BR.calculate(velocity);
+          pros::Task::delay_until(&loopStartTime, FL.get_changeMsec());
+          slowDis = FL.triDistance(); //assumes all wheels are at the same velocity; needs to move to class
+          std::cout << "velocity: " << velocity << " ouput: " << FL.output() << std::endl;
+          std::cout << "SD: " << slowDis << " TD: " << totalDeg << " MD: " << back_right_motor.getPosition() << " LD: " << totalDeg - slowDis << std::endl;
+          std::cout << "error: " << back_right_motor.getPosition() - totalDeg << " loop: " << loop << std::endl;
+          loop++;
         }
       } else {
         while (back_left_motor.getPosition() > totalDeg) { // max error is 1/30 of an inch;
-          DRN(velocity, velocity);
-          pros::delay(5); // wait for the ramp task to execute, free up PU,wait
-                          // for distance to be travled;
-          // need to sync with ramping task
+          FL.calculate(velocity);
+          FR.calculate(velocity);
+          BL.calculate(velocity);
+          BR.calculate(velocity);
+          pros::Task::delay_until(&loopStartTime, FL.get_changeMsec());
+          slowDis = FL.triDistance(); //assumes all wheels are at the same velocity; needs to move to class
         }
       }
       wait(endWait, vSettled);
