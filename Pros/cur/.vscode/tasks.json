@@ -51,6 +51,18 @@
             // Use the standard MS compiler pattern to detect errors, warnings and infos
             "problemMatcher": "$msCompile",
             "dependsOn": "make"
+        },
+        {
+            "label": "terminal",
+            "type": "shell",
+            "command": "prosv5 terminal ",
+            "group": "build",
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "reveal": "always"
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": "$msCompile",
         }
     ]
 }

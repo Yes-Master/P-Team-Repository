@@ -1,6 +1,7 @@
 #ifndef DRIVE_HPP
 #define DRIVE_HPP
 #include "main.h"
+int SGN(double var);
 namespace drive {
   // vars
   enum class Controllers {

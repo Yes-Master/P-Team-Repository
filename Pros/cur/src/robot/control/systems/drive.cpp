@@ -4,7 +4,7 @@
 * need to fix execute
 * add reltargets to motor class
 */
-double SGN(double var) {
+int SGN(double var) {
   if (var > 0)
     return 1;
   else if (var < 0)
@@ -197,14 +197,14 @@ namespace drive {
     void driveAbs(int tar, int vel, int endWait, double vSettled, int timeout) { //absolute used to move smothly after normal move not
       double direction;
       const double totalDeg = tar * 360 / WheelCir;
-      direction = SGN(tar - back_right_motor.getPosition());
-      int velocity = std::abs(vel) * direction;
-
-      std::uint32_t loopStartTime = pros::millis();
       double slowDis = 0;
+      int loop = 0;
+//while
+      direction = SGN(tar - back_left_motor.getPosition());
+      int velocity = std::abs(vel) * direction;
       if (direction > 0) {
-        int loop = 0;
-        while (back_right_motor.getPosition() < totalDeg - slowDis-70) {
+        std::uint32_t loopStartTime = pros::millis();
+        while (back_left_motor.getPosition() < totalDeg - slowDis - 70) {
           FL.calculate(velocity);
           FR.calculate(velocity);
           BL.calculate(velocity);
@@ -212,18 +212,23 @@ namespace drive {
           pros::Task::delay_until(&loopStartTime, FL.get_changeMsec());
           slowDis = FL.triDistance(); //assumes all wheels are at the same velocity; needs to move to class
           std::cout << "velocity: " << velocity << " ouput: " << FL.output() << std::endl;
-          std::cout << "SD: " << slowDis << " TD: " << totalDeg << " MD: " << back_right_motor.getPosition() << " LD: " << totalDeg - slowDis << std::endl;
-          std::cout << "error: " << back_right_motor.getPosition() - totalDeg << " loop: " << loop << std::endl;
+          std::cout << "SD: " << slowDis << " TD: " << totalDeg << " MD: " << back_left_motor.getPosition() << " LD: " << totalDeg - slowDis << std::endl;
+          std::cout << "error: " << back_left_motor.getPosition() - totalDeg << " loop: " << loop << std::endl;
           loop++;
         }
       } else {
-        while (back_left_motor.getPosition() > totalDeg) { // max error is 1/30 of an inch;
+        std::uint32_t loopStartTime = pros::millis();
+        while (back_left_motor.getPosition() > totalDeg - slowDis - 70) {
           FL.calculate(velocity);
           FR.calculate(velocity);
           BL.calculate(velocity);
           BR.calculate(velocity);
           pros::Task::delay_until(&loopStartTime, FL.get_changeMsec());
           slowDis = FL.triDistance(); //assumes all wheels are at the same velocity; needs to move to class
+          std::cout << "velocity: " << velocity << " ouput: " << FL.output() << std::endl;
+          std::cout << "SD: " << slowDis << " TD: " << totalDeg << " MD: " << back_left_motor.getPosition() << " LD: " << totalDeg - slowDis << std::endl;
+          std::cout << "error: " << back_left_motor.getPosition() - totalDeg << " loop: " << loop << std::endl;
+          loop++;
         }
       }
       wait(endWait, vSettled);
