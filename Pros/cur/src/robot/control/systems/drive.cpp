@@ -183,17 +183,21 @@ namespace drive {
           pros::delay(5);
         }
         pros::delay(endWait);
-      } else { //stop no wait; junction
-        DRN(0, 0);
+      } else {     //stop no wait; junction
+        DRN(0, 0); //problems
+        DRS(0, 0);
       }
     }
 
     void driveAbs(int tar, int vel, int endWait, double vSettled, int timeout) { //absolute used to move smothly after normal move not
       double direction;
       double totalDeg = tar * 360 / WheelCir;
-      direction = SGN(tar - back_left_motor.getPosition());
+      direction = SGN(totalDeg - back_left_motor.getPosition());
       int velocity = std::abs(vel) * direction;
+      // std::cout << "total deg: " << totalDeg;
       if (direction > 0) {
+        // std::cout << " good" << std::endl;
+
         while (back_left_motor.getPosition() < totalDeg) { // max error is 1/30 of an inch;//needs to recalc error
           DRN(velocity, velocity);
           pros::delay(5); // wait for the ramp task to execute, free up PU,wait for distance to be travled;

@@ -23,5 +23,6 @@ void autonomous() {
 
   drive::set_brakeMode(okapi::Motor::brakeMode::hold);
   intake::automatic::enable();
-  auton::selection::execute();
+  // auton::selection::execute();
+  auton::routines::red::front::win();
 }

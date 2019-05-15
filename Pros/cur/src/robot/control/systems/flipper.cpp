@@ -4,6 +4,11 @@ namespace flipper {
   //vars
   Controllers controller = Controllers::NONE;
 
+  namespace targets { //used for common things like return to home
+    Target ScoopPlatform = {down, vDown};
+    Target Up = {70, vUp};
+  } // namespace Targets
+
   //position
   const double up = 70;         //all the way up and in
   const double pLift = 130;     //positon for when the lift is up
@@ -60,6 +65,11 @@ namespace flipper {
   void set_target(double t, int v, bool p) {
     set_target(t);
     set_v(v);
+    if (p) set_controller(Controllers::POSITION);
+  }
+  void set_target(Target t, bool p) {
+    set_target(t.positon);
+    set_v(t.velocity);
     if (p) set_controller(Controllers::POSITION);
   }
   bool get_calabrated() {

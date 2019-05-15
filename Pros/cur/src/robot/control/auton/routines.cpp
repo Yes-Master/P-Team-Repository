@@ -2,9 +2,9 @@
 #include "robot/control/auton/selection.hpp"
 
 #include "robot/control/systems/drive.hpp"
+#include "robot/control/systems/flipper.hpp"
 #include "robot/control/systems/intake.hpp"
 #include "robot/control/systems/lift.hpp"
-#include "robot/control/systems/flipper.hpp"
 #include "robot/control/systems/puncher.hpp"
 
 namespace auton {
@@ -76,6 +76,49 @@ namespace auton {
     }
     namespace red {
       namespace front {
+        void win() {
+          drive::front_left_motor.tarePosition();
+          drive::front_right_motor.tarePosition();
+          drive::back_left_motor.tarePosition();
+          drive::back_right_motor.tarePosition();
+
+          Drive::DRN(50, 50);
+          Drive::driveS(-5, 150, -1);
+          std::cout << "back left: " << drive::back_left_motor.getPosition() << std::endl;
+          Drive::driveAbs(25, 200, 0);
+          std::cout << "back left: " << drive::back_left_motor.getPosition() << "done" << std::endl;
+
+          Flipper::set_target(flipper::targets::ScoopPlatform, true);
+          Flipper::wait();
+          Drive::driveAbs(0, 200, 500);
+
+          Drive::turnEnc(-135, 200);
+          Flipper::set_target(flipper::targets::Up);
+          Drive::driveS(-5, 200);
+
+          multiFlagSelect(lift::punFront1, lift::punFront2, 150, selection::Flags::BOTH); //make this optional in menu; switch order of time and flag
+
+          Drive::turnEnc(45, 100);
+          Drive::drive(10, 200, 0);
+          Flipper::set_target(flipper::pScoop, flipper::vScoop);
+          Flipper::wait();
+          Drive::driveAbs(0, 200, -1);  //bump balls fast
+          Drive::driveAbs(-10, 100, 0); //slow down to intake balls
+
+          Drive::turnEnc(45, 100);
+          Drive::drive(20, 200);
+          Drive::driveReconS(200, 250);
+          Drive::driveS(3, 200);
+
+          Drive::turnEnc(-45, 100);
+          multiFlagSelect(lift::punBack1, lift::punBack2, 150, selection::Flags::BOTH);
+
+          Drive::turnEnc(45, 100);
+          //flipper to ram pos
+          Drive::drive(10, 200);
+          Drive::turnEnc(-90, 150);
+          multiFlagSelect(lift::punFront1, lift::punFront2, 150, selection::Flags::BOTH);
+        }
         void start(selection::Shoots s, selection::Flags f, selection::Options o) { //-2=hold,0=bot,1=top,2=both
           Drive::drive(31, 200, -1);
           Drive::driveAbs(18, 200, 1);
@@ -440,9 +483,9 @@ namespace auton {
     }
     void testB() {
       Intake::enable();
-      Flipper::set_target(flipper::pScoop,flipper::vScoop,true);
+      Flipper::set_target(flipper::pScoop, flipper::vScoop, true);
       Flipper::wait();
-      Drive::drive(-12,200);
+      Drive::drive(-12, 200);
     }
     void defaultSelection() {}
   } // namespace routines

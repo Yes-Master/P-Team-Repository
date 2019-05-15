@@ -43,7 +43,7 @@ namespace auton {
     lv_style_t style_config;
     // lv_style_t style_btn;
 
-    Positons positon = Positons::BB;
+    Positons positon = Positons::FR;
     Shoots shoot = Shoots::FAR;
     Flags flag = Flags::BOTH;
     Options option = Options::PARK;

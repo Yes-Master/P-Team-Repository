@@ -30,6 +30,7 @@ namespace drive {
   namespace auton {
     //add to namespace ramping
     void ramping();         // sets drive motors to spin
+    void DRN(int l, int r); // update the drive ramping requested values
     void DIN(int l, int r); // drive instentaniouly
     void DIS(int l, int r); // drive instentaniouly
     //end namespace ramping
@@ -44,7 +45,7 @@ namespace drive {
     * drive with out tareing motors position
     * use after drive for smooth precise direction reverse
     */
-    void driveAbs(int tar, int vel, int endWait, double vSettled = 0,int timeout = 250);
+    void driveAbs(int tar, int vel, int endWait, double vSettled = 0, int timeout = 250);
     /*
     * does not take into acount velocitys ramp down
     * assumes velocity vStart = vEnd = 0

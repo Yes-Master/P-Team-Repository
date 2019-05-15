@@ -7,7 +7,12 @@ namespace flipper {
                            POSITION,
                            CALABRATE,
                            NONE };
-
+  namespace targets {
+    extern Target ScoopPlatform;
+    extern Target Up;
+    extern Target Down;
+  } // namespace Targets
+  
   //postition
   extern const double down;
   extern const double up;
@@ -29,6 +34,7 @@ namespace flipper {
   void set_target(double t);
   void set_target(double t, bool p);
   void set_target(double t, int v, bool p);
+  void set_target(Target t, bool p = true);
   bool get_calabrated();
   //methods
   void execute(int CalTimOut = 20);

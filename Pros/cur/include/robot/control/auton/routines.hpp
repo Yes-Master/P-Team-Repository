@@ -10,6 +10,7 @@ namespace auton {
         // void midHold();
         // void midTop();
         // void midBottom();
+        void win();
         void all(selection::Shoots s, selection::Flags f, selection::Options o);
       } // namespace front
       namespace back {

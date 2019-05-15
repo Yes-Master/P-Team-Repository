@@ -77,6 +77,10 @@ void opcontrol(void);
 /**
  * You can add C++-only headers here
  */
+struct Target {
+  double positon;
+  double velocity;
+};
 #endif
 
 #endif  // _PROS_MAIN_H_
